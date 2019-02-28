@@ -1,0 +1,43 @@
+{
+  "name": "react-captain",
+  "version": "0.0.21-alpha",
+  "description": "A collection of strongly typed and useful React Hooks.",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "react",
+    "hook",
+    "hooks",
+    "react hook",
+    "react hooks",
+    "collection",
+    "typescript",
+    "typed"
+  ],
+  "homepage": "https://github.com/soywod/react-captain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soywod/react-captain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soywod/react-captain/issues"
+  },
+  "files": [
+    "**/index.d.ts",
+    "**/index.js"
+  ],
+  "main": "index.js",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "scripts": {
+    "start": "start-storybook -p 9009",
+    "build": "tsc",
+    "storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@types/react": "^16.8.6"
+  }
+}

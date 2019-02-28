@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "workspaces": ["lib", "storybook"],
+  "devDependencies": {
+    "prettier": "^1.16.4"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.121",
+    "@types/node": "11.9.5",
+    "@types/react": "^16.8.6",
+    "lodash": "^4.17.11",
+    "typescript": "3.3.3333"
+  },
+  "scripts": {
+    "prepare": "yarn build:lib",
+    "start": "yarn workspace react-captain-storybook start",
+    "publish": "yarn workspace react-captain publish",
+    "build:lib": "yarn workspace react-captain build",
+    "build:sb": "yarn workspace react-captain-storybook build"
+  }
+}

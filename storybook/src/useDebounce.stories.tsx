@@ -4,18 +4,9 @@ import {action} from '@storybook/addon-actions'
 
 import useDebounce, {DebounceOptions} from '../../lib/useDebounce'
 
-// ------------------------------------------------------------------- # Types #
-
-type Props = {
-  options?: Partial<DebounceOptions>
-}
-
-// ---------------------------------------------------------- # Demo component #
-
-function Demo(props: Props) {
-  const {options} = props
-  const debounce = options ? useDebounce(options) : useDebounce()
-  const actionWithDebounce = debounce(action('Text changed'))
+function Demo(props: Partial<DebounceOptions>) {
+  const debounce = useDebounce(props)
+  const actionWithDebounce = debounce(action('Action'))
 
   const [value, setValue] = useState('')
 
@@ -34,6 +25,8 @@ function Demo(props: Props) {
         value={value}
         onChange={changeValue}
       />
+
+      <button onClick={actionWithDebounce}>Click me...</button>
     </div>
   )
 }
@@ -45,5 +38,9 @@ storiesOf('useDebounce', module).add('Default', () => {
 })
 
 storiesOf('useDebounce', module).add('Custom delay', () => {
-  return <Demo options={{delay: 1000}} />
+  return <Demo delay={1000} />
+})
+
+storiesOf('useDebounce', module).add('No persist', () => {
+  return <Demo persist={false} />
 })

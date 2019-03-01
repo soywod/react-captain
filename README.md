@@ -12,6 +12,7 @@ A collection of strongly typed and useful [React](https://reactjs.org/) [Hooks](
   - [Installation](#installation)
   - [Import](#import)
   - [Hooks overview](#hooks-overview)
+    - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
 
 ## Installation
@@ -34,6 +35,16 @@ import <hookName> from 'react-captain/<hookName>'
 ```
 
 ## Hooks overview
+### [useClickOutside](https://github.com/soywod/react-captain/tree/master/lib/useClickOutside)
+
+```typescript
+const ref = useRef<HTMLElement | null>(null)
+const handleClickOutside = useClickOutside(ref)
+
+handleClickOutside(() => {
+  // Clicked outside
+})
+```
 ### [useDebounce](https://github.com/soywod/react-captain/tree/master/lib/useDebounce)
 
 ```typescript

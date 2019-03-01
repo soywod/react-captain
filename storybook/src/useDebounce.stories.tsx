@@ -4,6 +4,8 @@ import {action} from '@storybook/addon-actions'
 
 import useDebounce, {DebounceOptions} from '../../lib/useDebounce'
 
+// ---------------------------------------------------------- # Demo component #
+
 function Demo(props: Partial<DebounceOptions>) {
   const debounce = useDebounce(props)
   const actionWithDebounce = debounce(action('Action'))

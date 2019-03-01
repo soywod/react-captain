@@ -9516,6 +9516,13 @@ react-app-polyfill@^0.2.1:
     raf "3.4.1"
     whatwg-fetch "3.0.0"
 
+react-captain@0.0.21-alpha:
+  version "0.0.21-alpha"
+  resolved "https://registry.yarnpkg.com/react-captain/-/react-captain-0.0.21-alpha.tgz#2272ca78b31ed8804e64a374ddc5df622cedc6d5"
+  integrity sha512-hmfMDMpuFpk5Iqlis01mtHgVpSEpm4obX+lepLpCk4Vd3QLSk5aHC+ld2FQPPwpIwJBdAiMXm0iE8tTf32iQgg==
+  dependencies:
+    "@types/react" "^16.8.6"
+
 react-dev-utils@^6.1.0:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-6.1.1.tgz#a07e3e8923c4609d9f27e5af5207e3ca20724895"

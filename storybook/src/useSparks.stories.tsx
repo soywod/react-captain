@@ -11,8 +11,15 @@ function Demo() {
   const [velocityY, setVectorY] = useState(20)
   const [gravity, setGravity] = useState(2)
   const [quantity, setQuantity] = useState(20)
+  const [duration, setDuration] = useState(1000)
 
-  useSparks({ref, velocity: [velocityX, velocityY], gravity, quantity})
+  useSparks({
+    ref,
+    velocity: [velocityX, velocityY],
+    gravity,
+    quantity,
+    duration,
+  })
 
   function changeVectorX(event: React.ChangeEvent<HTMLInputElement>) {
     setVectorX(Number(event.target.value))
@@ -30,6 +37,10 @@ function Demo() {
     setQuantity(Number(event.target.value))
   }
 
+  function changeDuration(event: React.ChangeEvent<HTMLInputElement>) {
+    setDuration(Number(event.target.value))
+  }
+
   return (
     <div>
       <div
@@ -44,49 +55,66 @@ function Demo() {
         <div ref={ref} style={{width: 20, height: 20, background: 'blue'}} />
       </div>
 
-      <div>VelocityX: {velocityX}</div>
-      <div>
-        <input
-          type="range"
-          min={1}
-          max={100}
-          value={velocityX}
-          onChange={changeVectorX}
-        />
-      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div>VelocityX: {velocityX}</div>
+          <div>
+            <input
+              type="range"
+              min={1}
+              max={100}
+              value={velocityX}
+              onChange={changeVectorX}
+            />
+          </div>
 
-      <div>VelocityY: {velocityY}</div>
-      <div>
-        <input
-          type="range"
-          min={1}
-          max={100}
-          value={velocityY}
-          onChange={changeVectorY}
-        />
-      </div>
+          <div>VelocityY: {velocityY}</div>
+          <div>
+            <input
+              type="range"
+              min={1}
+              max={100}
+              value={velocityY}
+              onChange={changeVectorY}
+            />
+          </div>
 
-      <div>Gravity: {gravity}</div>
-      <div>
-        <input
-          type="range"
-          min={0}
-          max={10}
-          step={0.1}
-          value={gravity}
-          onChange={changeGravity}
-        />
-      </div>
+          <div>Gravity: {gravity}</div>
+          <div>
+            <input
+              type="range"
+              min={0}
+              max={10}
+              step={0.1}
+              value={gravity}
+              onChange={changeGravity}
+            />
+          </div>
+        </div>
 
-      <div>Quantity: {quantity}</div>
-      <div>
-        <input
-          type="range"
-          min={1}
-          max={300}
-          value={quantity}
-          onChange={changeQuantity}
-        />
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div>Quantity: {quantity}</div>
+          <div>
+            <input
+              type="range"
+              min={1}
+              max={300}
+              value={quantity}
+              onChange={changeQuantity}
+            />
+          </div>
+
+          <div>Duration: {duration}</div>
+          <div>
+            <input
+              type="range"
+              min={100}
+              max={3000}
+              value={duration}
+              onChange={changeDuration}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

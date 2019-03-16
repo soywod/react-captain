@@ -5,16 +5,16 @@ import last from 'lodash/last'
 import {useSpring, interpolate, animated} from 'react-spring'
 
 const SAMPLE_SIZE = 20
-const DURATION = 1000
 
 type Props = {
   origin: {x: number; y: number}
   velocity: [number, number]
   gravity: number
+  duration: number
 }
 
 export default function(props: Props) {
-  const {velocity, gravity} = props
+  const {velocity, gravity, duration} = props
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
@@ -69,7 +69,7 @@ export default function(props: Props) {
     x: 1,
     y: 1,
     opacity: 0,
-    config: {duration: DURATION},
+    config: {duration},
     onRest: () => {
       if (ref.current && ref.current.remove) {
         ref.current.remove()

@@ -8,42 +8,50 @@ import Spark from './Spark'
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export type SparksOptions = {
-  ref: RefObject<Element>
+  ref: RefObject<HTMLElement>
   velocity?: [number, number]
   gravity?: number
   quantity?: number
+  duration?: number
 }
 
 type SparksOptionsFull = {
-  ref: RefObject<Element>
+  ref: RefObject<HTMLElement>
   velocity: [number, number]
   gravity: number
   quantity: number
+  duration: number
 }
 
 export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
   velocity: [10, 20],
   gravity: 2,
   quantity: 20,
+  duration: 1000,
 }
 
 // -------------------------------------------------------------------- # Hook #
 
 export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
-  const {ref, velocity, gravity, quantity} = options
+  const {ref, velocity, gravity, quantity, duration} = options
 
   useEffect(() => {
     if (!ref.current) return
 
-    const {top, width, left, height} = ref.current.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
+    const {width, height} = ref.current.getBoundingClientRect()
+    const x = ref.current.offsetLeft + width / 2
+    const y = ref.current.offsetTop + height / 2
 
     const timeout = setInterval(() => {
       const mount = document.createElement('div')
       ReactDOM.render(
-        <Spark origin={{x, y}} velocity={velocity} gravity={gravity} />,
+        <Spark
+          origin={{x, y}}
+          velocity={velocity}
+          gravity={gravity}
+          duration={duration}
+        />,
         mount,
       )
 

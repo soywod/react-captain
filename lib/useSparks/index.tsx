@@ -11,24 +11,27 @@ export type SparksOptions = {
   ref: RefObject<Element>
   velocity?: [number, number]
   gravity?: number
+  quantity?: number
 }
 
 type SparksOptionsFull = {
   ref: RefObject<Element>
   velocity: [number, number]
   gravity: number
+  quantity: number
 }
 
 export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
   velocity: [10, 20],
   gravity: 2,
+  quantity: 20,
 }
 
 // -------------------------------------------------------------------- # Hook #
 
 export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
-  const {ref, velocity, gravity} = options
+  const {ref, velocity, gravity, quantity} = options
 
   useEffect(() => {
     if (!ref.current) return
@@ -47,7 +50,7 @@ export default function(userOptions: SparksOptions) {
       if (ref.current && mount.firstChild) {
         document.body.appendChild(mount.firstChild)
       }
-    }, 200)
+    }, 2000 / quantity)
 
     return () => clearInterval(timeout)
   }, [ref.current, userOptions])

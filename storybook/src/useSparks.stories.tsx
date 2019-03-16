@@ -10,8 +10,9 @@ function Demo() {
   const [velocityX, setVectorX] = useState(10)
   const [velocityY, setVectorY] = useState(20)
   const [gravity, setGravity] = useState(2)
+  const [quantity, setQuantity] = useState(20)
 
-  useSparks({ref, velocity: [velocityX, velocityY], gravity})
+  useSparks({ref, velocity: [velocityX, velocityY], gravity, quantity})
 
   function changeVectorX(event: React.ChangeEvent<HTMLInputElement>) {
     setVectorX(Number(event.target.value))
@@ -23,6 +24,10 @@ function Demo() {
 
   function changeGravity(event: React.ChangeEvent<HTMLInputElement>) {
     setGravity(Number(event.target.value))
+  }
+
+  function changeQuantity(event: React.ChangeEvent<HTMLInputElement>) {
+    setQuantity(Number(event.target.value))
   }
 
   return (
@@ -70,6 +75,17 @@ function Demo() {
           step={0.1}
           value={gravity}
           onChange={changeGravity}
+        />
+      </div>
+
+      <div>Quantity: {quantity}</div>
+      <div>
+        <input
+          type="range"
+          min={1}
+          max={300}
+          value={quantity}
+          onChange={changeQuantity}
         />
       </div>
     </div>

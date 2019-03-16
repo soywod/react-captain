@@ -9,15 +9,20 @@ const DURATION = 1000
 
 type Props = {
   origin: {x: number; y: number}
+  velocity: [number, number]
 }
 
 export default function(props: Props) {
+  const {velocity} = props
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
-  function generateOutputX(x: number) {
+  const velocityX = random(-velocity[0], velocity[0]) * [-1, 1][random()]
+  const velocityY = velocity[1]
+
+  function generateOutputX() {
     const ratio = 0.96
-    let delta = x
+    let delta = velocityX
 
     return range(SAMPLE_SIZE).reduce(
       output => {
@@ -29,8 +34,8 @@ export default function(props: Props) {
     )
   }
 
-  function generateOutputY(y: number) {
-    let delta = y
+  function generateOutputY() {
+    let delta = velocityY
 
     return range(SAMPLE_SIZE).reduce(
       output => {
@@ -71,18 +76,15 @@ export default function(props: Props) {
     },
   })
 
-  const X = random(-20, 20) * [-1, 1][random()]
-  const Y = random(28.5, 32.5)
-
   const transform = interpolate(
     [
       x.interpolate({
         range: generateRange(),
-        output: generateOutputX(X),
+        output: generateOutputX(),
       }),
       y.interpolate({
         range: generateRange(),
-        output: generateOutputY(Y),
+        output: generateOutputY(),
       }),
     ],
     (x, y) => `translate(${x}px, ${y}px)`,

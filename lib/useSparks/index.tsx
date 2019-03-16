@@ -1,5 +1,6 @@
 import React, {RefObject, useEffect} from 'react'
 import ReactDOM from 'react-dom'
+import isArray from 'lodash/isArray'
 
 import Spark from './Spark'
 
@@ -9,6 +10,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export type SparksOptions = {
   ref: RefObject<HTMLElement>
+  shapes: JSX.Element | JSX.Element[]
   velocity?: [number, number]
   gravity?: number
   quantity?: number
@@ -19,6 +21,7 @@ export type SparksOptions = {
 
 type SparksOptionsFull = {
   ref: RefObject<HTMLElement>
+  shapes: JSX.Element | JSX.Element[]
   velocity: [number, number]
   gravity: number
   quantity: number
@@ -27,7 +30,7 @@ type SparksOptionsFull = {
   wind: [number, number]
 }
 
-export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
+export const defaultOptions: Omit<SparksOptionsFull, 'ref' | 'shapes'> = {
   velocity: [10, 20],
   gravity: 2,
   quantity: 20,
@@ -41,6 +44,7 @@ export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
 export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
   const {ref, velocity, gravity, quantity, duration, mass, wind} = options
+  const shapes = isArray(options.shapes) ? options.shapes : [options.shapes]
 
   useEffect(() => {
     if (!ref.current) return
@@ -54,6 +58,7 @@ export default function(userOptions: SparksOptions) {
       ReactDOM.render(
         <Spark
           origin={{x, y}}
+          shapes={shapes}
           velocity={velocity}
           gravity={gravity}
           duration={duration}

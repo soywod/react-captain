@@ -8,6 +8,7 @@ const SAMPLE_SIZE = 20
 
 type Props = {
   origin: {x: number; y: number}
+  shapes: JSX.Element[]
   velocity: [number, number]
   gravity: number
   duration: number
@@ -16,12 +17,13 @@ type Props = {
 }
 
 export default function(props: Props) {
-  const {velocity, gravity, duration, mass, wind} = props
+  const {velocity, gravity, duration, mass, wind, shapes} = props
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
-  const velocityX = random(-velocity[0], velocity[0]) * [-1, 1][random()]
+  const velocityX = random(-velocity[0], velocity[0])
   const velocityY = velocity[1]
+  const direction = velocityX / Math.abs(velocityX)
 
   function generateOutputX() {
     let delta = velocityX
@@ -62,14 +64,16 @@ export default function(props: Props) {
     return [0, ...midRange, 1]
   }
 
-  const {x, y, opacity} = useSpring({
+  const {x, y, z, opacity} = useSpring({
     from: {
       x: 0,
       y: 0,
+      z: 0,
       opacity: 1,
     },
     x: 1,
     y: 1,
+    z: 40,
     opacity: 0,
     config: {duration},
     onRest: () => {
@@ -89,8 +93,12 @@ export default function(props: Props) {
         range: generateRange(),
         output: generateOutputY(),
       }),
+      z.interpolate({
+        range: [0, 1],
+        output: [0, random(2, 15)],
+      }),
     ],
-    (x, y) => `translate(${x}px, ${y}px)`,
+    (x, y, z) => `translate(${x}px, ${y}px) rotateZ(${z * direction}deg)`,
   )
 
   const ref = useRef<HTMLSpanElement>(null)
@@ -116,7 +124,7 @@ export default function(props: Props) {
 
   return (
     <animated.span ref={ref} style={style}>
-      #Yolo
+      {shapes[random(0, shapes.length - 1)]}
     </animated.span>
   )
 }

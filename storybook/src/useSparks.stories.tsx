@@ -12,6 +12,9 @@ function Demo() {
   const [gravity, setGravity] = useState(2)
   const [quantity, setQuantity] = useState(20)
   const [duration, setDuration] = useState(1000)
+  const [mass, setMass] = useState(0.96)
+  const [windX, setWindX] = useState(0)
+  const [windY, setWindY] = useState(0)
 
   useSparks({
     ref,
@@ -19,6 +22,8 @@ function Demo() {
     gravity,
     quantity,
     duration,
+    mass,
+    wind: [windX, windY],
   })
 
   function changeVectorX(event: React.ChangeEvent<HTMLInputElement>) {
@@ -39,6 +44,18 @@ function Demo() {
 
   function changeDuration(event: React.ChangeEvent<HTMLInputElement>) {
     setDuration(Number(event.target.value))
+  }
+
+  function changeMass(event: React.ChangeEvent<HTMLInputElement>) {
+    setMass(Number(event.target.value))
+  }
+
+  function changeWindX(event: React.ChangeEvent<HTMLInputElement>) {
+    setWindX(Number(event.target.value))
+  }
+
+  function changeWindY(event: React.ChangeEvent<HTMLInputElement>) {
+    setWindY(Number(event.target.value))
   }
 
   return (
@@ -72,8 +89,8 @@ function Demo() {
           <div>
             <input
               type="range"
-              min={1}
-              max={100}
+              min={-50}
+              max={50}
               value={velocityY}
               onChange={changeVectorY}
             />
@@ -112,6 +129,44 @@ function Demo() {
               max={3000}
               value={duration}
               onChange={changeDuration}
+            />
+          </div>
+
+          <div>Mass factor: {mass}</div>
+          <div>
+            <input
+              type="range"
+              min={0.8}
+              max={1}
+              step={0.01}
+              value={mass}
+              onChange={changeMass}
+            />
+          </div>
+        </div>
+
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div>WindX: {windX}</div>
+          <div>
+            <input
+              type="range"
+              min={-5}
+              max={5}
+              step={0.1}
+              value={windX}
+              onChange={changeWindX}
+            />
+          </div>
+
+          <div>WindY: {windY}</div>
+          <div>
+            <input
+              type="range"
+              min={-5}
+              max={5}
+              step={0.1}
+              value={windY}
+              onChange={changeWindY}
             />
           </div>
         </div>

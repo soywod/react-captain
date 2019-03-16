@@ -13,6 +13,8 @@ export type SparksOptions = {
   gravity?: number
   quantity?: number
   duration?: number
+  mass?: number
+  wind?: [number, number]
 }
 
 type SparksOptionsFull = {
@@ -21,6 +23,8 @@ type SparksOptionsFull = {
   gravity: number
   quantity: number
   duration: number
+  mass: number
+  wind: [number, number]
 }
 
 export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
@@ -28,13 +32,15 @@ export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
   gravity: 2,
   quantity: 20,
   duration: 1000,
+  mass: 0.96,
+  wind: [0, 0],
 }
 
 // -------------------------------------------------------------------- # Hook #
 
 export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
-  const {ref, velocity, gravity, quantity, duration} = options
+  const {ref, velocity, gravity, quantity, duration, mass, wind} = options
 
   useEffect(() => {
     if (!ref.current) return
@@ -51,6 +57,8 @@ export default function(userOptions: SparksOptions) {
           velocity={velocity}
           gravity={gravity}
           duration={duration}
+          mass={mass}
+          wind={wind}
         />,
         mount,
       )

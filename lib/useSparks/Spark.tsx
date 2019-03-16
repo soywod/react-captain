@@ -11,10 +11,12 @@ type Props = {
   velocity: [number, number]
   gravity: number
   duration: number
+  mass: number
+  wind: [number, number]
 }
 
 export default function(props: Props) {
-  const {velocity, gravity, duration} = props
+  const {velocity, gravity, duration, mass, wind} = props
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
@@ -22,12 +24,12 @@ export default function(props: Props) {
   const velocityY = velocity[1]
 
   function generateOutputX() {
-    const ratio = 0.96
     let delta = velocityX
 
     return range(SAMPLE_SIZE).reduce(
       output => {
-        delta *= ratio
+        delta *= mass
+        delta -= wind[0]
         const lastOutput = last(output) || 0
         return [...output, lastOutput + delta]
       },
@@ -40,7 +42,7 @@ export default function(props: Props) {
 
     return range(SAMPLE_SIZE).reduce(
       output => {
-        delta -= gravity
+        delta -= gravity + wind[1]
         const lastOutput = last(output) || 0
         return [...output, lastOutput - delta]
       },

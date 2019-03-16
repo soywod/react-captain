@@ -1,4 +1,4 @@
 {
   "extends": "..",
-  "include": ["**/index.ts*"]
+  "include": ["**/index.ts", "**/index.tsx"]
 }

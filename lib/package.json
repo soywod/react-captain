@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,
@@ -15,6 +15,7 @@
     "typed",
     "useClickOutside",
     "useDebounce",
+    "useSparks",
     "useTimeout"
   ],
   "homepage": "https://github.com/soywod/react-captain",
@@ -26,8 +27,8 @@
     "url": "https://github.com/soywod/react-captain/issues"
   },
   "files": [
-    "**/index.d.ts",
-    "**/index.js"
+    "**/*.d.ts",
+    "**/*.js"
   ],
   "main": "index.js",
   "types": "index.d.ts",

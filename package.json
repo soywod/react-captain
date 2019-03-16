@@ -8,7 +8,6 @@
     "typescript": "3.3.3333"
   },
   "scripts": {
-    "prepare": "yarn build:lib",
     "start": "yarn workspace react-captain-storybook start",
     "publish": "yarn workspace react-captain publish",
     "build:lib": "yarn workspace react-captain build",

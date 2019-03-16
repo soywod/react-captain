@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,
@@ -12,7 +12,10 @@
     "react hooks",
     "collection",
     "typescript",
-    "typed"
+    "typed",
+    "useClickOutside",
+    "useDebounce",
+    "useTimeout"
   ],
   "homepage": "https://github.com/soywod/react-captain",
   "repository": {
@@ -36,9 +39,12 @@
     "@types/lodash": "^4.14.121",
     "@types/node": "11.9.5",
     "@types/react": "^16.8.6",
-    "lodash": "^4.17.11"
+    "@types/uuid": "^3.4.4",
+    "lodash": "^4.17.11",
+    "uuid": "^3.3.2"
   },
   "scripts": {
+    "prepare": "yarn build",
     "build": "tsc"
   }
 }

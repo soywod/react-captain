@@ -14,6 +14,9 @@ A collection of strongly typed and useful [React](https://reactjs.org/) [Hooks](
   - [Hooks overview](#hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
+    - [useTimeout](#usetimeout)
+    - useInterval
+    - useForm
 
 ## Installation
 
@@ -55,4 +58,16 @@ type DebounceOptions = {
 
 const debounce = useDebounce(options)
 const handlerWithDebounce = debounce(handler)
+```
+
+### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
+
+```typescript
+type TimeoutOptions = {
+  delay: number    // default: 250
+  persist: boolean // default: true
+}
+
+const timeout = useTimeout(options)
+const handlerWithTimeout = timeout(handler)
 ```

@@ -1,11 +1,7 @@
 # React Captain :anchor:
 A collection of strongly typed and useful [React](https://reactjs.org/) [Hooks](https://reactjs.org/docs/hooks-intro.html).
 
-<p align="right">
-  <a href="https://react-captain.soywod.me">
-    <img src="https://github.com/storybooks/brand/blob/master/badge/badge-storybook.svg" />
-  </a>
-</p>
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me).
 
 ## Table of contents
 

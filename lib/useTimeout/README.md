@@ -1,10 +1,8 @@
 # useTimeout
 
-<p align="right">
-  <a href="https://react-captain.soywod.me/?selectedKind=useTimeout&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel">
-    <img src="https://github.com/storybooks/brand/blob/master/badge/badge-storybook.svg" />
-  </a>
-</p>
+A wrapper around `setTimeout`.
+
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useTimeout&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel).
 
 ## Parameters
 

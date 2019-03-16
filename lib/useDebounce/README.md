@@ -1,10 +1,8 @@
 # useDebounce
 
-<p align="right">
-  <a href="https://react-captain.soywod.me/?selectedKind=useDebounce&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel">
-    <img src="https://github.com/storybooks/brand/blob/master/badge/badge-storybook.svg" />
-  </a>
-</p>
+A debouncer.
+
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useDebounce&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel).
 
 ## Parameters
 

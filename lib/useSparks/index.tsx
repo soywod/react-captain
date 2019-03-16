@@ -1,6 +1,5 @@
-import React, {RefObject, createRef, useEffect} from 'react'
+import React, {RefObject, useEffect} from 'react'
 import ReactDOM from 'react-dom'
-import defaults from 'lodash/defaults'
 
 import Spark from './Spark'
 
@@ -11,22 +10,25 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 export type SparksOptions = {
   ref: RefObject<Element>
   velocity?: [number, number]
+  gravity?: number
 }
 
 type SparksOptionsFull = {
   ref: RefObject<Element>
   velocity: [number, number]
+  gravity: number
 }
 
 export const defaultOptions: Omit<SparksOptionsFull, 'ref'> = {
   velocity: [10, 20],
+  gravity: 2,
 }
 
 // -------------------------------------------------------------------- # Hook #
 
 export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
-  const {ref, velocity} = options
+  const {ref, velocity, gravity} = options
 
   useEffect(() => {
     if (!ref.current) return
@@ -37,7 +39,10 @@ export default function(userOptions: SparksOptions) {
 
     const timeout = setInterval(() => {
       const mount = document.createElement('div')
-      ReactDOM.render(<Spark origin={{x, y}} velocity={velocity} />, mount)
+      ReactDOM.render(
+        <Spark origin={{x, y}} velocity={velocity} gravity={gravity} />,
+        mount,
+      )
 
       if (ref.current && mount.firstChild) {
         document.body.appendChild(mount.firstChild)

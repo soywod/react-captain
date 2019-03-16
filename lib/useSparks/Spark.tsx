@@ -10,10 +10,11 @@ const DURATION = 1000
 type Props = {
   origin: {x: number; y: number}
   velocity: [number, number]
+  gravity: number
 }
 
 export default function(props: Props) {
-  const {velocity} = props
+  const {velocity, gravity} = props
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
@@ -39,7 +40,7 @@ export default function(props: Props) {
 
     return range(SAMPLE_SIZE).reduce(
       output => {
-        delta -= 2
+        delta -= gravity
         const lastOutput = last(output) || 0
         return [...output, lastOutput - delta]
       },

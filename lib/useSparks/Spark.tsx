@@ -1,15 +1,18 @@
-import React, {useEffect, useRef, useState} from 'react'
-import range from 'lodash/range'
-import isArray from 'lodash/isArray'
-import random from 'lodash/random'
-import last from 'lodash/last'
+import React, {CSSProperties, useEffect, useRef, useState} from 'react'
 import {useSpring, interpolate, animated} from 'react-spring'
+import isArray from 'lodash/isArray'
+import last from 'lodash/last'
+import random from 'lodash/random'
+import range from 'lodash/range'
 
 const SAMPLE_SIZE = 20
 
+// ------------------------------------------------------------------- # Types #
+
 type Range = number | [number, number]
+
 type Props = {
-  origin: {x: number; y: number}
+  origin: [number, number]
   shapes: JSX.Element[]
   velocity: [Range, Range]
   gravity: number
@@ -18,53 +21,27 @@ type Props = {
   wind: [number, number]
 }
 
+// --------------------------------------------------------------- # Component #
+
 export default function(props: Props) {
   const {velocity, gravity, duration, mass, wind, shapes} = props
+
+  const ref = useRef<HTMLSpanElement | null>(null)
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
+  useEffect(() => {
+    if (ref.current) {
+      const {width, height} = ref.current.getBoundingClientRect()
+      setLeft(props.origin[0] - width / 2)
+      setTop(props.origin[1] - height / 2)
+    }
+  }, [ref.current])
+
   const velocityX = isArray(velocity[0]) ? random(...velocity[0]) : velocity[0]
   const velocityY = isArray(velocity[1]) ? random(...velocity[1]) : velocity[1]
+  const randomZ = random(1, 25)
   const direction = velocityX / Math.abs(velocityX)
-
-  function generateOutputX() {
-    let delta = velocityX
-
-    return range(SAMPLE_SIZE).reduce(
-      output => {
-        delta *= mass
-        delta -= wind[0]
-        const lastOutput = Number(last(output))
-        return [...output, lastOutput + delta]
-      },
-      [0],
-    )
-  }
-
-  function generateOutputY() {
-    let delta = velocityY
-
-    return range(SAMPLE_SIZE).reduce(
-      output => {
-        delta -= gravity + wind[1]
-        const lastOutput = Number(last(output))
-        return [...output, lastOutput - delta]
-      },
-      [0],
-    )
-  }
-
-  function generateRange() {
-    const delta = 1 / SAMPLE_SIZE
-    const initialRange: number[] = []
-
-    const midRange = range(SAMPLE_SIZE - 1).reduce(
-      (output, val) => [...output, (val + 1) * delta],
-      initialRange,
-    )
-
-    return [0, ...midRange, 1]
-  }
 
   const {x, y, z, opacity} = useSpring({
     from: {
@@ -75,7 +52,7 @@ export default function(props: Props) {
     },
     x: 1,
     y: 1,
-    z: 40,
+    z: randomZ,
     opacity: 0,
     config: {duration},
     onRest: () => {
@@ -89,46 +66,73 @@ export default function(props: Props) {
     [
       x.interpolate({
         range: generateRange(),
-        output: generateOutputX(),
+        output: generateOutputX(velocityX, wind[0], mass),
       }),
       y.interpolate({
         range: generateRange(),
-        output: generateOutputY(),
+        output: generateOutputY(velocityY, wind[1], gravity),
       }),
       z.interpolate({
         range: [0, 1],
-        output: [0, random(0, 15)],
+        output: [0, randomZ],
       }),
     ],
     (x, y, z) => `translate(${x}px, ${y}px) rotateZ(${z * direction}deg)`,
   )
 
-  const ref = useRef<HTMLSpanElement>(null)
-  const position: 'absolute' = 'absolute'
-  const pointerEvents: 'none' = 'none'
-  const display = ref.current ? 'inline-block' : 'none'
-
-  const style = {
-    pointerEvents,
-    position,
+  const style: CSSProperties = {
+    pointerEvents: 'none',
+    position: 'absolute',
+    display: ref.current ? 'inline-block' : 'none',
     left,
     top,
-    display,
     opacity,
     transform,
   }
-
-  useEffect(() => {
-    if (ref.current) {
-      const {width, height} = ref.current.getBoundingClientRect()
-      setLeft(props.origin.x - width / 2)
-      setTop(props.origin.y - height / 2)
-    }
-  }, [ref.current])
 
   return (
     <animated.span ref={ref} style={style}>
       {shapes[random(0, shapes.length - 1)]}
     </animated.span>
   )
+}
+
+// --------------------------------------------------------- # Physics helpers #
+
+function generateOutputX(velocityX: number, windX: number, mass: number) {
+  let delta = velocityX
+
+  return range(SAMPLE_SIZE).reduce(
+    output => {
+      delta *= mass
+      delta -= windX
+
+      return [...output, Number(last(output)) + delta]
+    },
+    [0],
+  )
+}
+
+function generateOutputY(velocityY: number, windY: number, gravity: number) {
+  let delta = velocityY
+
+  return range(SAMPLE_SIZE).reduce(
+    output => {
+      delta -= gravity + windY
+      return [...output, Number(last(output)) - delta]
+    },
+    [0],
+  )
+}
+
+function generateRange() {
+  const delta = 1 / SAMPLE_SIZE
+  const initialRange: number[] = []
+
+  const midRange = range(SAMPLE_SIZE - 1).reduce(
+    (output, val) => [...output, (val + 1) * delta],
+    initialRange,
+  )
+
+  return [0, ...midRange, 1]
 }

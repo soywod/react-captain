@@ -1,8 +1,8 @@
 # useSparks
 
-Turn a HTMLElement in a particle generator.
+Turn a HTMLElement into a particle generator.
 
-See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useSparks&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel).
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useSparks&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
 ## Parameters
 
@@ -18,7 +18,7 @@ type SparksOptions = {
   duration?: number                   // default: 1000
   mass?: number                       // defalut: 0.96
   wind?: [x: number, y: number]       // defalut: [0, 0]
-  mode?: 'stream' | 'realtime'        // default: 'stream'
+  mode?: 'stream' | 'chunk'           // default: 'chunk'
 }
 
 function useSparks(options?: SparksOptions)

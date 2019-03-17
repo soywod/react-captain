@@ -1,7 +1,8 @@
 import React, {RefObject, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import isArray from 'lodash/isArray'
-import isNull from 'lodash/isNull'
+import isNil from 'lodash/isNil'
+import range from 'lodash/range'
 
 import Spark from './Spark'
 
@@ -19,7 +20,7 @@ export type SparksOptions = {
   duration?: number
   mass?: number
   wind?: [number, number]
-  mode?: 'stream' | 'realtime'
+  mode?: 'stream' | 'chunk'
 }
 
 type SparksOptionsFull = {
@@ -31,7 +32,7 @@ type SparksOptionsFull = {
   duration: number
   mass: number
   wind: [number, number]
-  mode: 'stream' | 'realtime'
+  mode: 'stream' | 'chunk'
 }
 
 export const defaultOptions: Omit<SparksOptionsFull, 'ref' | 'shapes'> = {
@@ -41,7 +42,7 @@ export const defaultOptions: Omit<SparksOptionsFull, 'ref' | 'shapes'> = {
   duration: 1000,
   mass: 0.96,
   wind: [0, 0],
-  mode: 'stream',
+  mode: 'chunk',
 }
 
 // -------------------------------------------------------------------- # Hook #
@@ -50,11 +51,43 @@ export default function(userOptions: SparksOptions) {
   const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
   const {ref, velocity, gravity, quantity, duration, mass, wind, mode} = options
   const shapes = isArray(options.shapes) ? options.shapes : [options.shapes]
+
   const status = useState(false)
   const [isOn, setOn] = status
 
+  function createSpark(origin: [number, number], key = 0) {
+    return (
+      <Spark
+        key={key}
+        origin={origin}
+        shapes={shapes}
+        velocity={velocity}
+        gravity={gravity}
+        duration={duration}
+        mass={mass}
+        wind={wind}
+      />
+    )
+  }
+
+  function createSparks(origin: [number, number]) {
+    return range(quantity).map(key => createSpark(origin, key))
+  }
+
+  function mountSparks(sparks: JSX.Element[]) {
+    const root = document.createElement('div')
+
+    ReactDOM.render(sparks, root, () => {
+      if (ref.current) {
+        const fragment = document.createDocumentFragment()
+        Array.from(root.children).forEach(child => fragment.appendChild(child))
+        document.body.appendChild(fragment)
+      }
+    })
+  }
+
   useEffect(() => {
-    if (isNull(ref.current) || !isOn) return
+    if (isNil(ref.current) || !isOn) return
 
     const {width, height} = ref.current.getBoundingClientRect()
     const x = ref.current.offsetLeft + width * 0.5
@@ -62,39 +95,16 @@ export default function(userOptions: SparksOptions) {
 
     switch (mode) {
       case 'stream':
-        const timeout = setInterval(() => renderSpark(x, y), 1000 / quantity)
+        const spark = createSpark([x, y])
+        const timeout = setInterval(() => mountSparks([spark]), 1000 / quantity)
         return () => clearInterval(timeout)
 
-      case 'realtime':
-        for (let i = 0; i < quantity; i++) {
-          setTimeout(() => renderSpark(x, y), 0)
-        }
-
+      case 'chunk':
+        const sparks = createSparks([x, y])
+        mountSparks(sparks)
         setOn(false)
     }
   }, [ref.current, isOn, userOptions])
-
-  function renderSpark(x: number, y: number) {
-    const mount = document.createElement('div')
-
-    ReactDOM.render(
-      <Spark
-        origin={{x, y}}
-        shapes={shapes}
-        velocity={velocity}
-        gravity={gravity}
-        duration={duration}
-        mass={mass}
-        wind={wind}
-      />,
-      mount,
-      () => {
-        if (ref.current && mount.firstChild) {
-          document.body.appendChild(mount.firstChild)
-        }
-      },
-    )
-  }
 
   return status
 }

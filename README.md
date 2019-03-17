@@ -1,7 +1,7 @@
 # React Captain :anchor:
 A collection of strongly typed and useful [React](https://reactjs.org/) [Hooks](https://reactjs.org/docs/hooks-intro.html).
 
-See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me).
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me)
 
 ## Table of contents
 
@@ -13,17 +13,19 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
     - [useSparks](#usesparks)
     - [useTimeout](#usetimeout)
     - useInterval
+    - useDefer
     - useForm
 
 ## Installation
 
 React and ReactDOM need to be installed first, since they are required as peer
-dependencies by React Captain.
+dependencies:
 
 ```bash
+npm install react react-dom
+
+# then
 npm install react-captain
-# or
-yarn add react-captain
 ```
 
 ## Import
@@ -37,7 +39,7 @@ import <hookName> from 'react-captain/<hookName>'
 ## Hooks overview
 ### [useClickOutside](https://github.com/soywod/react-captain/tree/master/lib/useClickOutside)
 
-A click outside helper.
+Trigger callback on click outside from a HTMLElement.
 
 ```typescript
 const ref = useRef<HTMLElement | null>(null)
@@ -49,7 +51,7 @@ handleClickOutside(() => {
 ```
 ### [useDebounce](https://github.com/soywod/react-captain/tree/master/lib/useDebounce)
 
-A debouncer.
+Add debounce to a handler.
 
 ```typescript
 type DebounceOptions = {
@@ -63,7 +65,7 @@ const handlerWithDebounce = debounce(handler)
 
 ### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)
 
-Turn a HTMLElement in a particle generator.
+Turn a HTMLElement into a particle generator.
 
 ```typescript
 type Range = number | [number, number]
@@ -77,7 +79,7 @@ type SparksOptions = {
   duration?: number                   // default: 1000
   mass?: number                       // defalut: 0.96
   wind?: [x: number, y: number]       // defalut: [0, 0]
-  mode?: 'stream' | 'realtime'        // default: 'stream'
+  mode?: 'stream' | 'chunk'           // default: 'chunk'
 }
 
 const [isOn, setOn] = useSparks(options)
@@ -85,7 +87,7 @@ const [isOn, setOn] = useSparks(options)
 
 ### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
 
-A wrapper around `setTimeout`.
+Turn `setTimeout` into a hook.
 
 ```typescript
 type TimeoutOptions = {

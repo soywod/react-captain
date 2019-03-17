@@ -1,11 +1,13 @@
-import React, {useRef, useState} from 'react'
+import React, {CSSProperties, useRef, useState} from 'react'
 import {storiesOf} from '@storybook/react'
 
 import useSparks from '../../lib/useSparks'
 
-// ---------------------------------------------------------- # Demo component #
+// -------------------------------------------------------- # Spark components #
 
-function Star(props: {color: string}) {
+type Props = {color: string}
+
+function Star(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +23,7 @@ function Star(props: {color: string}) {
   )
 }
 
-function StarOutline(props: {color: string}) {
+function StarOutline(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +39,8 @@ function StarOutline(props: {color: string}) {
   )
 }
 
+// ---------------------------------------------------------- # Demo component #
+
 function Demo() {
   const ref = useRef<HTMLButtonElement | null>(null)
   const [velocityMinX, setVectorMinX] = useState(-10)
@@ -49,7 +53,7 @@ function Demo() {
   const [mass, setMass] = useState(0.96)
   const [windX, setWindX] = useState(0)
   const [windY, setWindY] = useState(0)
-  const [mode, setMode] = useState<'stream' | 'realtime'>('stream')
+  const [mode, setMode] = useState<'stream' | 'chunk'>('chunk')
 
   const [on, setOn] = useSparks({
     ref,
@@ -110,29 +114,34 @@ function Demo() {
   }
 
   function changeMode(event: React.ChangeEvent<HTMLInputElement>) {
-    setMode(event.target.checked ? 'stream' : 'realtime')
+    setMode(event.target.checked ? 'stream' : 'chunk')
+  }
+
+  const container: CSSProperties = {
+    width: 400,
+    height: 500,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
+  const col: CSSProperties = {display: 'flex'}
+  const row: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    marginRight: 16,
   }
 
   return (
     <div>
-      <div
-        style={{
-          width: 400,
-          height: 500,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <div style={container}>
         <button ref={ref} onClick={() => setOn(!on)}>
           Click me...
         </button>
       </div>
 
-      <div style={{display: 'flex'}}>
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+      <div style={col}>
+        <div style={row}>
           <div>VelocityX min: {velocityMinX}</div>
           <div>
             <input
@@ -156,9 +165,7 @@ function Demo() {
           </div>
         </div>
 
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+        <div style={row}>
           <div>VelocityY min: {velocityMinY}</div>
           <div>
             <input
@@ -182,9 +189,7 @@ function Demo() {
           </div>
         </div>
 
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+        <div style={row}>
           <div>Quantity: {quantity}</div>
           <div>
             <input
@@ -208,9 +213,7 @@ function Demo() {
           </div>
         </div>
 
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+        <div style={row}>
           <div>Gravity: {gravity}</div>
           <div>
             <input
@@ -236,9 +239,7 @@ function Demo() {
           </div>
         </div>
 
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+        <div style={row}>
           <div>WindX: {windX}</div>
           <div>
             <input
@@ -264,9 +265,7 @@ function Demo() {
           </div>
         </div>
 
-        <div
-          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
-        >
+        <div style={row}>
           <label>
             <input
               type="checkbox"

@@ -66,17 +66,21 @@ const handlerWithDebounce = debounce(handler)
 Turn a HTMLElement in a particle generator.
 
 ```typescript
+type Range = number | [number, number]
+
 type SparksOptions = {
   ref: RefObject<HTMLElement>
-  velocity?: [x: number, y: number] // default: [10, 20]
-  gravity?: number                  // default: 2
-  quantity?: number                 // default: 20
-  duration?: number                 // default: 1000
-  mass?: number                     // defalut: 0.96
-  wind?: [x: number, y: number]     // defalut: [0, 0]
+  shapes: JSX.Element | JSX.Element[]
+  velocity?: [x: Range, y: Range]     // default: [[-10, 10], [17, 23]]
+  gravity?: number                    // default: 2
+  quantity?: number                   // default: 20
+  duration?: number                   // default: 1000
+  mass?: number                       // defalut: 0.96
+  wind?: [x: number, y: number]       // defalut: [0, 0]
+  mode?: 'stream' | 'realtime'        // default: 'stream'
 }
 
-useSparks(options)
+const [isOn, setOn] = useSparks(options)
 ```
 
 ### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)

@@ -7,14 +7,18 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
 ## Parameters
 
 ```typescript
+type Range = number | [number, number]
+
 type SparksOptions = {
-  ref: RefObject<HTMLElement>
-  velocity?: [x: number, y: number] // default: [10, 20]
-  gravity?: number                  // default: 2
-  quantity?: number                 // default: 20
-  duration?: number                 // default: 1000
-  mass?: number                     // defalut: 0.96
-  wind?: [x: number, y: number]     // defalut: [0, 0]
+  ref: RefObject<HTMLElement>         // the target element
+  shapes: JSX.Element | JSX.Element[] // the particle element list (one is taken randomly by the hook on mount)
+  velocity?: [x: Range, y: Range]     // default: [[-10, 10], [17, 23]]
+  gravity?: number                    // default: 2
+  quantity?: number                   // default: 20
+  duration?: number                   // default: 1000
+  mass?: number                       // defalut: 0.96
+  wind?: [x: number, y: number]       // defalut: [0, 0]
+  mode?: 'stream' | 'realtime'        // default: 'stream'
 }
 
 function useSparks(options?: SparksOptions)
@@ -23,7 +27,7 @@ function useSparks(options?: SparksOptions)
 ## Return
 
 ```typescript
-void
+[isOn: boolean, setOn: React.Dispatch<React.SetStateAction<boolean>>]
 ```
 
 ## Usage
@@ -35,12 +39,12 @@ import useSparks from 'react-captain/useSparks'
 
 function Demo() {
   const ref = useRef()
-  useSparks({ref})
+  const [isOn, setOn] = useSparks({ref})
 
   return (
-    <div ref={ref}>
+    <button ref={ref} onClick={() => setOn(!isOn)}>
       Particle generator!
-    </div>
+    </button>
   )
 }
 ```

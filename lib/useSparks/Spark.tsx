@@ -1,15 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react'
 import range from 'lodash/range'
+import isArray from 'lodash/isArray'
 import random from 'lodash/random'
 import last from 'lodash/last'
 import {useSpring, interpolate, animated} from 'react-spring'
 
 const SAMPLE_SIZE = 20
 
+type Range = number | [number, number]
 type Props = {
   origin: {x: number; y: number}
   shapes: JSX.Element[]
-  velocity: [number, number]
+  velocity: [Range, Range]
   gravity: number
   duration: number
   mass: number
@@ -21,8 +23,8 @@ export default function(props: Props) {
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
 
-  const velocityX = random(-velocity[0], velocity[0])
-  const velocityY = velocity[1]
+  const velocityX = isArray(velocity[0]) ? random(...velocity[0]) : velocity[0]
+  const velocityY = isArray(velocity[1]) ? random(...velocity[1]) : velocity[1]
   const direction = velocityX / Math.abs(velocityX)
 
   function generateOutputX() {
@@ -32,7 +34,7 @@ export default function(props: Props) {
       output => {
         delta *= mass
         delta -= wind[0]
-        const lastOutput = last(output) || 0
+        const lastOutput = Number(last(output))
         return [...output, lastOutput + delta]
       },
       [0],
@@ -45,7 +47,7 @@ export default function(props: Props) {
     return range(SAMPLE_SIZE).reduce(
       output => {
         delta -= gravity + wind[1]
-        const lastOutput = last(output) || 0
+        const lastOutput = Number(last(output))
         return [...output, lastOutput - delta]
       },
       [0],
@@ -95,7 +97,7 @@ export default function(props: Props) {
       }),
       z.interpolate({
         range: [0, 1],
-        output: [0, random(2, 15)],
+        output: [0, random(0, 15)],
       }),
     ],
     (x, y, z) => `translate(${x}px, ${y}px) rotateZ(${z * direction}deg)`,
@@ -103,9 +105,11 @@ export default function(props: Props) {
 
   const ref = useRef<HTMLSpanElement>(null)
   const position: 'absolute' = 'absolute'
+  const pointerEvents: 'none' = 'none'
   const display = ref.current ? 'inline-block' : 'none'
 
   const style = {
+    pointerEvents,
     position,
     left,
     top,

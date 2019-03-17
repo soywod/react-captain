@@ -38,24 +38,28 @@ function StarOutline(props: {color: string}) {
 }
 
 function Demo() {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const [velocityX, setVectorX] = useState(10)
-  const [velocityY, setVectorY] = useState(20)
+  const ref = useRef<HTMLButtonElement | null>(null)
+  const [velocityMinX, setVectorMinX] = useState(-10)
+  const [velocityMaxX, setVectorMaxX] = useState(10)
+  const [velocityMinY, setVectorMinY] = useState(17)
+  const [velocityMaxY, setVectorMaxY] = useState(23)
   const [gravity, setGravity] = useState(2)
-  const [quantity, setQuantity] = useState(20)
+  const [quantity, setQuantity] = useState(10)
   const [duration, setDuration] = useState(1000)
   const [mass, setMass] = useState(0.96)
   const [windX, setWindX] = useState(0)
   const [windY, setWindY] = useState(0)
+  const [mode, setMode] = useState<'stream' | 'realtime'>('stream')
 
-  useSparks({
+  const [on, setOn] = useSparks({
     ref,
-    velocity: [velocityX, velocityY],
+    velocity: [[velocityMinX, velocityMaxX], [velocityMinY, velocityMaxY]],
     gravity,
     quantity,
     duration,
     mass,
     wind: [windX, windY],
+    mode,
     shapes: [
       <Star color="#e91e63" />,
       <Star color="#2196f3" />,
@@ -65,12 +69,20 @@ function Demo() {
     ],
   })
 
-  function changeVectorX(event: React.ChangeEvent<HTMLInputElement>) {
-    setVectorX(Number(event.target.value))
+  function changeVectorMinX(event: React.ChangeEvent<HTMLInputElement>) {
+    setVectorMinX(Number(event.target.value))
   }
 
-  function changeVectorY(event: React.ChangeEvent<HTMLInputElement>) {
-    setVectorY(Number(event.target.value))
+  function changeVectorMaxX(event: React.ChangeEvent<HTMLInputElement>) {
+    setVectorMaxX(Number(event.target.value))
+  }
+
+  function changeVectorMinY(event: React.ChangeEvent<HTMLInputElement>) {
+    setVectorMinY(Number(event.target.value))
+  }
+
+  function changeVectorMaxY(event: React.ChangeEvent<HTMLInputElement>) {
+    setVectorMaxY(Number(event.target.value))
   }
 
   function changeGravity(event: React.ChangeEvent<HTMLInputElement>) {
@@ -97,6 +109,10 @@ function Demo() {
     setWindY(Number(event.target.value))
   }
 
+  function changeMode(event: React.ChangeEvent<HTMLInputElement>) {
+    setMode(event.target.checked ? 'stream' : 'realtime')
+  }
+
   return (
     <div>
       <div
@@ -108,47 +124,67 @@ function Demo() {
           justifyContent: 'center',
         }}
       >
-        <div ref={ref} style={{width: 20, height: 20, background: 'blue'}} />
+        <button ref={ref} onClick={() => setOn(!on)}>
+          Click me...
+        </button>
       </div>
 
       <div style={{display: 'flex'}}>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          <div>VelocityX: {velocityX}</div>
-          <div>
-            <input
-              type="range"
-              min={1}
-              max={100}
-              value={velocityX}
-              onChange={changeVectorX}
-            />
-          </div>
-
-          <div>VelocityY: {velocityY}</div>
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
+          <div>VelocityX min: {velocityMinX}</div>
           <div>
             <input
               type="range"
               min={-50}
               max={50}
-              value={velocityY}
-              onChange={changeVectorY}
+              value={velocityMinX}
+              onChange={changeVectorMinX}
             />
           </div>
 
-          <div>Gravity: {gravity}</div>
+          <div>VelocityX max: {velocityMaxX}</div>
           <div>
             <input
               type="range"
-              min={0}
-              max={10}
-              step={0.1}
-              value={gravity}
-              onChange={changeGravity}
+              min={-50}
+              max={50}
+              value={velocityMaxX}
+              onChange={changeVectorMaxX}
             />
           </div>
         </div>
 
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
+          <div>VelocityY min: {velocityMinY}</div>
+          <div>
+            <input
+              type="range"
+              min={-50}
+              max={50}
+              value={velocityMinY}
+              onChange={changeVectorMinY}
+            />
+          </div>
+
+          <div>VelocityY max: {velocityMaxY}</div>
+          <div>
+            <input
+              type="range"
+              min={-50}
+              max={50}
+              value={velocityMaxY}
+              onChange={changeVectorMaxY}
+            />
+          </div>
+        </div>
+
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
           <div>Quantity: {quantity}</div>
           <div>
             <input
@@ -170,6 +206,22 @@ function Demo() {
               onChange={changeDuration}
             />
           </div>
+        </div>
+
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
+          <div>Gravity: {gravity}</div>
+          <div>
+            <input
+              type="range"
+              min={0}
+              max={10}
+              step={0.1}
+              value={gravity}
+              onChange={changeGravity}
+            />
+          </div>
 
           <div>Mass factor: {mass}</div>
           <div>
@@ -184,7 +236,9 @@ function Demo() {
           </div>
         </div>
 
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
           <div>WindX: {windX}</div>
           <div>
             <input
@@ -208,6 +262,20 @@ function Demo() {
               onChange={changeWindY}
             />
           </div>
+        </div>
+
+        <div
+          style={{display: 'flex', flexDirection: 'column', marginRight: 16}}
+        >
+          <label>
+            <input
+              type="checkbox"
+              checked={mode === 'stream'}
+              onChange={changeMode}
+            />
+            Mode: {mode}
+          </label>
+          <div />
         </div>
       </div>
     </div>

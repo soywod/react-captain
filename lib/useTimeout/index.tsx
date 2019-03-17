@@ -3,32 +3,61 @@ import invokeMap from 'lodash/invokeMap'
 import noop from 'lodash/noop'
 import uuid from 'uuid/v4'
 
-// ------------------------------------------------------------------- # Types #
+// ------------------------------------------------------------- # Basic types #
 
-type AnyCallback = (...args: any[]) => void
-type Timeout<T extends AnyCallback> = (...params: Parameters<T>) => void
-
+type Callback = (...args: any[]) => void
 type Timeouts = Map<String, NodeJS.Timeout>
 
-export type TimeoutOptions = {
+// -------------------------------------------- # Default timeout options type #
+
+type DefaultTimeoutOptions = {
   delay: number
   persist: boolean
+  cancelable: boolean
 }
 
-export const defaultOptions: TimeoutOptions = {
+export const defaultOptions: DefaultTimeoutOptions = {
   delay: 250,
-  persist: true,
+  persist: false,
+  cancelable: false,
 }
+
+// ---------------------------------------------------- # Timeout options type #
+
+type TimeoutOptionsNonConcelable = Partial<DefaultTimeoutOptions> & {
+  cancelable?: false
+}
+
+type TimeoutOptionsCancelable = Partial<DefaultTimeoutOptions> & {
+  cancelable: true
+}
+
+export type TimeoutOptions =
+  | TimeoutOptionsNonConcelable
+  | TimeoutOptionsCancelable
+
+// ------------------------------------------------------ # Function overloads #
+
+type Timeout<T extends Callback> = (...params: Parameters<T>) => void
+type TimeoutCancelable<T extends Callback> = [Timeout<T>, () => void]
+
+function useTimeout(
+  userOptions?: TimeoutOptionsNonConcelable,
+): <T extends Callback>(callback: T) => Timeout<T>
+
+function useTimeout(
+  userOptions: TimeoutOptionsCancelable,
+): <T extends Callback>(callback: T) => TimeoutCancelable<T>
 
 // -------------------------------------------------------------------- # Hook #
 
-export default function(userOptions?: Partial<TimeoutOptions>) {
-  const options = {...defaultOptions, ...userOptions}
+function useTimeout(userOptions?: TimeoutOptions) {
+  const options: DefaultTimeoutOptions = {...defaultOptions, ...userOptions}
 
-  return <T extends AnyCallback>(callback: T) => {
+  return <T extends Callback>(callback: T) => {
     const [ready, setReady] = useState(false)
 
-    const timeout = useRef<Timeout<T>>(noop)
+    const wrapper = useRef<Timeout<T>>(noop)
     const timeouts = useRef<Timeouts>(new Map())
 
     function clearTimeoutSafe(timeout: NodeJS.Timeout | null) {
@@ -37,13 +66,19 @@ export default function(userOptions?: Partial<TimeoutOptions>) {
       }
     }
 
+    function clearTimeouts() {
+      timeouts.current.forEach(clearTimeoutSafe)
+      timeouts.current.clear()
+    }
+
     useEffect(() => {
-      timeout.current = (...params: Parameters<T>) => {
+      wrapper.current = (...params: Parameters<T>) => {
         if (options.persist) {
           invokeMap(params, 'persist')
         }
 
         const id = uuid()
+
         const nextCallback = () => {
           callback(...params)
           timeouts.current.delete(id)
@@ -55,12 +90,13 @@ export default function(userOptions?: Partial<TimeoutOptions>) {
 
       setReady(true)
 
-      return () => {
-        timeouts.current.forEach(clearTimeoutSafe)
-        timeouts.current.clear()
-      }
+      return () => clearTimeouts()
     }, [ready])
 
-    return timeout.current
+    return options.cancelable
+      ? [wrapper.current, clearTimeouts]
+      : wrapper.current
   }
 }
+
+export default useTimeout

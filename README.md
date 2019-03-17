@@ -91,10 +91,16 @@ Turn `setTimeout` into a hook.
 
 ```typescript
 type TimeoutOptions = {
-  delay: number    // default: 250
-  persist: boolean // default: true
+  delay?: number       // default: 250
+  persist?: boolean    // default: false
+  cancelable?: boolean // default: false
 }
 
 const timeout = useTimeout(options)
+
+// If cancelable = false
 const handlerWithTimeout = timeout(handler)
+
+// If cancelable = true
+const [handlerWithTimeout, cancel] = timeout(handler)
 ```

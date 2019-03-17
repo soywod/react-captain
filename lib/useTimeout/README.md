@@ -8,19 +8,22 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
 
 ```typescript
 type TimeoutOptions = {
-  delay: number    // Delay in ms, default: 250
-  persist: boolean // Should trigger .persist() method if exists, default: true
+  delay?: number       // Delay in ms, default: 250
+  persist?: boolean    // Should trigger .persist() method if exists, default: false
+  cancelable?: boolean // Provide a method to cancel all pending timeouts, default: false
 }
 
-function useTimeout(options?: Partial<TimeoutOptions>)
+function useTimeout(options?: TimeoutOptions)
 ```
 
 ## Return
 
 ```typescript
-type Callback<T> = (...params: T) => any
 
-function timeout<T>(callback: Callback<T>): Callback<T>
+type Timeout<T> = (...params: Parameters<T>) => void
+
+# Depending on cancelable option:
+function timeout<T>(T): Timeout<T> | [Timeout<T>, () => void]
 ```
 
 ## Usage
@@ -31,7 +34,7 @@ import {useTimeout} from 'react-captain'
 import useTimeout from 'react-captain/useTimeout'
 
 function Demo() {
-  const timeout = useTimeout()
+  const timeout = useTimeout({persist: true})
 
   function handleClick() {
     console.log('Clicked!')

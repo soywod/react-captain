@@ -6,37 +6,27 @@ import range from 'lodash/range'
 
 import Spark from './Spark'
 
-// ------------------------------------------------------------------- # Types #
+// ------------------------------------------------------------- # Basic types #
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
-type Range = number | [number, number]
+type Range = [number, number]
 
-export type SparksOptions = {
+// --------------------------------------------- # Default sparks options type #
+
+type DefaultSparksOptions = {
   ref: RefObject<HTMLElement>
   shapes: JSX.Element | JSX.Element[]
-  velocity?: [Range, Range]
-  gravity?: number
-  quantity?: number
-  duration?: number
-  mass?: number
-  wind?: [number, number]
-  mode?: 'stream' | 'chunk'
-}
-
-type SparksOptionsFull = {
-  ref: RefObject<HTMLElement>
-  shapes: JSX.Element | JSX.Element[]
-  velocity: [Range, Range]
+  velocity: [number | Range, number | Range]
   gravity: number
   quantity: number
   duration: number
   mass: number
   wind: [number, number]
-  mode: 'stream' | 'chunk'
+  mode: 'chunk' | 'stream'
 }
 
-export const defaultOptions: Omit<SparksOptionsFull, 'ref' | 'shapes'> = {
-  velocity: [[1, 10], [17, 23]],
+export const defaultOptions: Omit<DefaultSparksOptions, 'ref' | 'shapes'> = {
+  velocity: [[-10, 10], [17, 23]],
   gravity: 2,
   quantity: 10,
   duration: 1000,
@@ -45,15 +35,22 @@ export const defaultOptions: Omit<SparksOptionsFull, 'ref' | 'shapes'> = {
   mode: 'chunk',
 }
 
+// ----------------------------------------------------- # Sparks options type #
+
+type SparksOptions = Partial<DefaultSparksOptions> & {
+  ref: RefObject<HTMLElement>
+  shapes: JSX.Element | JSX.Element[]
+}
+
 // -------------------------------------------------------------------- # Hook #
 
 export default function(userOptions: SparksOptions) {
-  const options: SparksOptionsFull = {...defaultOptions, ...userOptions}
+  const options: DefaultSparksOptions = {...defaultOptions, ...userOptions}
   const {ref, velocity, gravity, quantity, duration, mass, wind, mode} = options
   const shapes = isArray(options.shapes) ? options.shapes : [options.shapes]
 
   const status = useState(false)
-  const [isOn, setOn] = status
+  const [enabled, switchOn] = status
 
   function createSpark(origin: [number, number], key = 0) {
     return (
@@ -87,7 +84,7 @@ export default function(userOptions: SparksOptions) {
   }
 
   useEffect(() => {
-    if (isNil(ref.current) || !isOn) return
+    if (isNil(ref.current) || !enabled) return
 
     const {width, height} = ref.current.getBoundingClientRect()
     const x = ref.current.offsetLeft + width * 0.5
@@ -102,9 +99,9 @@ export default function(userOptions: SparksOptions) {
       case 'chunk':
         const sparks = createSparks([x, y])
         mountSparks(sparks)
-        setOn(false)
+        switchOn(false)
     }
-  }, [ref.current, isOn, userOptions])
+  }, [ref.current, enabled, userOptions])
 
   return status
 }

@@ -5,16 +5,16 @@ import last from 'lodash/last'
 import random from 'lodash/random'
 import range from 'lodash/range'
 
-const SAMPLE_SIZE = 20
+// ------------------------------------------------------------- # Basic types #
 
-// ------------------------------------------------------------------- # Types #
+type Range = [number, number]
 
-type Range = number | [number, number]
+// ------------------------------------------------------------------- # Props #
 
 type Props = {
   origin: [number, number]
   shapes: JSX.Element[]
-  velocity: [Range, Range]
+  velocity: [number | Range, number | Range]
   gravity: number
   duration: number
   mass: number
@@ -22,6 +22,8 @@ type Props = {
 }
 
 // --------------------------------------------------------------- # Component #
+
+const SAMPLE_SIZE = 20
 
 export default function(props: Props) {
   const {velocity, gravity, duration, mass, wind, shapes} = props

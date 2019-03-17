@@ -7,27 +7,27 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
 ## Parameters
 
 ```typescript
-type Range = number | [number, number]
+type Range = [number, number]
 
 type SparksOptions = {
-  ref: RefObject<HTMLElement>         // the target element
-  shapes: JSX.Element | JSX.Element[] // the particle element list (one is taken randomly by the hook on mount)
-  velocity?: [x: Range, y: Range]     // default: [[-10, 10], [17, 23]]
-  gravity?: number                    // default: 2
-  quantity?: number                   // default: 20
-  duration?: number                   // default: 1000
-  mass?: number                       // defalut: 0.96
-  wind?: [x: number, y: number]       // defalut: [0, 0]
-  mode?: 'stream' | 'chunk'           // default: 'chunk'
+  ref: RefObject<HTMLElement>                 // The target element
+  shapes: JSX.Element | JSX.Element[]         // The particle element list (one is taken randomly by the hook on mount)
+  velocity?: [number | Range, number | Range] // The speed vector, default: [[-10, 10], [17, 23]]
+  gravity?: number                            // The gravity, default: 2
+  quantity?: number                           // The amount (unit/s in stream mode, unit in chunk mode), default: 10
+  duration?: number                           // The duration in ms, default: 1000
+  mass?: number                               // The particle mass factor, default: 0.96
+  wind?: [x: number, y: number]               // The wind vector, default: [0, 0]
+  mode?: 'chunk' | 'stream'                   // The mode (stream = infinite flow, chunk = finite block), default: 'chunk'
 }
 
-function useSparks(options?: SparksOptions)
+function useSparks(options?: Partial<SparksOptions>)
 ```
 
 ## Return
 
 ```typescript
-[isOn: boolean, setOn: React.Dispatch<React.SetStateAction<boolean>>]
+[enabled: boolean, switchOn: React.Dispatch<React.SetStateAction<boolean>>]
 ```
 
 ## Usage
@@ -39,10 +39,10 @@ import useSparks from 'react-captain/useSparks'
 
 function Demo() {
   const ref = useRef()
-  const [isOn, setOn] = useSparks({ref})
+  const [enabled, switchOn] = useSparks({ref})
 
   return (
-    <button ref={ref} onClick={() => setOn(!isOn)}>
+    <button ref={ref} onClick={() => switchOn(!enabled)}>
       Particle generator!
     </button>
   )

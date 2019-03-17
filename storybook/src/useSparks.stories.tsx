@@ -55,7 +55,7 @@ function Demo() {
   const [windY, setWindY] = useState(0)
   const [mode, setMode] = useState<'stream' | 'chunk'>('chunk')
 
-  const [on, setOn] = useSparks({
+  const [enabled, switchOn] = useSparks({
     ref,
     velocity: [[velocityMinX, velocityMaxX], [velocityMinY, velocityMaxY]],
     gravity,
@@ -135,7 +135,7 @@ function Demo() {
   return (
     <div>
       <div style={container}>
-        <button ref={ref} onClick={() => setOn(!on)}>
+        <button ref={ref} onClick={() => switchOn(!enabled)}>
           Click me...
         </button>
       </div>

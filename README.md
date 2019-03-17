@@ -68,26 +68,26 @@ const handlerWithDebounce = debounce(handler)
 Turn a HTMLElement into a particle generator.
 
 ```typescript
-type Range = number | [number, number]
+type Range = [number, number]
 
 type SparksOptions = {
   ref: RefObject<HTMLElement>
   shapes: JSX.Element | JSX.Element[]
-  velocity?: [x: Range, y: Range]     // default: [[-10, 10], [17, 23]]
-  gravity?: number                    // default: 2
-  quantity?: number                   // default: 20
-  duration?: number                   // default: 1000
-  mass?: number                       // defalut: 0.96
-  wind?: [x: number, y: number]       // defalut: [0, 0]
-  mode?: 'stream' | 'chunk'           // default: 'chunk'
+  velocity?: [number | Range, number | Range] // default: [[-10, 10], [17, 23]]
+  gravity?: number                            // default: 2
+  quantity?: number                           // default: 10
+  duration?: number                           // default: 1000
+  mass?: number                               // default: 0.96
+  wind?: [x: number, y: number]               // default: [0, 0]
+  mode?: 'chunk' | 'stream'                   // default: 'chunk'
 }
 
-const [isOn, setOn] = useSparks(options)
+const [enabled, switchOn] = useSparks(options)
 ```
 
 ### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
 
-Turn `setTimeout` into a hook.
+Wrapper around `setTimeout`.
 
 ```typescript
 type TimeoutOptions = {

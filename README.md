@@ -12,8 +12,10 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
     - [useDebounce](#usedebounce)
     - [useSparks](#usesparks)
     - [useTimeout](#usetimeout)
+    - useLocalStorage
+    - useSessionStorage
+    - useCookies
     - useInterval
-    - useDefer
     - useForm
 
 ## Installation
@@ -55,12 +57,18 @@ Add debounce to a handler.
 
 ```typescript
 type DebounceOptions = {
-  delay: number    // default: 250
-  persist: boolean // default: true
+  delay?: number       // default: 250
+  persist?: boolean    // default: false
+  cancelable?: boolean // default: false
 }
 
 const debounce = useDebounce(options)
+
+// If cancelable = false
 const handlerWithDebounce = debounce(handler)
+
+// If cancelable = true
+const [handlerWithDebounce, cancel] = debounce(handler)
 ```
 
 ### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)

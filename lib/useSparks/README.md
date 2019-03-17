@@ -21,7 +21,7 @@ type SparksOptions = {
   mode?: 'chunk' | 'stream'                   // The mode (stream = infinite flow, chunk = finite block), default: 'chunk'
 }
 
-function useSparks(options?: Partial<SparksOptions>)
+function useSparks(options?: SparksOptions)
 ```
 
 ## Return

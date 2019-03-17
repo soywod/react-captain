@@ -8,19 +8,21 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
 
 ```typescript
 type DebounceOptions = {
-  delay: number    // Delay in ms, default: 250
-  persist: boolean // Should trigger .persist() method if exists, default: true
+  delay?: number       // Delay in ms, default: 250
+  persist?: boolean    // Should trigger .persist() method if exists, default: false
+  cancelable?: boolean // Provide a method to cancel the pending timeout, default: false
 }
 
-function useDebounce(options?: Partial<DebounceOptions>)
+function useDebounce(options?: DebounceOptions)
 ```
 
 ## Return
 
 ```typescript
-type Callback<T> = (...params: T) => any
+type Debounce<T> = (...params: Parameters<T>) => void
 
-function debounce<T>(callback: Callback<T>): Callback<T>
+# Depending on cancelable option:
+function debounce<T>(T): Debounce<T> | [Debounce<T>, () => void]
 ```
 
 ## Usage
@@ -31,7 +33,7 @@ import {useDebounce} from 'react-captain'
 import useDebounce from 'react-captain/useDebounce'
 
 function Demo() {
-  const debounce = useDebounce()
+  const debounce = useDebounce({persist: true})
 
   function handleClick() {
     console.log('Clicked!')

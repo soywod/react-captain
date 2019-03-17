@@ -4,29 +4,53 @@ import noop from 'lodash/noop'
 
 // ------------------------------------------------------------------- # Types #
 
-type AnyCallback = (...args: any[]) => void
-type Debounce<T extends AnyCallback> = (...params: Parameters<T>) => void
+type Callback = (...args: any[]) => void
 
-export type DebounceOptions = {
+type DefaultDebounceOptions = {
   delay: number
   persist: boolean
+  cancelable: boolean
 }
 
-export const defaultOptions: DebounceOptions = {
+export const defaultOptions: DefaultDebounceOptions = {
   delay: 250,
-  persist: true,
+  persist: false,
+  cancelable: false,
 }
+
+type DebounceOptionsNonConcelable = Partial<DefaultDebounceOptions> & {
+  cancelable?: false
+}
+
+type DebounceOptionsCancelable = Partial<DefaultDebounceOptions> & {
+  cancelable: true
+}
+
+export type DebounceOptions =
+  | DebounceOptionsNonConcelable
+  | DebounceOptionsCancelable
+
+type Debounce<T extends Callback> = (...params: Parameters<T>) => void
+type DebounceCancelable<T extends Callback> = [Debounce<T>, () => void]
+
+function useDebounce(
+  userOptions?: DebounceOptionsNonConcelable,
+): <T extends Callback>(callback: T) => Debounce<T>
+
+function useDebounce(
+  userOptions: DebounceOptionsCancelable,
+): <T extends Callback>(callback: T) => DebounceCancelable<T>
 
 // -------------------------------------------------------------------- # Hook #
 
-export default function(userOptions?: Partial<DebounceOptions>) {
+function useDebounce(userOptions?: DebounceOptions) {
   const options = {...defaultOptions, ...userOptions}
 
-  return <T extends AnyCallback>(callback: T) => {
+  return <T extends Callback>(callback: T) => {
     const [ready, setReady] = useState(false)
 
-    const abort = useRef<() => void>(noop)
-    const debounce = useRef<Debounce<T>>(noop)
+    const cancel = useRef<() => void>(noop)
+    const wrapper = useRef<Debounce<T>>(noop)
     const timeout = useRef<NodeJS.Timeout | null>(null)
 
     function clearTimeoutSafe(timeout: NodeJS.Timeout | null) {
@@ -36,27 +60,32 @@ export default function(userOptions?: Partial<DebounceOptions>) {
     }
 
     useEffect(() => {
-      debounce.current = (...params: Parameters<T>) => {
-        const callbackCopy = () => callback(...params)
+      wrapper.current = (...params: Parameters<T>) => {
+        const nextCallback = () => callback(...params)
 
         if (options.persist) {
           invokeMap(params, 'persist')
         }
 
-        abort.current = () => {
+        cancel.current = () => {
           clearTimeoutSafe(timeout.current)
-          callbackCopy()
+          nextCallback()
+          cancel.current = noop
         }
 
         clearTimeoutSafe(timeout.current)
-        timeout.current = setTimeout(callbackCopy, options.delay)
+        timeout.current = setTimeout(nextCallback, options.delay)
       }
 
       setReady(true)
 
-      return () => abort.current()
+      return () => cancel.current()
     }, [ready])
 
-    return debounce.current
+    return options.cancelable
+      ? [wrapper.current, () => cancel.current()]
+      : wrapper.current
   }
 }
+
+export default useDebounce

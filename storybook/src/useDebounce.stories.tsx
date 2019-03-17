@@ -1,48 +1,68 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {storiesOf} from '@storybook/react'
 import {action} from '@storybook/addon-actions'
 
-import useDebounce, {DebounceOptions} from '../../lib/useDebounce'
-
-// ---------------------------------------------------------- # Demo component #
-
-function Demo(props: Partial<DebounceOptions>) {
-  const debounce = useDebounce(props)
-  const actionWithDebounce = debounce(action('Action'))
-
-  const [value, setValue] = useState('')
-
-  function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
-    const nextValue = event.currentTarget.value
-
-    setValue(nextValue)
-    actionWithDebounce(nextValue)
-  }
-
-  return (
-    <div>
-      <input
-        autoFocus
-        placeholder="Type something..."
-        value={value}
-        onChange={changeValue}
-      />
-
-      <button onClick={actionWithDebounce}>Click me...</button>
-    </div>
-  )
-}
+import useDebounce from '../../lib/useDebounce'
 
 // ----------------------------------------------------------------- # Stories #
 
 storiesOf('useDebounce', module).add('Default', () => {
+  function Demo() {
+    const debounce = useDebounce()
+    const actionWithDebounce = debounce(action('Action'))
+
+    return (
+      <div>
+        <button onClick={() => actionWithDebounce()}>Click me...</button>
+      </div>
+    )
+  }
+
   return <Demo />
 })
 
-storiesOf('useDebounce', module).add('Custom delay', () => {
-  return <Demo delay={1000} />
+storiesOf('useDebounce', module).add('Persist', () => {
+  function Demo() {
+    const debounce = useDebounce({persist: true})
+    const actionWithDebounce = debounce(action('Action'))
+
+    return (
+      <div>
+        <button onClick={actionWithDebounce}>Click me...</button>
+      </div>
+    )
+  }
+
+  return <Demo />
 })
 
-storiesOf('useDebounce', module).add('No persist', () => {
-  return <Demo persist={false} />
+storiesOf('useDebounce', module).add('Delay', () => {
+  function Demo() {
+    const debounce = useDebounce({persist: true, delay: 1000})
+    const actionWithDebounce = debounce(action('Action'))
+
+    return (
+      <div>
+        <button onClick={actionWithDebounce}>Click me...</button>
+      </div>
+    )
+  }
+
+  return <Demo />
+})
+
+storiesOf('useDebounce', module).add('Cancelable', () => {
+  function Demo() {
+    const debounce = useDebounce({persist: true, delay: 1000, cancelable: true})
+    const [actionWithDebounce, cancel] = debounce(action('Action'))
+
+    return (
+      <div>
+        <button onClick={actionWithDebounce}>Click me...</button>
+        <button onClick={() => cancel()}>Clear stack</button>
+      </div>
+    )
+  }
+
+  return <Demo />
 })

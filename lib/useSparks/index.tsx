@@ -6,12 +6,10 @@ import range from 'lodash/range'
 
 import Spark from './Spark'
 
-// ------------------------------------------------------------- # Basic types #
+// ------------------------------------------------------------------- # Types #
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 type Range = [number, number]
-
-// --------------------------------------------- # Default sparks options type #
 
 type DefaultSparksOptions = {
   ref: RefObject<HTMLElement>
@@ -34,8 +32,6 @@ export const defaultOptions: Omit<DefaultSparksOptions, 'ref' | 'shapes'> = {
   wind: [0, 0],
   mode: 'chunk',
 }
-
-// ----------------------------------------------------- # Sparks options type #
 
 type SparksOptions = Partial<DefaultSparksOptions> & {
   ref: RefObject<HTMLElement>

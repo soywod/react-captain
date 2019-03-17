@@ -32,7 +32,7 @@ function Demo() {
   }
 
   return (
-    <button onClick={debounce(handleClickOutside)}>
+    <button onClick={handleClickOutside}>
       Click outside...
     </button>
   )

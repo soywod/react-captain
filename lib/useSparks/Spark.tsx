@@ -5,11 +5,9 @@ import last from 'lodash/last'
 import random from 'lodash/random'
 import range from 'lodash/range'
 
-// ------------------------------------------------------------- # Basic types #
+// ------------------------------------------------------------------- # Types #
 
 type Range = [number, number]
-
-// ------------------------------------------------------------------- # Props #
 
 type Props = {
   origin: [number, number]
@@ -99,7 +97,7 @@ export default function(props: Props) {
   )
 }
 
-// --------------------------------------------------------- # Physics helpers #
+// ----------------------------------------------------------------- # Helpers #
 
 function generateOutputX(velocityX: number, windX: number, mass: number) {
   let delta = velocityX

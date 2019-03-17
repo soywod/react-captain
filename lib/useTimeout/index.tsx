@@ -3,12 +3,10 @@ import invokeMap from 'lodash/invokeMap'
 import noop from 'lodash/noop'
 import uuid from 'uuid/v4'
 
-// ------------------------------------------------------------- # Basic types #
+// ------------------------------------------------------------------- # Types #
 
 type Callback = (...args: any[]) => void
 type Timeouts = Map<String, NodeJS.Timeout>
-
-// -------------------------------------------- # Default timeout options type #
 
 type DefaultTimeoutOptions = {
   delay: number
@@ -22,8 +20,6 @@ export const defaultOptions: DefaultTimeoutOptions = {
   cancelable: false,
 }
 
-// ---------------------------------------------------- # Timeout options type #
-
 type TimeoutOptionsNonConcelable = Partial<DefaultTimeoutOptions> & {
   cancelable?: false
 }
@@ -35,8 +31,6 @@ type TimeoutOptionsCancelable = Partial<DefaultTimeoutOptions> & {
 export type TimeoutOptions =
   | TimeoutOptionsNonConcelable
   | TimeoutOptionsCancelable
-
-// ------------------------------------------------------ # Function overloads #
 
 type Timeout<T extends Callback> = (...params: Parameters<T>) => void
 type TimeoutCancelable<T extends Callback> = [Timeout<T>, () => void]

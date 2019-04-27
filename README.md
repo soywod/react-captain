@@ -1,33 +1,33 @@
 # React Captain :anchor:
-A collection of strongly typed and useful [React](https://reactjs.org/) [Hooks](https://reactjs.org/docs/hooks-intro.html).
+A collection of strongly typed and useful [React](https://reactjs.org/)
+[Hooks](https://reactjs.org/docs/hooks-intro.html).
 
-See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me)
+See live examples on
+[![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me)
 
 ## Table of contents
 
   - [Installation](#installation)
   - [Import](#import)
-  - [Hooks overview](#hooks-overview)
+  - [Main hooks overview](#main-hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
-    - [useSparks](#usesparks)
     - [useTimeout](#usetimeout)
     - useLocalStorage
     - useSessionStorage
     - useCookies
     - useInterval
     - useForm
+  - [Misc hooks overview](#misc-hooks-overview)
+    - [useSparks](#usesparks)
 
 ## Installation
 
-React and ReactDOM need to be installed first, since they are required as peer
-dependencies:
-
 ```bash
-npm install react react-dom
+yarn install react-captain
 
-# then
-npm install react-captain
+# Peer dependencies:
+# yarn install react react-dom react-spring
 ```
 
 ## Import
@@ -38,7 +38,7 @@ import {<hookName>} from 'react-captain'
 import <hookName> from 'react-captain/<hookName>'
 ```
 
-## Hooks overview
+## Main hooks overview
 ### [useClickOutside](https://github.com/soywod/react-captain/tree/master/lib/useClickOutside)
 
 Trigger callback on click outside from a HTMLElement.
@@ -71,6 +71,27 @@ const handlerWithDebounce = debounce(handler)
 const [handlerWithDebounce, cancel] = debounce(handler)
 ```
 
+### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
+
+Wrapper around `setTimeout`.
+
+```typescript
+type TimeoutOptions = {
+  delay?: number       // default: 250
+  persist?: boolean    // default: false
+  cancelable?: boolean // default: false
+}
+
+const timeout = useTimeout(options)
+
+// If cancelable = false
+const handlerWithTimeout = timeout(handler)
+
+// If cancelable = true
+const [handlerWithTimeout, cancel] = timeout(handler)
+```
+
+## Misc hooks overview
 ### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)
 
 Turn a HTMLElement into a particle generator.
@@ -91,24 +112,4 @@ type SparksOptions = {
 }
 
 const [enabled, switchOn] = useSparks(options)
-```
-
-### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
-
-Wrapper around `setTimeout`.
-
-```typescript
-type TimeoutOptions = {
-  delay?: number       // default: 250
-  persist?: boolean    // default: false
-  cancelable?: boolean // default: false
-}
-
-const timeout = useTimeout(options)
-
-// If cancelable = false
-const handlerWithTimeout = timeout(handler)
-
-// If cancelable = true
-const [handlerWithTimeout, cancel] = timeout(handler)
 ```

@@ -82,9 +82,9 @@ export default function(userOptions: SparksOptions) {
   useEffect(() => {
     if (isNil(ref.current) || !enabled) return
 
-    const {width, height} = ref.current.getBoundingClientRect()
-    const x = ref.current.offsetLeft + width * 0.5
-    const y = ref.current.offsetTop + height * 0.5
+    const {top, left, width, height} = ref.current.getBoundingClientRect()
+    const x = left + width * 0.5
+    const y = top + height * 0.5
 
     switch (mode) {
       case 'stream':

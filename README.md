@@ -12,10 +12,8 @@ See live examples on
   - [Main hooks overview](#main-hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
+    - [useStoredState](#usestoredstate)
     - [useTimeout](#usetimeout)
-    - useLocalStorage
-    - useSessionStorage
-    - useCookies
     - useInterval
     - useForm
   - [Misc hooks overview](#misc-hooks-overview)
@@ -69,6 +67,21 @@ const handlerWithDebounce = debounce(handler)
 
 // If cancelable = true
 const [handlerWithDebounce, cancel] = debounce(handler)
+```
+
+### [useStoredState](https://github.com/soywod/react-captain/tree/master/lib/useStoredState)
+
+A persistant useState.
+
+```typescript
+type StorageOptions =
+  | string
+  | {
+      name: string
+      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // Default: 'LOCAL'
+    }
+
+const [value, setValue] = useStoredState(options, defaultValue)
 ```
 
 ### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)

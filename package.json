@@ -16,6 +16,6 @@
     "start": "yarn workspace storybook start",
     "publish": "yarn workspace react-captain publish",
     "build:lib": "yarn workspace react-captain build",
-    "build:sb": "yarn workspace react-captain-storybook build"
+    "build:sb": "yarn workspace storybook build"
   }
 }

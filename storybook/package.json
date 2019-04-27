@@ -1,5 +1,5 @@
 {
-  "name": "react-captain-storybook",
+  "name": "storybook",
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
@@ -11,9 +11,6 @@
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__react": "^4.0.1",
     "babel-loader": "^8.0.5",
-    "react": "^16.8.3",
-    "react-captain": "0.0.21-alpha",
-    "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
   },
   "scripts": {

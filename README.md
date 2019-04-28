@@ -12,9 +12,9 @@ See live examples on
   - [Main hooks overview](#main-hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
+    - [useInterval](#useinterval)
     - [useStoredState](#usestoredstate)
     - [useTimeout](#usetimeout)
-    - useInterval
     - useForm
   - [Misc hooks overview](#misc-hooks-overview)
     - [useSparks](#usesparks)
@@ -69,6 +69,21 @@ const handlerWithDebounce = debounce(handler)
 const [handlerWithDebounce, cancel] = debounce(handler)
 ```
 
+### [useInterval](https://github.com/soywod/react-captain/tree/master/lib/useInterval)
+
+A wrapper around `setInterval`.
+
+```typescript
+type IntervalOptions =
+  | number                // default: 1000
+  | {
+    frequency?: number    // default: 1000
+    autoStart?: boolean   // default: false
+  }
+
+const [enable, setEnable] = useInterval(callback, options)
+```
+
 ### [useStoredState](https://github.com/soywod/react-captain/tree/master/lib/useStoredState)
 
 A persistant useState.
@@ -86,7 +101,7 @@ const [value, setValue] = useStoredState(options, defaultValue)
 
 ### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
 
-Wrapper around `setTimeout`.
+A wrapper around `setTimeout`.
 
 ```typescript
 type TimeoutOptions = {

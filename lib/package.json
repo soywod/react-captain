@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,
@@ -15,7 +15,9 @@
     "typed",
     "useClickOutside",
     "useDebounce",
+    "useInterval",
     "useSparks",
+    "useStoredState",
     "useTimeout"
   ],
   "homepage": "https://github.com/soywod/react-captain",
@@ -33,8 +35,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-spring": "^8.0.15"
   },
   "devDependencies": {

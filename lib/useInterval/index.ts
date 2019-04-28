@@ -2,10 +2,10 @@ import {useEffect, useRef, useState} from 'react'
 import getOr from 'lodash/fp/getOr'
 import isNumber from 'lodash/fp/isNumber'
 
-import {Callback, IntervalOptions} from './types'
+import {IntervalCallback, IntervalOptions} from './types'
 import {clearIntervalSafe} from './utils'
 
-export default function(callback: Callback, options?: IntervalOptions) {
+export default function(callback: IntervalCallback, options?: IntervalOptions) {
   const timeout = useRef<NodeJS.Timeout | null>(null)
   const state = useState(false)
 
@@ -34,3 +34,5 @@ export default function(callback: Callback, options?: IntervalOptions) {
 
   return state
 }
+
+export {IntervalCallback, IntervalOptions}

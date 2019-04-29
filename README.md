@@ -81,7 +81,7 @@ return (
   <Form onSubmit={user => console.log(user)}>
     <TextField name="firstName" label="First name" required />
     <TextField name="lastName" label="Last name" required  />
-    <TextField name="email" label="Email" required fullWidth />
+    <TextField name="email" label="Email" type="email" required fullWidth />
 
     <button type="submit">Submit</button>
   </Form>

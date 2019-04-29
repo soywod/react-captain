@@ -1,6 +1,13 @@
-# useForm
+# useForm (beta)
 
-A strongly typed form composer.
+A strongly typed form composer. Available components:
+
+  - [X] TextField
+  - [ ] TextAreaField
+  - [ ] DateField
+  - [ ] NumberField
+  - [ ] Select
+  - [ ] Switch
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useForm&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
@@ -18,22 +25,18 @@ function useForm<T>(defaultModel?: T | null)
   submit: () => void                  // Helper to trigger manually the form
   useTextField: UseTextField<T>       // A TextField hook component
 }
-```
 
-### FormProps
+// --------------------------------------------------------------- # FormProps #
 
-```typescript
 type FormProps<T> = {
   className?: string
   children?: ReactNode
   onChange?: (model: T) => void
   onSubmit?: (model: T) => void
 }
-```
 
-### UseTextField
+// ------------------------------------------------------------ # UseTextField #
 
-```typescript
 type UseTextField<T> = <U>(
   component?: TextFieldComponent<T, U> | null,
 ) => PartialTextFieldComponent<T, U>

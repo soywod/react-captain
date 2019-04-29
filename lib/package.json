@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,
@@ -40,6 +40,7 @@
     "react-spring": "^8.0.15"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.7",
     "@types/localforage": "^0.0.34",
     "@types/lodash": "^4.14.121",
     "@types/node": "11.9.5",
@@ -47,6 +48,7 @@
     "react-spring": "^8.0.15"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "localforage": "^1.7.3",
     "lodash": "^4.17.11",
     "uuid": "^3.3.2"

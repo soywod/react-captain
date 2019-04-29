@@ -1,49 +1,91 @@
-# useTimeout
+# useForm
 
-Wrapper around `setTimeout`.
+A strongly typed form composer.
 
-See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useTimeout&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useForm&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
 ## Parameters
 
 ```typescript
-type TimeoutOptions = {
-  delay?: number       // Delay in ms, default: 250
-  persist?: boolean    // Should trigger .persist() method if exists, default: false
-  cancelable?: boolean // Provide a method to cancel all pending timeouts, default: false
-}
-
-function useTimeout(options?: TimeoutOptions)
+function useForm<T>(defaultModel?: T | null)
 ```
 
 ## Return
 
 ```typescript
+{
+  Form: FunctionComponent<FormProps>  // The form component
+  submit: () => void                  // Helper to trigger manually the form
+  useTextField: UseTextField<T>       // A TextField hook component
+}
+```
 
-type Timeout<T> = (...params: Parameters<T>) => void
+### FormProps
 
-# Depending on cancelable option:
-function timeout<T>(T): Timeout<T> | [Timeout<T>, () => void]
+```typescript
+type FormProps<T> = {
+  className?: string
+  children?: ReactNode
+  onChange?: (model: T) => void
+  onSubmit?: (model: T) => void
+}
+```
+
+### UseTextField
+
+```typescript
+type UseTextField<T> = <U>(
+  component?: TextFieldComponent<T, U> | null,
+) => PartialTextFieldComponent<T, U>
+
+type TextFieldComponent<T, U> = FunctionComponent<TextFieldProps<T> & U>
+type TextFieldProps<T> = {
+  name: string & keyof T
+  label: string
+  value: string | null | undefined
+  onChange: (value: string | null) => void
+}
+
+type PartialTextFieldComponent<T, U> = FunctionComponent<PartialTextFieldProps<T> & U>
+type PartialTextFieldProps<T> = {
+  name: string & keyof T
+  label: string
+  value?: string | null | undefined
+  onChange?: (value: string | null) => void
+}
 ```
 
 ## Usage
 
 ```typescript
-import {useTimeout} from 'react-captain'
+import {useForm} from 'react-captain'
 // or
-import useTimeout from 'react-captain/useTimeout'
+import useForm from 'react-captain/useForm'
 
-function Demo() {
-  const timeout = useTimeout({persist: true})
+type User = {
+  firstName: string
+  lastName: string
+  email: string
+}
 
-  function handleClick() {
-    console.log('Clicked!')
-  }
+const defaultUser: User = {
+  firstName: '',
+  lastName: '',
+  email: '',
+}
+
+export default function() {
+  const {Form, useTextField} = useForm(defaultUser)
+  const TextField = useTextField()
 
   return (
-    <button onClick={timeout(handleClick)}>
-      Click me...
-    </button>
+    <Form onSubmit={user => console.log(user)}>
+      <TextField name="firstName" label="First name" required />
+      <TextField name="lastName" label="Last name" required  />
+      <TextField name="email" label="Email" required fullWidth />
+
+      <button type="submit">Submit</button>
+    </Form>
   )
 }
 ```

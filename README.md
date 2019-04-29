@@ -12,10 +12,10 @@ See live examples on
   - [Main hooks overview](#main-hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
+    - [useForm](#useform)
     - [useInterval](#useinterval)
     - [useStoredState](#usestoredstate)
     - [useTimeout](#usetimeout)
-    - useForm
   - [Misc hooks overview](#misc-hooks-overview)
     - [useSparks](#usesparks)
 
@@ -67,6 +67,25 @@ const handlerWithDebounce = debounce(handler)
 
 // If cancelable = true
 const [handlerWithDebounce, cancel] = debounce(handler)
+```
+
+### [useForm](https://github.com/soywod/react-captain/tree/master/lib/useForm)
+
+A strongly typed form composer.
+
+```typescript
+const {Form, useTextField} = useForm(defaultUser)
+const TextField = useTextField(CustomTextField)
+
+return (
+  <Form onSubmit={user => console.log(user)}>
+    <TextField name="firstName" label="First name" required />
+    <TextField name="lastName" label="Last name" required  />
+    <TextField name="email" label="Email" required fullWidth />
+
+    <button type="submit">Submit</button>
+  </Form>
+)
 ```
 
 ### [useInterval](https://github.com/soywod/react-captain/tree/master/lib/useInterval)

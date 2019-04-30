@@ -5,7 +5,7 @@ A strongly typed form composer. Available components:
   - [X] TextField
   - [ ] TextAreaField
   - [ ] DateField
-  - [ ] NumberField
+  - [X] NumberField
   - [ ] Select
   - [ ] Switch
 
@@ -23,10 +23,9 @@ function useForm<T>(defaultModel?: T | null)
 {
   Form: FunctionComponent<FormProps>  // The form component
   submit: () => void                  // Helper to trigger manually the form
-  useTextField: UseTextField<T>       // A TextField hook component
+  useTextField: UseTextField          // A TextField hook component
+  useNumberField: UseNumberField      // A NumberField hook component
 }
-
-// --------------------------------------------------------------- # FormProps #
 
 type FormProps<T> = {
   className?: string
@@ -35,27 +34,8 @@ type FormProps<T> = {
   onSubmit?: (model: T) => void
 }
 
-// ------------------------------------------------------------ # UseTextField #
-
-type UseTextField<T> = <U>(
-  component?: TextFieldComponent<T, U> | null,
-) => PartialTextFieldComponent<T, U>
-
-type TextFieldComponent<T, U> = FunctionComponent<TextFieldProps<T> & U>
-type TextFieldProps<T> = {
-  name: string & keyof T
-  label: string
-  value: string | null | undefined
-  onChange: (value: string | null) => void
-}
-
-type PartialTextFieldComponent<T, U> = FunctionComponent<PartialTextFieldProps<T> & U>
-type PartialTextFieldProps<T> = {
-  name: string & keyof T
-  label: string
-  value?: string | null | undefined
-  onChange?: (value: string | null) => void
-}
+type UseTextField<T> = (component?: CustomTextFieldComponent) => TextFieldComponent 
+type UseNumberField<T> = (component?: CustomNumberFieldComponent) => NumberFieldComponent 
 ```
 
 ## Usage
@@ -66,26 +46,27 @@ import {useForm} from 'react-captain'
 import useForm from 'react-captain/useForm'
 
 type User = {
-  firstName: string
-  lastName: string
-  email: string
+  firstName: string | null
+  lastName: string | null
+  phone: number | null
 }
 
 const defaultUser: User = {
-  firstName: '',
-  lastName: '',
-  email: '',
+  firstName: null,
+  lastName: null,
+  phone: null,
 }
 
 export default function() {
-  const {Form, useTextField} = useForm(defaultUser)
-  const TextField = useTextField()
+  const {Form, ...form} = useForm(defaultUser)
+  const TextField = form.useTextField()
+  const NumberField = form.useNumberField()
 
   return (
     <Form onSubmit={user => console.log(user)}>
       <TextField name="firstName" label="First name" required />
       <TextField name="lastName" label="Last name" required  />
-      <TextField name="email" label="Email" required fullWidth />
+      <NumberField name="phone" label="Phone" required />
 
       <button type="submit">Submit</button>
     </Form>

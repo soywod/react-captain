@@ -1,4 +1,4 @@
-import React, {ReactNode, FunctionComponent, createContext, useRef} from 'react'
+import React, {createContext, useRef} from 'react'
 import useDebounce from 'react-captain/useDebounce'
 import classNames from 'classnames'
 import assign from 'lodash/assign'
@@ -6,16 +6,7 @@ import noop from 'lodash/fp/noop'
 import isNull from 'lodash/fp/isNull'
 import cloneDeep from 'lodash/fp/cloneDeep'
 
-import Context, {ModelValue} from './Context'
-
-type FormEvent = React.FormEvent<HTMLFormElement>
-export type FormComponent<T> = FunctionComponent<FormProps<T>>
-export type FormProps<T> = {
-  className?: string
-  children?: ReactNode
-  onChange?: (model: T) => void
-  onSubmit?: (model: T) => void
-}
+import {FormContext as Context, FormProps} from './types'
 
 export default function<T>(defaultModel: T | null) {
   const FormContext = createContext<Context<T>>([defaultModel, noop])
@@ -27,14 +18,14 @@ export default function<T>(defaultModel: T | null) {
     const triggerFormChange = debounce(props.onChange || noop)
     const submit = props.onSubmit || noop
 
-    function setModelPart(key: keyof T, value: ModelValue) {
+    function setModelPart<U>(key: keyof T, value: U) {
       if (!isNull(model.current)) {
         assign(model.current, {[key]: value})
         triggerFormChange(model.current)
       }
     }
 
-    async function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault()
       if (!model.current) return
 

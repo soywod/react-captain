@@ -1,15 +1,8 @@
 # useForm (beta)
 
-A strongly typed form composer. Available components:
+A strongly typed form composer.
 
-  - [X] TextField
-  - [ ] TextAreaField
-  - [ ] DateField
-  - [X] NumberField
-  - [ ] Select
-  - [ ] Switch
-
-See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useForm&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
+See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useForm&selectedStory=Basic&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
 ## Parameters
 
@@ -21,10 +14,9 @@ function useForm<T>(defaultModel?: T | null)
 
 ```typescript
 {
-  Form: FunctionComponent<FormProps>  // The form component
-  submit: () => void                  // Helper to trigger manually the form
-  useTextField: UseTextField          // A TextField hook component
-  useNumberField: UseNumberField      // A NumberField hook component
+  Form: FunctionComponent<FormProps>                // The form component
+  submit: () => void                                // Helper to trigger manually the form
+  useComponent: (component?: CustomField) => Field  // A TextField hook component
 }
 
 type FormProps<T> = {
@@ -33,9 +25,6 @@ type FormProps<T> = {
   onChange?: (model: T) => void
   onSubmit?: (model: T) => void
 }
-
-type UseTextField<T> = (component?: CustomTextFieldComponent) => TextFieldComponent 
-type UseNumberField<T> = (component?: CustomNumberFieldComponent) => NumberFieldComponent 
 ```
 
 ## Usage
@@ -58,9 +47,9 @@ const defaultUser: User = {
 }
 
 export default function() {
-  const {Form, ...form} = useForm(defaultUser)
-  const TextField = form.useTextField()
-  const NumberField = form.useNumberField()
+  const {Form, useComponent} = useForm(defaultUser)
+  const TextField = useComponent(CustomTextField)
+  const NumberField = useComponent(CustomNumberField)
 
   return (
     <Form onSubmit={user => console.log(user)}>
@@ -73,3 +62,7 @@ export default function() {
   )
 }
 ```
+
+See custom field examples:
+  - [Basic field](https://github.com/soywod/react-captain/tree/master/storybook/src/useForm/basic).
+  - [Material-UI fields](https://github.com/soywod/react-captain/tree/master/storybook/src/useForm/material-ui)

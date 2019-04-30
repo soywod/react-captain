@@ -1,33 +1,30 @@
 import React, {useContext, useState} from 'react'
 import getOr from 'lodash/fp/getOr'
+import isEmpty from 'lodash/fp/isEmpty'
 import isNil from 'lodash/fp/isNil'
 import noop from 'lodash/fp/noop'
 
-import useDebounce from '../../../lib/useDebounce'
-import {FormContext} from '../types'
+import useDebounce from '../../lib/useDebounce'
 import {
+  FormContext,
   FieldProps,
   FieldComponent,
   PartialFieldProps,
-  DefaultFieldComponent,
 } from './types'
 
-export default function<T, V>(
-  context: React.Context<FormContext<T>>,
-  DefaultField: DefaultFieldComponent<V>,
-) {
-  return function<U>(CustomField?: FieldComponent<T, U, V> | null) {
-    return (props: PartialFieldProps<T, U, V>) => {
+export default function<T>(context: React.Context<FormContext<T>>) {
+  return function<V, U = {}>(Component: FieldComponent<T, V, U>) {
+    return (props: PartialFieldProps<T, V, U>) => {
       const debounce = useDebounce({persist: true})
       const {name, label} = props
       const handleChangeParent = debounce(props.onChange || noop)
-      const Field = CustomField || DefaultField
 
       const [defaultModel, setModelPart] = useContext(context)
       const defaultValue: V | null = getOr(null, name, defaultModel)
       const [value, setValue] = useState(defaultValue)
 
-      function handleChange(nextValue: V | null) {
+      function handleChange(value: V | null | undefined) {
+        const nextValue = parseValue(value)
         setValue(nextValue)
 
         if (!isNil(defaultModel)) {
@@ -36,8 +33,14 @@ export default function<T, V>(
         }
       }
 
+      function parseValue(value: V | null | undefined) {
+        if (isNil(value)) return null
+        if (isEmpty(String(value).trim())) return null
+        return value
+      }
+
       return (
-        <Field
+        <Component
           disabled={isNil(defaultModel)}
           {...props}
           name={name}

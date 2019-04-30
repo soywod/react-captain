@@ -74,14 +74,13 @@ const [handlerWithDebounce, cancel] = debounce(handler)
 A strongly typed form composer.
 
 ```typescript
-const {Form, useTextField} = useForm(defaultUser)
-const TextField = useTextField(CustomTextField)
+const {Form, useComponent} = useForm(defaultUser)
+const TextField = useComponent(CustomTextField)
 
 return (
   <Form onSubmit={user => console.log(user)}>
     <TextField name="firstName" label="First name" required />
     <TextField name="lastName" label="Last name" required  />
-    <TextField name="email" label="Email" type="email" required fullWidth />
 
     <button type="submit">Submit</button>
   </Form>

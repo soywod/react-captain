@@ -16,6 +16,7 @@ See live examples on
     - [useInterval](#useinterval)
     - [useStoredState](#usestoredstate)
     - [useTimeout](#usetimeout)
+    - [useToggle](#usetoggle)
   - [Misc hooks overview](#misc-hooks-overview)
     - [useSparks](#usesparks)
 
@@ -135,6 +136,20 @@ const handlerWithTimeout = timeout(handler)
 
 // If cancelable = true
 const [handlerWithTimeout, cancel] = timeout(handler)
+```
+
+### [useToggle](https://github.com/soywod/react-captain/tree/master/lib/useToggle)
+
+A toggler built on `useState`.
+
+```typescript
+const [toggleOn, toggle] = useToggle(false)
+
+// To toggle:
+toggle()
+
+// To force a toggle state:
+toggle(true | false)
 ```
 
 ## Misc hooks overview

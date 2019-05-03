@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,
@@ -18,7 +18,8 @@
     "useInterval",
     "useSparks",
     "useStoredState",
-    "useTimeout"
+    "useTimeout",
+    "useToggle"
   ],
   "homepage": "https://github.com/soywod/react-captain",
   "repository": {

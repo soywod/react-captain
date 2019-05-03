@@ -1,7 +1,7 @@
 import React, {RefObject, useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
-import isArray from 'lodash/isArray'
-import isNil from 'lodash/isNil'
+import getOr from 'lodash/fp/getOr'
+import isArray from 'lodash/fp/isArray'
 import range from 'lodash/range'
 
 import Spark from './Spark'
@@ -59,6 +59,7 @@ export default function(userOptions: SparksOptions) {
         duration={duration}
         mass={mass}
         wind={wind}
+        zIndex={getOr(0, 'style.zIndex', ref.current) - 1}
       />
     )
   }
@@ -79,21 +80,30 @@ export default function(userOptions: SparksOptions) {
     })
   }
 
-  useEffect(() => {
-    if (isNil(ref.current) || !enabled) return
-
-    const {top, left, width, height} = ref.current.getBoundingClientRect()
+  function getOrigin(): [number, number] {
+    const {top, left, width, height} = ref.current!.getBoundingClientRect()
     const x = left + width * 0.5
     const y = top + height * 0.5
 
+    return [x, y]
+  }
+
+  useEffect(() => {
+    if (!ref.current) return
+    if (!enabled) return
+
     switch (mode) {
       case 'stream':
-        const spark = createSpark([x, y])
-        const timeout = setInterval(() => mountSparks([spark]), 1000 / quantity)
+        const timeout = setInterval(() => {
+          const origin = getOrigin()
+          const spark = createSpark(origin)
+          mountSparks([spark])
+        }, 1000 / quantity)
+
         return () => clearInterval(timeout)
 
       case 'chunk':
-        const sparks = createSparks([x, y])
+        const sparks = createSparks(getOrigin())
         mountSparks(sparks)
         switchOn(false)
     }

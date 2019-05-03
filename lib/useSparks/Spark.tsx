@@ -17,6 +17,7 @@ type Props = {
   duration: number
   mass: number
   wind: [number, number]
+  zIndex: number
 }
 
 // --------------------------------------------------------------- # Component #
@@ -24,7 +25,7 @@ type Props = {
 const SAMPLE_SIZE = 20
 
 export default function(props: Props) {
-  const {velocity, gravity, duration, mass, wind, shapes} = props
+  const {velocity, gravity, duration, mass, wind, shapes, zIndex} = props
 
   const ref = useRef<HTMLSpanElement | null>(null)
   const [left, setLeft] = useState(0)
@@ -88,6 +89,7 @@ export default function(props: Props) {
     top,
     opacity,
     transform,
+    zIndex,
   }
 
   return (

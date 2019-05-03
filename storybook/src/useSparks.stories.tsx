@@ -123,6 +123,7 @@ function Demo() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: '0 10%',
   }
 
   const col: CSSProperties = {display: 'flex'}

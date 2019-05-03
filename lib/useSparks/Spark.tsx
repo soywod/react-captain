@@ -17,7 +17,7 @@ type Props = {
   duration: number
   mass: number
   wind: [number, number]
-  zIndex: number
+  style: CSSProperties
 }
 
 // --------------------------------------------------------------- # Component #
@@ -25,7 +25,7 @@ type Props = {
 const SAMPLE_SIZE = 20
 
 export default function(props: Props) {
-  const {velocity, gravity, duration, mass, wind, shapes, zIndex} = props
+  const {velocity, gravity, duration, mass, wind, shapes} = props
 
   const ref = useRef<HTMLSpanElement | null>(null)
   const [left, setLeft] = useState(0)
@@ -82,14 +82,13 @@ export default function(props: Props) {
   )
 
   const style: CSSProperties = {
+    ...props.style,
     pointerEvents: 'none',
-    position: 'absolute',
     display: ref.current ? 'inline-block' : 'none',
     left,
     top,
     opacity,
     transform,
-    zIndex,
   }
 
   return (

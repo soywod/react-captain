@@ -1,4 +1,5 @@
-import React, {RefObject, useEffect, useState} from 'react'
+import React, {CSSProperties, RefObject} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import ReactDOM from 'react-dom'
 import getOr from 'lodash/fp/getOr'
 import isArray from 'lodash/fp/isArray'
@@ -12,7 +13,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 type Range = [number, number]
 
 type DefaultSparksOptions = {
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement> | [number, number]
   shapes: JSX.Element | JSX.Element[]
   velocity: [number | Range, number | Range]
   gravity: number
@@ -34,7 +35,7 @@ export const defaultOptions: Omit<DefaultSparksOptions, 'ref' | 'shapes'> = {
 }
 
 type SparksOptions = Partial<DefaultSparksOptions> & {
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement> | [number, number]
   shapes: JSX.Element | JSX.Element[]
 }
 
@@ -42,72 +43,108 @@ type SparksOptions = Partial<DefaultSparksOptions> & {
 
 export default function(userOptions: SparksOptions) {
   const options: DefaultSparksOptions = {...defaultOptions, ...userOptions}
-  const {ref, velocity, gravity, quantity, duration, mass, wind, mode} = options
   const shapes = isArray(options.shapes) ? options.shapes : [options.shapes]
 
+  const {quantity} = options
+  const optionsRef = useRef(options)
+  const timeout = useRef<NodeJS.Timeout | null>(null)
   const status = useState(false)
   const [enabled, switchOn] = status
 
-  function createSpark(origin: [number, number], key = 0) {
+  function createSpark(key = 0) {
+    const style: CSSProperties = {
+      zIndex: getOr(1, 'current.style.zIndex', options.ref) - 1,
+      position: isArray(options.ref) ? 'fixed' : 'absolute',
+    }
+
     return (
       <Spark
         key={key}
-        origin={origin}
+        origin={getOrigin()}
         shapes={shapes}
-        velocity={velocity}
-        gravity={gravity}
-        duration={duration}
-        mass={mass}
-        wind={wind}
-        zIndex={getOr(0, 'style.zIndex', ref.current) - 1}
+        velocity={optionsRef.current.velocity}
+        gravity={optionsRef.current.gravity}
+        duration={optionsRef.current.duration}
+        mass={optionsRef.current.mass}
+        wind={optionsRef.current.wind}
+        style={style}
       />
     )
   }
 
-  function createSparks(origin: [number, number]) {
-    return range(quantity).map(key => createSpark(origin, key))
+  function createSparks() {
+    return range(optionsRef.current.quantity).map(createSpark)
   }
 
   function mountSparks(sparks: JSX.Element[]) {
     const root = document.createElement('div')
 
     ReactDOM.render(sparks, root, () => {
-      if (ref.current) {
-        const fragment = document.createDocumentFragment()
-        Array.from(root.children).forEach(child => fragment.appendChild(child))
-        document.body.appendChild(fragment)
-      }
+      const fragment = document.createDocumentFragment()
+      Array.from(root.children).forEach(child => fragment.appendChild(child))
+      document.body.appendChild(fragment)
     })
   }
 
   function getOrigin(): [number, number] {
+    const {ref} = optionsRef.current
+    if (isArray(ref)) return ref
     const {top, left, width, height} = ref.current!.getBoundingClientRect()
-    const x = left + width * 0.5
-    const y = top + height * 0.5
-
-    return [x, y]
+    return [left + width * 0.5, top + height * 0.5]
   }
 
   useEffect(() => {
-    if (!ref.current) return
+    return () => clearIntervalSafe(timeout.current)
+  }, [])
+
+  useEffect(() => {
+    optionsRef.current = {...defaultOptions, ...userOptions}
+  }, [userOptions])
+
+  useEffect(() => {
+    clearIntervalSafe(timeout.current)
     if (!enabled) return
 
-    switch (mode) {
+    switch (optionsRef.current.mode) {
       case 'stream':
-        const timeout = setInterval(() => {
-          const origin = getOrigin()
-          const spark = createSpark(origin)
+        timeout.current = setInterval(() => {
+          const spark = createSpark()
           mountSparks([spark])
         }, 1000 / quantity)
-
-        return () => clearInterval(timeout)
+        break
 
       case 'chunk':
-        const sparks = createSparks(getOrigin())
+        const sparks = createSparks()
         mountSparks(sparks)
         switchOn(false)
+        break
     }
-  }, [ref.current, enabled, userOptions])
+  }, [enabled, quantity])
+
+  /* useEffect(() => { */
+  /*   if (!enabled) return */
+
+  /*   switch (mode) { */
+  /*     case 'stream': */
+  /*       const timeout = setInterval(() => { */
+  /*         const spark = createSpark(getOrigin()) */
+  /*         mountSparks([spark]) */
+  /*       }, 1000 / quantity) */
+
+  /*       return () => clearInterval(timeout) */
+
+  /*     case 'chunk': */
+  /*       const sparks = createSparks(getOrigin()) */
+  /*       mountSparks(sparks) */
+  /*       switchOn(false) */
+  /*   } */
+  /* }, [enabled, userOptions]) */
 
   return status
+}
+
+function clearIntervalSafe(timeout: NodeJS.Timeout | null) {
+  if (timeout) {
+    clearInterval(timeout)
+  }
 }

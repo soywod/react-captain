@@ -10,15 +10,15 @@ See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@
 type Range = [number, number]
 
 type SparksOptions = {
-  ref: RefObject<HTMLElement>                 // The target element
-  shapes: JSX.Element | JSX.Element[]         // The particle element list (one is taken randomly by the hook on mount)
-  velocity?: [number | Range, number | Range] // The speed vector, default: [[-10, 10], [17, 23]]
-  gravity?: number                            // The gravity, default: 2
-  quantity?: number                           // The amount (unit/s in stream mode, unit in chunk mode), default: 10
-  duration?: number                           // The duration in ms, default: 1000
-  mass?: number                               // The particle mass factor, default: 0.96
-  wind?: [x: number, y: number]               // The wind vector, default: [0, 0]
-  mode?: 'chunk' | 'stream'                   // The mode (stream = infinite flow, chunk = finite block), default: 'chunk'
+  shapes: JSX.Element | JSX.Element[]             // The particle element list (one is taken randomly by the hook on mount)
+  ref: RefObject<HTMLElement> | [number, number]  // The reference (can be a RefObject or coordinates)
+  velocity?: [number | Range, number | Range]     // The speed vector, default: [[-10, 10], [17, 23]]
+  gravity?: number                                // The gravity, default: 2
+  quantity?: number                               // The amount (unit/s in stream mode, unit in chunk mode), default: 10
+  duration?: number                               // The duration in ms, default: 1000
+  mass?: number                                   // The particle mass factor, default: 0.96
+  wind?: [number, number]                         // The wind vector, default: [0, 0]
+  mode?: 'chunk' | 'stream'                       // The mode (stream = infinite flow, chunk = finite block), default: 'chunk'
 }
 
 function useSparks(options?: SparksOptions)

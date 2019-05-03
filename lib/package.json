@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "0.2.2",
+  "version": "0.2.6",
   "description": "A collection of strongly typed and useful React Hooks.",
   "license": "MIT",
   "private": false,

@@ -161,15 +161,15 @@ Turn a HTMLElement into a particle generator.
 type Range = [number, number]
 
 type SparksOptions = {
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement> | [number, number]  // the reference (can be a RefObject or coordinates)
   shapes: JSX.Element | JSX.Element[]
-  velocity?: [number | Range, number | Range] // default: [[-10, 10], [17, 23]]
-  gravity?: number                            // default: 2
-  quantity?: number                           // default: 10
-  duration?: number                           // default: 1000
-  mass?: number                               // default: 0.96
-  wind?: [x: number, y: number]               // default: [0, 0]
-  mode?: 'chunk' | 'stream'                   // default: 'chunk'
+  velocity?: [number | Range, number | Range]     // default: [[-10, 10], [17, 23]]
+  gravity?: number                                // default: 2
+  quantity?: number                               // default: 10
+  duration?: number                               // default: 1000
+  mass?: number                                   // default: 0.96
+  wind?: [number, number]                         // default: [0, 0]
+  mode?: 'chunk' | 'stream'                       // default: 'chunk'
 }
 
 const [enabled, switchOn] = useSparks(options)

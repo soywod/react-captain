@@ -56,7 +56,6 @@ function Demo() {
   const [mode, setMode] = useState<'stream' | 'chunk'>('chunk')
 
   const [enabled, switchOn] = useSparks({
-    ref,
     velocity: [[velocityMinX, velocityMaxX], [velocityMinY, velocityMaxY]],
     gravity,
     quantity,
@@ -64,6 +63,7 @@ function Demo() {
     mass,
     wind: [windX, windY],
     mode,
+    ref,
     shapes: [
       <Star color="#e91e63" />,
       <Star color="#2196f3" />,
@@ -136,7 +136,11 @@ function Demo() {
   return (
     <div>
       <div style={container}>
-        <button ref={ref} onClick={() => switchOn(!enabled)}>
+        <button
+          ref={ref}
+          onClick={() => switchOn(!enabled)}
+          style={{zIndex: 3}}
+        >
           Click me...
         </button>
       </div>

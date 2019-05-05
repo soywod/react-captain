@@ -1,29 +1,23 @@
-# useForm (beta)
+# useForm
 
 A strongly typed form composer.
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useForm&selectedStory=Basic&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
-## Parameters
+## Definition
 
 ```typescript
-function useForm<T>(defaultModel?: T | null)
-```
-
-## Return
-
-```typescript
-{
-  Form: FunctionComponent<FormProps>                // The form component
-  submit: () => void                                // Helper to trigger manually the form
-  useComponent: (component?: CustomField) => Field  // A TextField hook component
-}
-
 type FormProps<T> = {
   className?: string
   children?: ReactNode
   onChange?: (model: T) => void
   onSubmit?: (model: T) => void
+}
+
+function useForm<T>(defaultModel?: T | null): {
+  Form: FunctionComponent<FormProps>
+  submit: () => void
+  useField: (field?: CustomField) => Field
 }
 ```
 
@@ -47,9 +41,9 @@ const defaultUser: User = {
 }
 
 export default function() {
-  const {Form, useComponent} = useForm(defaultUser)
-  const TextField = useComponent(CustomTextField)
-  const NumberField = useComponent(CustomNumberField)
+  const {Form, useField} = useForm(defaultUser)
+  const TextField = useField(CustomTextField)
+  const NumberField = useField(CustomNumberField)
 
   return (
     <Form onSubmit={user => console.log(user)}>

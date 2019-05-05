@@ -6,17 +6,17 @@ import noop from 'lodash/fp/noop'
 
 import useDebounce from '../../lib/useDebounce'
 import {
-  FormContext,
-  FieldProps,
   FieldComponent,
+  FieldProps,
+  FormContext,
   PartialFieldProps,
 } from './types'
 
 export default function<T>(context: React.Context<FormContext<T>>) {
-  return function<V, U = {}>(Component: FieldComponent<T, V, U>) {
+  return function<V, U = {}>(Field: FieldComponent<T, V, U>) {
     return (props: PartialFieldProps<T, V, U>) => {
-      const debounce = useDebounce({persist: true})
       const {name, label} = props
+      const debounce = useDebounce({persist: true})
       const handleChangeParent = debounce(props.onChange || noop)
 
       const [defaultModel, setModelPart] = useContext(context)
@@ -40,7 +40,7 @@ export default function<T>(context: React.Context<FormContext<T>>) {
       }
 
       return (
-        <Component
+        <Field
           disabled={isNil(defaultModel)}
           {...props}
           name={name}

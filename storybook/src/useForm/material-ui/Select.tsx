@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 
 import {FieldComponent} from '../../../../lib/useForm'
-import {User, Civility} from '../User'
+import {Civility, User} from '../User'
 
 const CustomField: FieldComponent<User, Civility, SelectProps> = props => (
   <FormControl variant="outlined">

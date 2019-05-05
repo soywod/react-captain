@@ -1,4 +1,4 @@
-import {ReactNode, FunctionComponent} from 'react'
+import {FunctionComponent, ReactNode} from 'react'
 
 type DefaultModel<T> = T | null
 type SetModelPart<T> = <U>(key: keyof T, value: U) => void
@@ -28,7 +28,7 @@ type FieldOptionalProps<V> = {
   onChange: (value: V | null) => void
 }
 
-// ----------------------------------------------------- # Partial Field props #
+// ---------------------------------------------------------- # Partial fields #
 
 export type PartialFieldProps<T, V, U = {}> = OmitConflict<U> &
   FieldCommonProps<T> &
@@ -38,7 +38,7 @@ export type PartialFieldComponent<T, V, U = {}> = FunctionComponent<
   PartialFieldProps<T, V, OmitConflict<U>>
 >
 
-// ------------------------------------------------------------- # Field props #
+// ------------------------------------------------------------------ # Fields #
 
 export type FieldProps<T, V, U = {}> = OmitConflict<U> &
   FieldCommonProps<T> &

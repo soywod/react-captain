@@ -13,9 +13,9 @@ import MUISwitch from './material-ui/Switch'
 
 storiesOf('useForm', module).add('Basic', () => {
   function Demo() {
-    const {Form, useComponent} = useForm(defaultUser)
-    const TextField = useComponent(CustomTextField)
-    const NumberField = useComponent(CustomNumberField)
+    const {Form, useField} = useForm(defaultUser)
+    const TextField = useField(CustomTextField)
+    const NumberField = useField(CustomNumberField)
 
     return (
       <Form onSubmit={action('Submit')} onChange={action('Change')}>
@@ -32,9 +32,9 @@ storiesOf('useForm', module).add('Basic', () => {
 storiesOf('useForm', module).add('Async model', () => {
   function Demo() {
     const [user, setUser] = useState<User | null>(null)
-    const {Form, useComponent} = useForm(user)
-    const TextField = useComponent(CustomTextField)
-    const NumberField = useComponent(CustomNumberField)
+    const {Form, useField} = useForm(user)
+    const TextField = useField(CustomTextField)
+    const NumberField = useField(CustomNumberField)
 
     function fetchUser() {
       setUser({
@@ -64,10 +64,10 @@ storiesOf('useForm', module).add('Async model', () => {
 
 storiesOf('useForm', module).add('Material-UI', () => {
   function Demo() {
-    const {Form, useComponent} = useForm(defaultUser)
-    const Select = useComponent(MUISelect)
-    const TextField = useComponent(MUITextField)
-    const Switch = useComponent(MUISwitch)
+    const {Form, useField} = useForm(defaultUser)
+    const Select = useField(MUISelect)
+    const TextField = useField(MUITextField)
+    const Switch = useField(MUISwitch)
 
     return (
       <Form onSubmit={action('Submit')} onChange={action('Change')}>

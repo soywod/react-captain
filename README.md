@@ -109,7 +109,8 @@ const [toggleOn, toggle] = useInterval(callback, options)
 
 ### [useStoredState](https://github.com/soywod/react-captain/tree/master/lib/useStoredState)
 
-A persistant useState.
+A persistant useState, based on React's `useState` and
+[localForage](https://github.com/localForage/localForage).
 
 ```typescript
 type StoredStateOptions =

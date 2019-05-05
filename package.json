@@ -10,7 +10,10 @@
     "prettier": "^1.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "typescript": "3.3.3333"
+    "soywod-tslint-rules": "^2.0.2",
+    "tslint": "^5.16.0",
+    "typescript": "3.3.3333",
+    "typescript-language-server": "^0.3.7"
   },
   "scripts": {
     "start": "yarn workspace storybook start",

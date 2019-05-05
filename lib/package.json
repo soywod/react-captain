@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.7",
-    "@types/localforage": "^0.0.34",
     "@types/lodash": "^4.14.121",
     "@types/node": "11.9.5",
     "@types/uuid": "^3.4.4",

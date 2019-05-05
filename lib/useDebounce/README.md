@@ -4,25 +4,20 @@ Add debounce to a handler.
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useDebounce&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
-## Parameters
+## Definition
 
 ```typescript
-type DebounceOptions = {
-  delay?: number       // Delay in ms, default: 250
-  persist?: boolean    // Should trigger .persist() method if exists, default: false
-  cancelable?: boolean // Provide a method to cancel the pending timeout, default: false
-}
+type Callback<T> = (...params: Parameters<T>) => void
+type Cancel = () => void
+type Options =
+  | number                // Delay in ms, default: 250
+  | {
+    delay?: number        // Delay in ms, default: 250
+    persist?: boolean     // Should trigger .persist() if exists, default: false
+    cancelable?: boolean  // Provide a method to cancel the debounce, default: false
+  }
 
-function useDebounce(options?: DebounceOptions)
-```
-
-## Return
-
-```typescript
-type Debounce<T> = (...params: Parameters<T>) => void
-
-# Depending on cancelable option:
-function debounce<T>(T): Debounce<T> | [Debounce<T>, () => void]
+function useDebounce(options?: Options): Callback | [Callback, Cancel]
 ```
 
 ## Usage
@@ -33,7 +28,7 @@ import {useDebounce} from 'react-captain'
 import useDebounce from 'react-captain/useDebounce'
 
 function Demo() {
-  const debounce = useDebounce({persist: true})
+  const debounce = useDebounce(options)
 
   function handleClick() {
     console.log('Clicked!')
@@ -41,7 +36,7 @@ function Demo() {
 
   return (
     <button onClick={debounce(handleClick)}>
-      Click me...
+      Handle with debounce
     </button>
   )
 }

@@ -55,11 +55,13 @@ useClickOutside(ref, () => {
 Add debounce to a handler.
 
 ```typescript
-type DebounceOptions = {
-  delay?: number       // default: 250
-  persist?: boolean    // default: false
-  cancelable?: boolean // default: false
-}
+type DebounceOptions =
+  | number
+  | {
+    delay?: number
+    persist?: boolean
+    cancelable?: boolean
+  }
 
 const debounce = useDebounce(options)
 

@@ -1,19 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {storiesOf} from '@storybook/react'
 import {action} from '@storybook/addon-actions'
 
 import useDebounce from '../../lib/useDebounce'
 
-// ----------------------------------------------------------------- # Stories #
-
 storiesOf('useDebounce', module).add('Default', () => {
   function Demo() {
     const debounce = useDebounce()
-    const actionWithDebounce = debounce(action('Action'))
+    const load = debounce(() => console.log('Loaded'))
+
+    useEffect(() => {
+      load()
+    }, [load])
 
     return (
       <div>
-        <button onClick={() => actionWithDebounce()}>Click me...</button>
+        <button onClick={debounce(action('Action'))}>Click me...</button>
       </div>
     )
   }
@@ -28,7 +30,7 @@ storiesOf('useDebounce', module).add('Persist', () => {
 
     return (
       <div>
-        <button onClick={actionWithDebounce}>Click me...</button>
+        <button onClick={actionWithDebounce}>Debounce with .persist()</button>
       </div>
     )
   }
@@ -38,12 +40,17 @@ storiesOf('useDebounce', module).add('Persist', () => {
 
 storiesOf('useDebounce', module).add('Delay', () => {
   function Demo() {
-    const debounce = useDebounce({persist: true, delay: 1000})
-    const actionWithDebounce = debounce(action('Action'))
+    const debounceA = useDebounce(1000)
+    const debounceB = useDebounce({delay: 1000})
 
     return (
       <div>
-        <button onClick={actionWithDebounce}>Click me...</button>
+        <button onClick={debounceA(action('Action'))}>
+          Debounce 1s via number
+        </button>
+        <button onClick={debounceB(action('Action'))}>
+          Debounce 1s via object
+        </button>
       </div>
     )
   }
@@ -58,8 +65,8 @@ storiesOf('useDebounce', module).add('Cancelable', () => {
 
     return (
       <div>
-        <button onClick={actionWithDebounce}>Click me...</button>
-        <button onClick={() => cancel()}>Clear stack</button>
+        <button onClick={actionWithDebounce}>1s debounce</button>
+        <button onClick={cancel}>Cancel debounce</button>
       </div>
     )
   }

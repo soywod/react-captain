@@ -2,34 +2,20 @@ import {useEffect, useRef, useState} from 'react'
 import localForage from 'localforage'
 import getOr from 'lodash/fp/getOr'
 import isString from 'lodash/fp/isString'
+import noop from 'lodash/fp/noop'
 
-// ------------------------------------------------------------------- # Types #
+import useDebounce from '../useDebounce'
+import {StoredStateDriver, StoredStateOptions} from './types'
 
-type StorageDriver = 'LOCAL' | 'WEBSQL' | 'INDEXEDDB'
-type StorageOptions =
-  | string
-  | {
-      name: string
-      driver?: StorageDriver
-    }
-
-// -------------------------------------------------------------------- # Hook #
-
-function getDriver(driver: StorageDriver) {
-  switch (driver) {
-    case 'LOCAL':
-      return localForage.LOCALSTORAGE
-    case 'WEBSQL':
-      return localForage.WEBSQL
-    case 'INDEXEDDB':
-      return localForage.INDEXEDDB
-  }
-}
-
-export default function<T>(options: StorageOptions, defaultState?: T | null) {
+function useStoredState<T>(
+  options: StoredStateOptions,
+  defaultState?: T | null,
+) {
+  const debounce = useDebounce(500)
   const hookState = useState<T | null>(defaultState || null)
   const storage = useRef<LocalForage | null>(null)
   const name = isString(options) ? options : options.name
+  const updateState = debounce(storage.current ? storage.current.setItem : noop)
   const [state, setState] = hookState
 
   async function initState() {
@@ -44,10 +30,21 @@ export default function<T>(options: StorageOptions, defaultState?: T | null) {
   }, [])
 
   useEffect(() => {
-    if (storage.current) {
-      storage.current.setItem(name, state)
-    }
+    updateState(name, state)
   }, [state])
 
   return hookState
 }
+
+function getDriver(driver: StoredStateDriver) {
+  switch (driver) {
+    case 'LOCAL':
+      return localForage.LOCALSTORAGE
+    case 'WEBSQL':
+      return localForage.WEBSQL
+    case 'INDEXEDDB':
+      return localForage.INDEXEDDB
+  }
+}
+
+export default useStoredState

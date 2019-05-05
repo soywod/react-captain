@@ -6,23 +6,18 @@ localStorage, WebSQL and IndexedDB.
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useStoredState&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
-## Parameters
+## Definition
 
 ```typescript
-type StorageOptions =
-  | string
+type UseStoredState = [T | null, Dispatch<SetStateAction<T | null>>]
+type StoredStateOptions =
+  | string                                      // Key used to store the state
   | {
-      name: string
-      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // Default: 'LOCAL'
+      name: string                              // Key used to store the state
+      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // Driver, default: 'LOCAL'
     }
 
-function useStoredState<T>(options?: StorageOptions, defaultState?: T | null)
-```
-
-## Return
-
-```typescript
-[T | null, Dispatch<SetStateAction<T | null>>]
+function useStoredState<T>(options: StoredStateOptions, defaultState?: T | null): UseStoredState
 ```
 
 ## Usage

@@ -112,7 +112,7 @@ const [toggleOn, toggle] = useInterval(callback, options)
 A persistant useState.
 
 ```typescript
-type StorageOptions =
+type StoredStateOptions =
   | string
   | {
       name: string

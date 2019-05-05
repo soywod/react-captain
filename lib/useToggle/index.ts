@@ -3,7 +3,7 @@ import isBoolean from 'lodash/fp/isBoolean'
 
 import {ToggleState} from './types'
 
-export default function(defaultToggleOn?: boolean): ToggleState {
+function useToggle(defaultToggleOn?: boolean): ToggleState {
   const [toggleOn, setToggle] = useState(Boolean(defaultToggleOn))
 
   function toggle(forceToggleOn?: any) {
@@ -12,3 +12,5 @@ export default function(defaultToggleOn?: boolean): ToggleState {
 
   return [toggleOn, toggle]
 }
+
+export default useToggle

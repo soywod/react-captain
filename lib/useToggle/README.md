@@ -4,16 +4,10 @@ A toggler built on `useState`.
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useToggle&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
-## Parameters
+## Definition
 
 ```typescript
-function useToggle(defaultToggleOn?: boolean)
-```
-
-## Return
-
-```typescript
-type ToggleState = [boolean, (toggleOn?: boolean) => void]
+function useToggle(defaultToggleOn?: boolean): [boolean, (toggleOn?: boolean) => void]
 ```
 
 ## Usage
@@ -31,14 +25,14 @@ function Demo() {
   }
 
   return (
-    <>
+    <div>
       <button onClick={toggle}>
-        {toggleOn ? 'Switch ON' : 'Switch OFF'}
+        Switch status: {toggleOn ? 'ON' : 'OFF'}
       </button>
       <button onClick={resetToggle}>
         Reset toggle
       </button>
-    </>
+    </div>
   )
 }
 ```

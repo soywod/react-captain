@@ -15,7 +15,8 @@ storiesOf('useToggle', module).add('Default', () => {
 
     return (
       <div>
-        <button onClick={toggle}>Switch {toggleOn ? 'ON' : 'OFF'}</button>
+        Status: {toggleOn ? 'ON' : 'OFF'}
+        <button onClick={toggle}>Toggle</button>
         <button onClick={resetToggle}>Reset toggle</button>
       </div>
     )

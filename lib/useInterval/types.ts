@@ -1,7 +1,7 @@
-type DefaultIntervalOptions = {
-  frequency: number
-  autoStart: boolean
+type BaseIntervalOptions = {
+  delay?: number
+  autoStart?: boolean
 }
 
 export type IntervalCallback = () => void
-export type IntervalOptions = number | Partial<DefaultIntervalOptions>
+export type IntervalOptions = number | BaseIntervalOptions

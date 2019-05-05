@@ -1,34 +1,32 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef} from 'react'
 import getOr from 'lodash/fp/getOr'
 import isNumber from 'lodash/fp/isNumber'
 
+import useToggle from '../useToggle'
+import {clearTimeoutSafe} from '../utils'
 import {IntervalCallback, IntervalOptions} from './types'
-import {clearIntervalSafe} from './utils'
 
-export default function(callback: IntervalCallback, options?: IntervalOptions) {
+function useInterval(callback: IntervalCallback, options?: IntervalOptions) {
   const timeout = useRef<NodeJS.Timeout | null>(null)
-  const state = useState(false)
-
-  const [enable, setEnable] = state
+  const state = useToggle(false)
+  const delay = isNumber(options) ? options : getOr(1000, 'delay', options)
   const autoStart = getOr(false, 'autoStart', options)
-  const frequency = isNumber(options)
-    ? options
-    : getOr(1000, 'frequency', options)
+  const [toggleOn, toggle] = state
 
   useEffect(() => {
-    if (enable) {
-      timeout.current = setInterval(callback, frequency)
+    if (toggleOn) {
+      timeout.current = setInterval(callback, delay)
     } else {
-      clearIntervalSafe(timeout.current)
+      clearTimeoutSafe(timeout.current)
       timeout.current = null
     }
 
-    return () => clearIntervalSafe(timeout.current)
-  }, [enable])
+    return () => clearTimeoutSafe(timeout.current)
+  }, [toggleOn])
 
   useEffect(() => {
     if (autoStart) {
-      setEnable(true)
+      toggle(true)
     }
   }, [])
 
@@ -36,3 +34,4 @@ export default function(callback: IntervalCallback, options?: IntervalOptions) {
 }
 
 export {IntervalCallback, IntervalOptions}
+export default useInterval

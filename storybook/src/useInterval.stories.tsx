@@ -6,15 +6,11 @@ import useInterval from '../../lib/useInterval'
 
 storiesOf('useInterval', module).add('Default', () => {
   function Demo() {
-    const [interval, enableInterval] = useInterval(action('Tick every 1s'))
+    const [toggleOn, toggle] = useInterval(action('Tick every 1s'))
 
-    return interval ? (
+    return (
       <div>
-        <button onClick={() => enableInterval(false)}>Stop</button>
-      </div>
-    ) : (
-      <div>
-        <button onClick={() => enableInterval(true)}>Start</button>
+        <button onClick={toggle}>{toggleOn ? 'Stop' : 'Start'}</button>
       </div>
     )
   }
@@ -22,20 +18,13 @@ storiesOf('useInterval', module).add('Default', () => {
   return <Demo />
 })
 
-storiesOf('useInterval', module).add('Custom frequency', () => {
+storiesOf('useInterval', module).add('Custom delay', () => {
   function Demo() {
-    const [interval, enableInterval] = useInterval(
-      action('Tick every 500ms'),
-      500,
-    )
+    const [toggleOn, toggle] = useInterval(action('Tick every 500ms'), 500)
 
-    return interval ? (
+    return (
       <div>
-        <button onClick={() => enableInterval(false)}>Stop</button>
-      </div>
-    ) : (
-      <div>
-        <button onClick={() => enableInterval(true)}>Start</button>
+        <button onClick={toggle}>{toggleOn ? 'Stop' : 'Start'}</button>
       </div>
     )
   }
@@ -45,20 +34,16 @@ storiesOf('useInterval', module).add('Custom frequency', () => {
 
 storiesOf('useInterval', module).add('Custom autoStart', () => {
   function Demo() {
-    const [interval, enableInterval] = useInterval(
+    const [toggleOn, toggle] = useInterval(
       action('Tick every 1s auto started'),
       {
         autoStart: true,
       },
     )
 
-    return interval ? (
+    return (
       <div>
-        <button onClick={() => enableInterval(false)}>Stop</button>
-      </div>
-    ) : (
-      <div>
-        <button onClick={() => enableInterval(true)}>Start</button>
+        <button onClick={toggle}>{toggleOn ? 'Stop' : 'Start'}</button>
       </div>
     )
   }

@@ -56,11 +56,11 @@ Add debounce to a handler.
 
 ```typescript
 type DebounceOptions =
-  | number
+  | number                // default: 250
   | {
-    delay?: number
-    persist?: boolean
-    cancelable?: boolean
+    delay?: number        // default: 250
+    persist?: boolean     // default: false
+    cancelable?: boolean  // default: false
   }
 
 const debounce = useDebounce(options)
@@ -94,17 +94,17 @@ return (
 
 ### [useInterval](https://github.com/soywod/react-captain/tree/master/lib/useInterval)
 
-A wrapper around `setInterval`.
+A wrapper around `setInterval`, based on [useToggle](#usetoggle).
 
 ```typescript
 type IntervalOptions =
   | number                // default: 1000
   | {
-    frequency?: number    // default: 1000
+    delay?: number        // default: 1000
     autoStart?: boolean   // default: false
   }
 
-const [enable, setEnable] = useInterval(callback, options)
+const [toggleOn, toggle] = useInterval(callback, options)
 ```
 
 ### [useStoredState](https://github.com/soywod/react-captain/tree/master/lib/useStoredState)
@@ -116,7 +116,7 @@ type StorageOptions =
   | string
   | {
       name: string
-      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // Default: 'LOCAL'
+      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // default: 'LOCAL'
     }
 
 const [value, setValue] = useStoredState(options, defaultValue)

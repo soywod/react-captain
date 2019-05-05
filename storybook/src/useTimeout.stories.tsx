@@ -4,16 +4,13 @@ import {action} from '@storybook/addon-actions'
 
 import useTimeout from '../../lib/useTimeout'
 
-// ----------------------------------------------------------------- # Stories #
-
 storiesOf('useTimeout', module).add('Default', () => {
   function Demo() {
     const timeout = useTimeout()
-    const actionWithTimeout = timeout(action('Action'))
 
     return (
       <div>
-        <button onClick={() => actionWithTimeout()}>Click me...</button>
+        <button onClick={timeout(action('Action'))}>Click me...</button>
       </div>
     )
   }
@@ -28,7 +25,7 @@ storiesOf('useTimeout', module).add('Persist', () => {
 
     return (
       <div>
-        <button onClick={actionWithTimeout}>Click me...</button>
+        <button onClick={actionWithTimeout}>Timeout with .persist()</button>
       </div>
     )
   }
@@ -38,12 +35,17 @@ storiesOf('useTimeout', module).add('Persist', () => {
 
 storiesOf('useTimeout', module).add('Delay', () => {
   function Demo() {
-    const timeout = useTimeout({persist: true, delay: 1000})
-    const actionWithTimeout = timeout(action('Action'))
+    const timeoutA = useTimeout(1000)
+    const timeoutB = useTimeout({delay: 1000})
 
     return (
       <div>
-        <button onClick={actionWithTimeout}>Click me...</button>
+        <button onClick={timeoutA(action('Action'))}>
+          Timeout 1s via number
+        </button>
+        <button onClick={timeoutB(action('Action'))}>
+          Timeout 1s via object
+        </button>
       </div>
     )
   }
@@ -59,7 +61,7 @@ storiesOf('useTimeout', module).add('Cancelable', () => {
     return (
       <div>
         <button onClick={actionWithTimeout}>Click me...</button>
-        <button onClick={() => cancel()}>Clear stack</button>
+        <button onClick={cancel}>Clear stack</button>
       </div>
     )
   }

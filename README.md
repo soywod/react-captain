@@ -127,11 +127,13 @@ const [value, setValue] = useStoredState(options, defaultValue)
 A wrapper around `setTimeout`.
 
 ```typescript
-type TimeoutOptions = {
-  delay?: number       // default: 250
-  persist?: boolean    // default: false
-  cancelable?: boolean // default: false
-}
+type TimeoutOptions = 
+  | number                // default: 250
+  | {
+    delay?: number        // default: 250
+    persist?: boolean     // default: false
+    cancelable?: boolean  // default: false
+  }
 
 const timeout = useTimeout(options)
 

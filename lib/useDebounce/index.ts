@@ -33,15 +33,21 @@ function useDebounce(options?: DebounceOptions) {
 
     useEffect(() => {
       wrapper.current = (...params: Parameters<T>) => {
-        const nextCallback = () => callback(...params)
+        const nextCallback = () => {
+          callback(...params)
+          timeout.current = null
+        }
 
         if (persist) {
           invokeMap('persist', params)
         }
 
         cancel.current = () => {
-          clearTimeoutSafe(timeout.current)
-          nextCallback()
+          if (timeout.current) {
+            clearTimeout(timeout.current)
+            nextCallback()
+          }
+
           cancel.current = noop
         }
 

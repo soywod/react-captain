@@ -9,7 +9,7 @@ See live examples on
 
   - [Installation](#installation)
   - [Import](#import)
-  - [Main hooks overview](#main-hooks-overview)
+  - [Hooks overview](#hooks-overview)
     - [useClickOutside](#useclickoutside)
     - [useDebounce](#usedebounce)
     - [useForm](#useform)
@@ -17,7 +17,7 @@ See live examples on
     - [useStoredState](#usestoredstate)
     - [useTimeout](#usetimeout)
     - [useToggle](#usetoggle)
-  - [Misc hooks overview](#misc-hooks-overview)
+  - [Miscellaneous hooks](#miscellaneous-hooks)
     - [useSparks](#usesparks)
 
 ## Installation
@@ -37,19 +37,19 @@ import {<hookName>} from 'react-captain'
 import <hookName> from 'react-captain/<hookName>'
 ```
 
-## Main hooks overview
+## Hooks overview
 ### [useClickOutside](https://github.com/soywod/react-captain/tree/master/lib/useClickOutside)
 
-Trigger callback on click outside from a HTMLElement.
+Capture click outside event of the given HTMLElement.
 
 ```typescript
 const ref = useRef<HTMLElement | null>(null)
-const handleClickOutside = useClickOutside(ref)
 
-handleClickOutside(() => {
+useClickOutside(ref, () => {
   // Clicked outside
 })
 ```
+
 ### [useDebounce](https://github.com/soywod/react-captain/tree/master/lib/useDebounce)
 
 Add debounce to a handler.
@@ -152,7 +152,7 @@ toggle()
 toggle(true | false)
 ```
 
-## Misc hooks overview
+## Miscellaneous hooks
 ### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)
 
 Turn a HTMLElement into a particle generator.

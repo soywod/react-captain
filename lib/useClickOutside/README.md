@@ -1,19 +1,17 @@
 # useClickOutside
 
-Trigger callback on click outside from a HTMLElement.
+Capture click outside event of the given HTMLElement.
 
 See live examples on [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me/?selectedKind=useClickOutside&selectedStory=Default&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel)
 
-## Parameters
+## Definition
 
 ```typescript
-function useClickOutside(ref: React.RefObject<HTMLElement>)
-```
+type Ref<T extends HTMLElement> = React.RefObject<T>
+type Callback = (e: MouseEvent) => void
 
-## Return
-
-```typescript
-function () => void
+function useClickOutside(ref: Ref, cb: Callback) => void
+function useClickOutside(ref: Ref) => (cb: Callback) => void
 ```
 
 ## Usage
@@ -24,17 +22,23 @@ import {useClickOutside} from 'react-captain'
 import useClickOutside from 'react-captain/useClickOutside'
 
 function Demo() {
-  const ref = useRef<HTMLButtonElement | null>(null)
-  const handleClickOutside = useClickOutside(ref)
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  function handleClickOutside() {
+  // Option 1
+  useClickOutside(ref, (event: MouseEvent) => {
     console.log('Clicked outside!')
-  }
+  })
+
+  // Option 2
+  const onClickOutside = useClickOutside(ref)
+  onClickOutside((event: MouseEvent) => {
+    console.log('Clicked outside!')
+  })
 
   return (
-    <button onClick={handleClickOutside}>
-      Click outside...
-    </button>
+    <div ref={ref}>
+      Click outside
+    </div>
   )
 }
 ```

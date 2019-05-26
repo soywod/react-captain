@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react'
+import useDebounce from 'react-captain/useDebounce'
 import getOr from 'lodash/fp/getOr'
 import isEmpty from 'lodash/fp/isEmpty'
 import isNil from 'lodash/fp/isNil'
 import noop from 'lodash/fp/noop'
 
-import useDebounce from '../../lib/useDebounce'
 import {
   FieldComponent,
   FieldProps,

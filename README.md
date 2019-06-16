@@ -1,6 +1,7 @@
 # React Captain :anchor:
-A collection of strongly typed and useful [React](https://reactjs.org/)
-[Hooks](https://reactjs.org/docs/hooks-intro.html).
+A collection of strongly typed [React](https://reactjs.org/)
+[hooks](https://reactjs.org/docs/hooks-intro.html) and
+[contexts](https://reactjs.org/docs/context.html).
 
 See live examples on
 [![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me)

@@ -24,18 +24,17 @@ See live examples on
 ## Installation
 
 ```bash
-yarn install react-captain
+yarn add react react-dom react-captain
 
-# Peer dependencies:
-# yarn install react react-dom react-spring
+# Optional peer dependencies (depending on hooks):
+yarn add localforage
+yarn add react-spring
 ```
 
 ## Import
 
 ```typescript
-import {<hookName>} from 'react-captain'
-// or
-import <hookName> from 'react-captain/<hookName>'
+import <module> from 'react-captain/<module>'
 ```
 
 ## Hooks overview
@@ -113,6 +112,8 @@ const [toggleOn, toggle] = useInterval(callback, options)
 A persistant useState, based on React's `useState` and
 [localForage](https://github.com/localForage/localForage).
 
+*Note: do not forget `yarn add localforage`.*
+
 ```typescript
 type StoredStateOptions =
   | string
@@ -164,6 +165,8 @@ toggle(true | false)
 ### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)
 
 Turn a HTMLElement into a particle generator.
+
+*Note: do not forget `yarn add react-spring`.*
 
 ```typescript
 type Range = [number, number]

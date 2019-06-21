@@ -23,6 +23,12 @@ export default function<T>(context: React.Context<FormContext<T>>) {
       const defaultValue: V | null = getOr(null, name, defaultModel)
       const [value, setValue] = useState(defaultValue)
 
+      function parseValue(value: V | null | undefined) {
+        if (isNil(value)) return null
+        if (isEmpty(String(value).trim())) return null
+        return value
+      }
+
       function handleChange(value: V | null | undefined) {
         const nextValue = parseValue(value)
         setValue(nextValue)
@@ -31,12 +37,6 @@ export default function<T>(context: React.Context<FormContext<T>>) {
           setModelPart(name, nextValue)
           handleChangeParent(nextValue)
         }
-      }
-
-      function parseValue(value: V | null | undefined) {
-        if (isNil(value)) return null
-        if (isEmpty(String(value).trim())) return null
-        return value
       }
 
       return (

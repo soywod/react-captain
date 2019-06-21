@@ -7,13 +7,16 @@
   "devDependencies": {
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "prettier": "^1.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "soywod-tslint-rules": "^2.0.2",
-    "tslint": "^5.16.0",
-    "typescript": "3.3.3333",
-    "typescript-language-server": "^0.3.7"
+    "typescript": "3.4"
   },
   "scripts": {
     "start": "yarn workspace storybook start",

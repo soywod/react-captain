@@ -18,6 +18,5 @@
   "scripts": {
     "start": "start-storybook -p 9009",
     "build": "build-storybook -o dist"
-  },
-  "dependencies": {}
+  }
 }

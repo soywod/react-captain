@@ -1,6 +1,6 @@
 {
   "name": "react-captain",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "A collection of strongly typed React hooks and contexts.",
   "license": "MIT",
   "private": false,
@@ -33,6 +33,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "peerDependencies": {
+    "localforage": "^1.7.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-spring": "^8.0.15"
@@ -42,16 +43,15 @@
     "@types/lodash": "^4.14.121",
     "@types/node": "11.9.5",
     "@types/uuid": "^3.4.4",
+    "localforage": "^1.7.3",
     "react-spring": "^8.0.15"
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "localforage": "^1.7.3",
     "lodash": "^4.17.11",
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "prepare": "yarn build",
-    "build": "tsc"
+    "prepare": "tsc"
   }
 }

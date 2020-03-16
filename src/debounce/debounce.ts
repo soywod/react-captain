@@ -7,20 +7,20 @@ import noop from "lodash/fp/noop"
 import {
   Callable,
   Debounce,
-  DebounceOptions,
-  DebounceOptionsCancelable,
-  DebounceOptionsNonCancelable,
+  DebounceOpts,
+  DebounceOptsCancelable,
+  DebounceOptsNonCancelable,
 } from "./debounce.types"
 
 function useDebounce(
-  options: DebounceOptionsCancelable,
+  options: DebounceOptsCancelable,
 ): <T extends Callable>(callback: T) => [Debounce<T>, () => void]
 
 function useDebounce(
-  options?: DebounceOptionsNonCancelable,
+  options?: DebounceOptsNonCancelable,
 ): <T extends Callable>(callback: T) => Debounce<T>
 
-function useDebounce(options?: DebounceOptions) {
+function useDebounce(options?: DebounceOpts) {
   const delay = isNumber(options) ? options : getOr(250, "delay", options)
   const persist: boolean = getOr(false, "persist", options)
   const cancelable: boolean = getOr(false, "cancelable", options)

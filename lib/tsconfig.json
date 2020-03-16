@@ -1,4 +1,0 @@
-{
-  "extends": "..",
-  "include": ["**/index.ts", "**/index.tsx"]
-}

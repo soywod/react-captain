@@ -1,5 +1,5 @@
 import useToggle from "./toggle"
-import {UseToggle} from "./toggle.types"
+import {Toggle, ToggleState} from "./toggle.types"
 
-export {useToggle, UseToggle}
+export {useToggle, Toggle, ToggleState}
 export default useToggle

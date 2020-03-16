@@ -1,10 +1,17 @@
 import React from "react"
 
-export type UseClickOutside = (params: UseClickOutsideParams) => void
+export type ClickOutside = (
+  ref: React.RefObject<HTMLElement>,
+  listener: (evt: Event) => void,
+  listenerOpts?: Partial<ClickOutsideListenerOpts>,
+) => void
 
-export type UseClickOutsideParams = {
-  ref: React.RefObject<HTMLElement>
-  listener: (e: Event) => void
-  listenerType?: keyof DocumentEventMap
-  listenerOpts?: boolean | AddEventListenerOptions
+export type ClickOutsideListenerOpts = {
+  type: keyof DocumentEventMap
+  opts: boolean | AddEventListenerOptions
+}
+
+export const defaultOpts: ClickOutsideListenerOpts = {
+  type: "click",
+  opts: {passive: true},
 }

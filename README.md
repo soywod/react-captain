@@ -1,187 +1,162 @@
-# React Captain :anchor:
-A collection of strongly typed [React](https://reactjs.org/)
-[hooks](https://reactjs.org/docs/hooks-intro.html) and
-[contexts](https://reactjs.org/docs/context.html).
+# React PIN Field [![Build Status](https://travis-ci.org/soywod/react-pin-field.svg?branch=master)](https://travis-ci.org/soywod/react-pin-field) [![codecov](https://codecov.io/gh/soywod/react-pin-field/branch/master/graph/badge.svg)](https://codecov.io/gh/soywod/react-pin-field)
 
-See live examples on
-[![Storybook](https://cdn.jsdelivr.net/gh/storybooks/brand@master/badge/badge-storybook.svg)](https://react-captain.soywod.me)
+A React component for entering PIN codes.
 
-## Table of contents
+![gif](https://user-images.githubusercontent.com/10437171/70847884-f9d35f00-1e69-11ea-8152-1c70eda12137.gif)
 
-  - [Installation](#installation)
-  - [Import](#import)
-  - [Hooks overview](#hooks-overview)
-    - [useClickOutside](#useclickoutside)
-    - [useDebounce](#usedebounce)
-    - [useForm](#useform)
-    - [useInterval](#useinterval)
-    - [useStoredState](#usestoredstate)
-    - [useTimeout](#usetimeout)
-    - [useToggle](#usetoggle)
-  - [Miscellaneous hooks](#miscellaneous-hooks)
-    - [useSparks](#usesparks)
+*Live demo at https://react-pin-field.soywod.me.*
 
 ## Installation
 
 ```bash
-yarn add react react-dom react-captain
-
-# Optional peer dependencies (depending on hooks):
-yarn add localforage
-yarn add react-spring
+yarn add react-pin-field
+# or
+npm install react-pin-field
 ```
 
-## Import
+## Usage
 
 ```typescript
-import <module> from 'react-captain/<module>'
+import PinField from "react-pin-field"
 ```
 
-## Hooks overview
-### [useClickOutside](https://github.com/soywod/react-captain/tree/master/lib/useClickOutside)
-
-Capture click outside event of the given HTMLElement.
+## Props
 
 ```typescript
-const ref = useRef<HTMLElement | null>(null)
+type PinFieldProps = {
+  ref?: React.Ref<HTMLInputElement[]>
+  className?: string
+  length?: number
+  validate?: string | string[] | RegExp | ((key: string) => boolean)
+  format?: (char: string) => string
+  onResolveKey?: (key: string, ref?: HTMLInputElement) => any
+  onRejectKey?: (key: string, ref?: HTMLInputElement) => any
+  onChange?: (code: string) => void
+  onComplete?: (code: string) => void
+  style?: React.CSSProperties
+} & React.InputHTMLAttributes<HTMLInputElement>
 
-useClickOutside(ref, () => {
-  // Clicked outside
-})
-```
-
-### [useDebounce](https://github.com/soywod/react-captain/tree/master/lib/useDebounce)
-
-Add debounce to a handler.
-
-```typescript
-type DebounceOptions =
-  | number                // default: 250
-  | {
-    delay?: number        // default: 250
-    persist?: boolean     // default: false
-    cancelable?: boolean  // default: false
-  }
-
-const debounce = useDebounce(options)
-
-// If cancelable = false
-const handlerWithDebounce = debounce(handler)
-
-// If cancelable = true
-const [handlerWithDebounce, cancel] = debounce(handler)
-```
-
-### [useForm](https://github.com/soywod/react-captain/tree/master/lib/useForm)
-
-A strongly typed form composer.
-
-```typescript
-const defaultModel: User = {firstName: '', lastName: ''}
-
-const {Form, useField} = useForm(defaultModel)
-const TextField = useField(CustomTextField)
-
-return (
-  <Form onSubmit={user => console.log(user)}>
-    <TextField name="firstName" label="First name" required />
-    <TextField name="lastName" label="Last name" required  />
-
-    <button type="submit">Submit</button>
-  </Form>
-)
-```
-
-### [useInterval](https://github.com/soywod/react-captain/tree/master/lib/useInterval)
-
-A wrapper around `setInterval`, based on [useToggle](#usetoggle).
-
-```typescript
-type IntervalOptions =
-  | number                // default: 1000
-  | {
-    delay?: number        // default: 1000
-    autoStart?: boolean   // default: false
-  }
-
-const [toggleOn, toggle] = useInterval(callback, options)
-```
-
-### [useStoredState](https://github.com/soywod/react-captain/tree/master/lib/useStoredState)
-
-A persistant useState, based on React's `useState` and
-[localForage](https://github.com/localForage/localForage).
-
-*Note: do not forget `yarn add localforage`.*
-
-```typescript
-type StoredStateOptions =
-  | string
-  | {
-      name: string
-      driver?: 'LOCAL' | 'WEBSQL' | 'INDEXEDDB' // default: 'LOCAL'
-    }
-
-const [value, setValue] = useStoredState(options, defaultValue)
-```
-
-### [useTimeout](https://github.com/soywod/react-captain/tree/master/lib/useTimeout)
-
-A wrapper around `setTimeout`.
-
-```typescript
-type TimeoutOptions = 
-  | number                // default: 250
-  | {
-    delay?: number        // default: 250
-    persist?: boolean     // default: false
-    cancelable?: boolean  // default: false
-  }
-
-const timeout = useTimeout(options)
-
-// If cancelable = false
-const handlerWithTimeout = timeout(handler)
-
-// If cancelable = true
-const [handlerWithTimeout, cancel] = timeout(handler)
-```
-
-### [useToggle](https://github.com/soywod/react-captain/tree/master/lib/useToggle)
-
-A toggler built on `useState`.
-
-```typescript
-const [toggleOn, toggle] = useToggle(false)
-
-// To toggle:
-toggle()
-
-// To force a toggle state:
-toggle(true | false)
-```
-
-## Miscellaneous hooks
-### [useSparks](https://github.com/soywod/react-captain/tree/master/lib/useSparks)
-
-Turn a HTMLElement into a particle generator.
-
-*Note: do not forget `yarn add react-spring`.*
-
-```typescript
-type Range = [number, number]
-
-type SparksOptions = {
-  ref: RefObject<HTMLElement> | [number, number]  // the reference (can be a RefObject or coordinates)
-  shapes: JSX.Element | JSX.Element[]
-  velocity?: [number | Range, number | Range]     // default: [[-10, 10], [17, 23]]
-  gravity?: number                                // default: 2
-  quantity?: number                               // default: 10
-  duration?: number                               // default: 1000
-  mass?: number                                   // default: 0.96
-  wind?: [number, number]                         // default: [0, 0]
-  mode?: 'chunk' | 'stream'                       // default: 'chunk'
+const defaultProps = {
+  ref: {current: []},
+  className: "",
+  length: 5,
+  validate: /^[a-zA-Z0-9]$/,
+  format: key => key,
+  onResolveKey: () => {},
+  onRejectKey: () => {},
+  onChange: () => {},
+  onComplete: () => {},
+  style: {},
 }
-
-const [enabled, switchOn] = useSparks(options)
 ```
+
+### Ref
+
+You can control each inputs with the PIN field ref:
+
+```typescript
+<PinField ref={ref} />
+
+// To reset the PIN field
+ref.current.forEach(input => (input.value = ""))
+
+// To focus one particular input
+ref.current[2].focus()
+```
+
+### Style
+
+React PIN field follows the [ABEM
+convention](https://css-tricks.com/abem-useful-adaptation-bem/). Each input has a class named `a-reactPinField__input`, plus:
+
+  - `-{index}` where index is the position of the input. Eg: `-0` for the first input, `-2` for the third etc.
+  - `-focus` when the current input is focused.
+  - `-success` when a key is resolved.
+  - `-error` when a key is rejected.
+
+You can also pass a custom `className` or a custom `style`.
+
+### Length
+
+Length of the code (number of characters to type). Default: `5`.
+
+### Validate
+
+Hook called to validate a char. It can be:
+
+- A string of allowed characters: `abcABC123`
+- A list of allowed chars: `["a", "b", "c", "1", "2", "3"]`
+- A RegExp: `/^[a-zA-Z0-9]$/`
+- A function: `(char: string) => boolean`
+
+### Format
+
+Hook called before adding a new char to the code. For example, to set the code
+to upper case: `(char: string) => char.toUpperCase()`
+
+### Events
+
+- onResolveKey: called when a char passes successfully the `validate` function
+- onRejectKey: the opposite of `onResolveKey`
+- onChange: called when the code changes
+- onComplete: called when the code has been filled
+
+## Examples
+
+See the [live demo](https://react-pin-field.soywod.me).
+
+## Development
+
+```bash
+git clone https://github.com/soywod/react-pin-field.git
+cd react-pin-field
+yarn install
+```
+
+To start the development server:
+
+```bash
+yarn start
+```
+
+To build the lib:
+
+```bash
+yarn build
+```
+
+To build the demo:
+
+```bash
+yarn build:demo
+```
+
+## Tests
+
+### Unit tests
+
+Unit tests are handled by [Jest](https://jestjs.io/) (`.test` files) and
+[Enzyme](https://airbnb.io/enzyme/) (`.spec` files).
+
+```bash
+yarn test:unit
+```
+
+### End-to-end tests
+
+End-to-end tests are handled by [Cypress](https://www.cypress.io) (`.e2e`
+files).
+
+```bash
+yarn start
+yarn test:e2e
+```
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/soywod/react-pin-field/blob/master/CHANGELOG.md)
+
+## License
+
+[MIT](https://github.com/soywod/react-pin-field/blob/master/LICENSE) -
+Copyright (c) 2019 Clément DOUIN

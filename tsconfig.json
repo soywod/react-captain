@@ -1,11 +1,22 @@
 {
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "target": "es5"
-  },
-  "exclude": ["node_modules"]
+    "target": "es5",
+    "types": ["@types/jest", "cypress", "node"]
+  }
 }

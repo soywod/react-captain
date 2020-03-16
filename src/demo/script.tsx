@@ -3,18 +3,17 @@ import ReactDOM from "react-dom"
 
 import useClickOutside from "../click-outside"
 import useToggle from "../toggle"
+import useDebounce from "../debounce"
 
 const Demo: FC = () => {
+  const debounce = useDebounce(500)
+
   const clickOutsideRef = useRef<HTMLDivElement | null>(null)
-  const clickOutsideTimeout = useRef<NodeJS.Timeout | null>(null)
   const [clickedOutside, clickOutside] = useState(false)
-  useClickOutside({
-    ref: clickOutsideRef,
-    listener: () => {
-      clickOutside(true)
-      clickOutsideTimeout.current && clearTimeout(clickOutsideTimeout.current)
-      clickOutsideTimeout.current = setTimeout(() => clickOutside(false), 500)
-    },
+  const debounceClickOutside = debounce(clickOutside)
+  useClickOutside(clickOutsideRef, () => {
+    clickOutside(true)
+    debounceClickOutside(false)
   })
 
   const [isOn, toggle] = useToggle()
@@ -81,13 +80,15 @@ const Demo: FC = () => {
             <pre>
               <code>
                 {`
-type UseClickOutside = (params: UseClickOutsideParams) => void
+type ClickOutside = (
+  ref: React.RefObject<HTMLElement>,
+  listener: (evt: Event) => void,
+  listenerOpts?: Partial<ClickOutsideListenerOpts>,
+) => void
 
-type UseClickOutsideParams = {
-  ref: React.RefObject<HTMLElement>
-  listener: (e: Event) => void
-  listenerType?: keyof DocumentEventMap = "click"
-  listenerOpts?: boolean | AddEventListenerOptions = {passive: true}
+type ClickOutsideListenerOpts = {
+  type: keyof DocumentEventMap
+  opts: boolean | AddEventListenerOptions
 }
                 `}
               </code>
@@ -97,8 +98,7 @@ type UseClickOutsideParams = {
               <code>
                 {`
 const ref = useRef<HTMLDivElement | null>(null)
-const listener = () => console.log("Clicked outside!")
-useClickOutside({ref, listener})
+useClickOutside(ref, () => console.log("Clicked outside!"))
                 `}
               </code>
             </pre>
@@ -123,7 +123,8 @@ useClickOutside({ref, listener})
             <pre>
               <code>
                 {`
-type UseToggle = (defaultValue?: any) => [boolean, (toggler?: any) => void]
+type Toggle = (defaultValue?: any) => ToggleState
+type ToggleState = [boolean, (toggler?: any) => void]
                 `}
               </code>
             </pre>
@@ -132,6 +133,48 @@ type UseToggle = (defaultValue?: any) => [boolean, (toggler?: any) => void]
               <code>
                 {`
 const [isOn, toggle] = useToggle()
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6">
+            <h2 className="display-5 mb-4 ">useDebounce</h2>
+            <button onClick={debounce(() => alert("Done!"))}>Alert with debounce</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type Callback<T> = (...params: Parameters<T>) => void
+type Cancel = () => void
+type Options =
+  | number                // Delay in ms, default: 250
+  | {
+    delay?: number        // Delay in ms, default: 250
+    persist?: boolean     // Should trigger .persist(), default: false
+    cancelable?: boolean  // Provide a method to cancel the debounce, default: false
+  }
+
+function useDebounce(options?: Options): Callback | [Callback, Cancel]
+                `}
+              </code>
+            </pre>
+            <h4>Example</h4>
+            <pre>
+              <code>
+                {`
+const debounce = useDebounce()
+const handler = () => console.log("Debounced!")
+
+<button onClick={debounce(handler)}>
+  Click me
+</button>
                 `}
               </code>
             </pre>

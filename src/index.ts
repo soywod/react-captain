@@ -1,7 +1,7 @@
-import useClickOutside, {UseClickOutside, UseClickOutsideParams} from "./click-outside"
-export {useClickOutside, UseClickOutside, UseClickOutsideParams}
+import useClickOutside, {ClickOutside, UseClickOutsideParams} from "./click-outside"
+export {useClickOutside, ClickOutside, UseClickOutsideParams}
 
-import useToggle, {UseToggle} from "./toggle"
-export {useToggle, UseToggle}
+import useToggle, {Toggle} from "./toggle"
+export {useToggle, Toggle}
 
 export default {useClickOutside, useToggle}

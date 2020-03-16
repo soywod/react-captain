@@ -5,7 +5,8 @@ A `useState` for booleans.
 ## Definition
 
 ```typescript
-type UseToggle = (defaultValue?: any) => [boolean, (toggler?: any) => void]
+type Toggle = (defaultValue?: any) => ToggleState
+type ToggleState = [boolean, (toggler?: any) => void]
 ```
 
 ## Usage

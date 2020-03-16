@@ -4,6 +4,7 @@ import ReactDOM from "react-dom"
 import useClickOutside from "../click-outside"
 import useToggle from "../toggle"
 import useDebounce from "../debounce"
+import useStoredState from "../stored-state"
 
 const Demo: FC = () => {
   const debounce = useDebounce(500)
@@ -17,6 +18,9 @@ const Demo: FC = () => {
   })
 
   const [isOn, toggle] = useToggle()
+
+  const storedStateRef = useRef<HTMLInputElement>(null)
+  const [storedValue, setStoredValue] = useStoredState("key", "value")
 
   return (
     <>
@@ -50,7 +54,7 @@ const Demo: FC = () => {
       <div className="container mb-5">
         <div className="row">
           <div className="col-sm-6">
-            <h2 className="display-5 mb-4 ">useClickOutside</h2>
+            <h2 className="display-5 mb-4">useClickOutside</h2>
             <div style={{width: 300, height: 300, background: "blue", cursor: "pointer"}}>
               <div style={{width: 200, height: 200, background: "green", cursor: "pointer"}}>
                 <div
@@ -93,7 +97,7 @@ type ClickOutsideListenerOpts = {
                 `}
               </code>
             </pre>
-            <h4>Example</h4>
+            <h4>Usage</h4>
             <pre>
               <code>
                 {`
@@ -109,7 +113,7 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
 
         <div className="row">
           <div className="col-sm-6">
-            <h2 className="display-5 mb-4 ">
+            <h2 className="display-5 mb-4">
               useToggle
               <span className={`badge badge-${isOn ? "success" : "danger"} ml-4`}>
                 {isOn ? "ON" : "OFF"}
@@ -128,7 +132,7 @@ type ToggleState = [boolean, (toggler?: any) => void]
                 `}
               </code>
             </pre>
-            <h4>Example</h4>
+            <h4>Usage</h4>
             <pre>
               <code>
                 {`
@@ -143,7 +147,7 @@ const [isOn, toggle] = useToggle()
 
         <div className="row">
           <div className="col-sm-6">
-            <h2 className="display-5 mb-4 ">useDebounce</h2>
+            <h2 className="display-5 mb-4">useDebounce</h2>
             <button onClick={debounce(() => alert("Done!"))}>Alert with debounce</button>
           </div>
           <div className="col-sm-6">
@@ -165,7 +169,7 @@ function useDebounce(options?: Options): Callback | [Callback, Cancel]
                 `}
               </code>
             </pre>
-            <h4>Example</h4>
+            <h4>Usage</h4>
             <pre>
               <code>
                 {`
@@ -175,6 +179,49 @@ const handler = () => console.log("Debounced!")
 <button onClick={debounce(handler)}>
   Click me
 </button>
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6">
+            <h2 className="display-5 mb-4">useStoredState</h2>
+            <form
+              onSubmit={evt => {
+                evt.preventDefault()
+                storedStateRef.current && setStoredValue(storedStateRef.current.value)
+              }}
+            >
+              <input ref={storedStateRef} type="text" placeholder="New value" />
+              <button type="submit">Save</button>
+              <div>Current value: {storedValue}</div>
+            </form>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type StoredState<T> = (name: string, opts?: StoredStateOpts<T>) => StoredStateState<T>
+type StoredStateState<T> = [T, (setter: T) => void]
+type StoredStateOpts<T> =
+  | T
+  | {
+      defaultValue?: T
+      driver?: "LOCALSTORAGE" | "WEBSQL" | "INDEXEDDB"
+    }
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+const [storedValue, setStoredValue] = useStoredState("key", "defaultValue")
                 `}
               </code>
             </pre>

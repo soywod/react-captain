@@ -7,6 +7,6 @@ type BaseDebounceOptions = {
 }
 
 export type Debounce<T extends Callable> = (...params: Parameters<T>) => void
-export type DebounceOptions = DebounceOptionsCancelable | DebounceOptionsNonCancelable
-export type DebounceOptionsCancelable = BaseDebounceOptions & {cancelable: true}
-export type DebounceOptionsNonCancelable = number | (BaseDebounceOptions & {cancelable?: false})
+export type DebounceOpts = DebounceOptsCancelable | DebounceOptsNonCancelable
+export type DebounceOptsCancelable = BaseDebounceOptions & {cancelable: true}
+export type DebounceOptsNonCancelable = number | (BaseDebounceOptions & {cancelable?: false})

@@ -153,8 +153,8 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
             <pre>
               <code>
                 {`
-type Toggle = (defaultValue?: any) => ToggleState
-type ToggleState = [boolean, (toggler?: any) => void]
+type Toggle = (defaultVal?: any) => ToggleState
+type ToggleState = [boolean, (val?: any) => void]
                 `}
               </code>
             </pre>

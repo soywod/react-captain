@@ -1,5 +1,18 @@
 import useClickOutside from "./click-outside"
-import {ClickOutside, ClickOutsideListenerOpts} from "./click-outside.types"
 
-export {useClickOutside, ClickOutside, ClickOutsideListenerOpts}
+import {
+  ClickOutside,
+  ClickOutsideListener,
+  ClickOutsideOpts,
+  defaultOpts,
+} from "./click-outside.types"
+
+export {
+  useClickOutside,
+  ClickOutside,
+  ClickOutsideListener,
+  ClickOutsideOpts,
+  defaultOpts as clickOutsideDefaultOpts,
+}
+
 export default useClickOutside

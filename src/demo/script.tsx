@@ -9,13 +9,19 @@ import useStoredState from "../stored-state"
 const Demo: FC = () => {
   const debounce = useDebounce(500)
 
+  const clickOutsideRootRef = useRef<HTMLDivElement | null>(null)
+  const clickOutsideRejectedRef = useRef<HTMLDivElement | null>(null)
   const clickOutsideRef = useRef<HTMLDivElement | null>(null)
   const [clickedOutside, clickOutside] = useState(false)
   const debounceClickOutside = debounce(clickOutside)
-  useClickOutside(clickOutsideRef, () => {
-    clickOutside(true)
-    debounceClickOutside(false)
-  })
+  useClickOutside(
+    clickOutsideRef,
+    () => {
+      clickOutside(true)
+      debounceClickOutside(false)
+    },
+    {root: clickOutsideRootRef, except: [clickOutsideRejectedRef]},
+  )
 
   const [isOn, toggle] = useToggle()
 
@@ -55,7 +61,10 @@ const Demo: FC = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="display-5 mb-4">useClickOutside</h2>
-            <div style={{width: 300, height: 300, background: "blue", cursor: "pointer"}}>
+            <div
+              ref={clickOutsideRootRef}
+              style={{width: 300, height: 300, background: "blue", cursor: "pointer"}}
+            >
               <div style={{width: 200, height: 200, background: "green", cursor: "pointer"}}>
                 <div
                   ref={clickOutsideRef}
@@ -68,11 +77,25 @@ const Demo: FC = () => {
                     alignItems: "center",
                     textAlign: "center",
                     cursor: "default",
-                    fontSize: 20,
                   }}
                 >
                   Click outside
                 </div>
+              </div>
+              <div
+                ref={clickOutsideRejectedRef}
+                style={{
+                  width: 100,
+                  height: 100,
+                  background: "gray",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  cursor: "not-allowed",
+                }}
+              >
+                Except here
               </div>
             </div>
             {clickedOutside && (
@@ -85,14 +108,17 @@ const Demo: FC = () => {
               <code>
                 {`
 type ClickOutside = (
-  ref: React.RefObject<HTMLElement>,
-  listener: (evt: Event) => void,
-  listenerOpts?: Partial<ClickOutsideListenerOpts>,
+  ref: React.RefObject<Node>,
+  listener: ClickOutsideListener,
+  opts?: Partial<ClickOutsideOpts>,
 ) => void
 
-type ClickOutsideListenerOpts = {
-  type: keyof DocumentEventMap
-  opts: boolean | AddEventListenerOptions
+type ClickOutsideListener = (evt: Event) => void
+type ClickOutsideOpts = {
+  root: React.RefObject<Node>
+  except: React.RefObject<Node>[]
+  listenerType: keyof DocumentEventMap
+  listenerOpts: boolean | AddEventListenerOptions
 }
                 `}
               </code>

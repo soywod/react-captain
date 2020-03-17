@@ -3,14 +3,14 @@ import isBoolean from "lodash/fp/isBoolean"
 
 import {Toggle} from "./toggle.types"
 
-export const useToggle: Toggle = (defaultValue?: any) => {
-  const [value, setValue] = useState(defaultValue === true)
+export const useToggle: Toggle = (defaultVal?: any) => {
+  const [val, setVal] = useState(defaultVal === true)
 
   function toggler(override?: any) {
-    setValue(isBoolean(override) ? override : !value)
+    setVal(isBoolean(override) ? override : !val)
   }
 
-  return [value, toggler]
+  return [val, toggler]
 }
 
 export default useToggle

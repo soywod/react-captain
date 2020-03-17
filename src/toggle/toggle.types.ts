@@ -1,2 +1,2 @@
-export type Toggle = (defaultValue?: any) => ToggleState
-export type ToggleState = [boolean, (toggler?: any) => void]
+export type Toggle = (defaultVal?: any) => ToggleState
+export type ToggleState = [boolean, (val?: any) => void]

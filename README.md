@@ -1,4 +1,4 @@
-# :anchor: React Captain [![Build Status](https://travis-ci.org/soywod/react-captain.svg?branch=master)](https://travis-ci.org/soywod/react-captain) [![codecov](https://codecov.io/gh/soywod/react-captain/branch/master/graph/badge.svg)](https://codecov.io/gh/soywod/react-captain)
+# :anchor: React Captain [![Build Status](https://travis-ci.org/soywod/react-captain.svg?branch=master)](https://travis-ci.org/soywod/react-captain) [![codecov](https://codecov.io/gh/soywod/react-captain/branch/master/graph/badge.svg)](https://codecov.io/gh/soywod/react-captain) [![npm](https://img.shields.io/npm/v/react-captain?label=npm)](https://www.npmjs.com/package/react-captain)
 
 A collection of strongly typed React hooks and contexts.
 

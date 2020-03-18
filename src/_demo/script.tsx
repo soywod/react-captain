@@ -64,6 +64,9 @@ const Demo: FC = () => {
                 alt=""
               />
             </a>
+            <a className="mr-2" href="https://www.npmjs.com/package/react-captain">
+              <img src="https://img.shields.io/npm/v/react-captain?label=npm" alt="" />
+            </a>
             <kbd>$ yarn add react-captain</kbd>
           </div>
         </div>

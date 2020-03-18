@@ -1,54 +1,52 @@
+import "@testing-library/jest-dom"
+
 import React, {FC, useEffect, useState} from "react"
-import {shallow, mount} from "enzyme"
+import {render} from "@testing-library/react"
 
 import useToggle from "./toggle"
 
-test("default", () => {
-  const Wrapper: FC = () => {
+it("should manage no default val", () => {
+  const TestComponent: FC = () => {
     const [isOn] = useToggle()
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = shallow(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("OFF")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("OFF")).toBeInTheDocument()
 })
 
-test("with default value = true", () => {
-  const Wrapper: FC = () => {
+it("should manage default val = true", () => {
+  const TestComponent: FC = () => {
     const [isOn] = useToggle(true)
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = shallow(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("ON")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("ON")).toBeInTheDocument()
 })
 
-test("with default value = false", () => {
-  const Wrapper: FC = () => {
+test("should manage default val = false", () => {
+  const TestComponent: FC = () => {
     const [isOn] = useToggle(false)
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = shallow(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("OFF")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("OFF")).toBeInTheDocument()
 })
 
-test("with default value = any", () => {
-  const Wrapper: FC = () => {
+test("should manage default val = any", () => {
+  const TestComponent: FC = () => {
     const [isOn] = useToggle({})
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = shallow(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("OFF")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("OFF")).toBeInTheDocument()
 })
 
-test("toggle", () => {
-  const Wrapper: FC = () => {
+test("should toggle", () => {
+  const TestComponent: FC = () => {
     const [init, setInit] = useState(false)
     const [isOn, toggle] = useToggle()
 
@@ -59,16 +57,15 @@ test("toggle", () => {
       }
     }, [init, toggle])
 
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = mount(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("ON")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("ON")).toBeInTheDocument()
 })
 
-test("toggle with override = true", () => {
-  const Wrapper: FC = () => {
+test("should toggle with override = true", () => {
+  const TestComponent: FC = () => {
     const [init, setInit] = useState(false)
     const [isOn, toggle] = useToggle()
 
@@ -79,16 +76,15 @@ test("toggle with override = true", () => {
       }
     }, [init, toggle])
 
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = mount(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("ON")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("ON")).toBeInTheDocument()
 })
 
-test("toggle with override = false", () => {
-  const Wrapper: FC = () => {
+test("should toggle with override = false", () => {
+  const TestComponent: FC = () => {
     const [init, setInit] = useState(false)
     const [isOn, toggle] = useToggle()
 
@@ -99,16 +95,15 @@ test("toggle with override = false", () => {
       }
     }, [init, toggle])
 
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = mount(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("OFF")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("OFF")).toBeInTheDocument()
 })
 
-test("toggle with override = any", () => {
-  const Wrapper: FC = () => {
+test("should toggle with override = any", () => {
+  const TestComponent: FC = () => {
     const [init, setInit] = useState(false)
     const [isOn, toggle] = useToggle()
 
@@ -119,10 +114,9 @@ test("toggle with override = any", () => {
       }
     }, [init, toggle])
 
-    return <div className="status">{isOn ? "ON" : "OFF"}</div>
+    return <div data-testid="status">{isOn ? "ON" : "OFF"}</div>
   }
-  const wrapper = mount(<Wrapper />)
-  const status = wrapper.find(".status")
 
-  expect(status.text()).toBe("ON")
+  const {getByText} = render(<TestComponent />)
+  expect(getByText("ON")).toBeInTheDocument()
 })

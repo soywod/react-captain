@@ -4,6 +4,10 @@ $gray: #d3d3d3;
 $green: #6ab04c;
 $white: #ffffff;
 
+pre {
+  color: lighten($black, 25%);
+}
+
 code {
   padding: 5px 10px;
   display: inline-block;

@@ -3,21 +3,19 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "Clément DOUIN <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "private": false,
   "keywords": [
     "react",
     "hook",
+    "custom hook",
     "context",
     "collection",
     "typescript",
-    "useClickOutside",
-    "useDebounce",
-    "useInterval",
-    "useSparks",
-    "useStoredState",
-    "useTimeout",
-    "useToggle"
+    "click outside",
+    "debounce",
+    "stored state",
+    "toggle"
   ],
   "homepage": "https://github.com/soywod/react-captain",
   "repository": {
@@ -30,10 +28,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib/index.{js|d.ts}",
-    "lib/mvu/*.{js|d.ts}",
-    "lib/kb-event/*.{js|d.ts}",
-    "lib/pin-field/*.{js|d.ts}"
+    "lib/index.{js|js.map|d.ts}",
+    "lib/**/index.{js|js.map|d.ts}",
+    "lib/click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}"
   ],
   "husky": {
     "hooks": {
@@ -45,13 +45,11 @@
     "@cypress/webpack-preprocessor": "^4.1.1",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "9.5.0",
-    "@types/classnames": "^2.2.9",
     "@types/jest": "^24.0.24",
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.9.1",
     "@types/react": "16.9.14",
     "@types/react-dom": "16.9.4",
-    "@types/uuid": "^7.0.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "^10.0.3",
@@ -71,7 +69,7 @@
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
     "typescript": "3.7.2",
-    "webpack": "^4.41.3",
+    "webpack": "^4.42.0",
     "yarn-run-all": "^3.1.1"
   },
   "peerDependencies": {
@@ -80,14 +78,12 @@
     "react-dom": "^16.12.0"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
-    "lodash": "^4.17.15",
-    "uuid": "^7.0.2"
+    "lodash": "^4.17.15"
   },
   "scripts": {
-    "start": "parcel serve -d lib -p 3000 src/demo/index.html",
+    "start": "parcel serve -d lib -p 3000 src/_demo/index.html",
     "build": "tsc",
-    "build:demo": "parcel build -d lib src/demo/index.html",
+    "build:demo": "parcel build -d lib src/_demo/index.html",
     "lint": "eslint src/**/*.ts{,x}",
     "test:unit": "jest",
     "test:e2e": "cypress run",

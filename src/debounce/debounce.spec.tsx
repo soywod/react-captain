@@ -8,9 +8,9 @@ import useDebounce from "./debounce"
 it("should debounce", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const debounce = useDebounce()
+    const debounce = useDebounce({persist: true})
     const handleClick = debounce(handler)
-    return <button data-testid="debounce" onClick={() => handleClick()} />
+    return <button data-testid="debounce" onClick={handleClick} />
   }
 
   const {getByTestId} = render(<TestComponent />)

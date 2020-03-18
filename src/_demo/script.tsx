@@ -54,13 +54,24 @@ const Demo: FC = () => {
         <div className="container text-center">
           <h1 className="display-3">React Captain</h1>
           <p className="lead">A collection of strongly typed React hooks and contexts.</p>
-          <kbd>$ yarn add react-captain</kbd>
+          <div className="mb-4">
+            <a className="mr-2" href="https://travis-ci.org/soywod/react-captain">
+              <img src="https://travis-ci.org/soywod/react-captain.svg?branch=master" alt="" />
+            </a>
+            <a className="mr-2" href="https://codecov.io/gh/soywod/react-captain">
+              <img
+                src="https://codecov.io/gh/soywod/react-captain/branch/master/graph/badge.svg"
+                alt=""
+              />
+            </a>
+            <kbd>$ yarn add react-captain</kbd>
+          </div>
         </div>
       </div>
 
       <div className="container mb-5">
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-4">useClickOutside</h2>
             <div
               ref={clickOutsideRootRef}
@@ -139,7 +150,7 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
         <hr />
 
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-4">
               useToggle
               <span className={`badge badge-${isOn ? "success" : "danger"} ml-4`}>
@@ -173,7 +184,7 @@ const [isOn, toggle] = useToggle()
         <hr />
 
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-4">useDebounce</h2>
             <button onClick={sayHelloWithDelay}>Say hello after 1000ms</button>
             <button onClick={sayHelloWithDelay.abort}>Abort</button>
@@ -224,7 +235,7 @@ const handler = debounce(() => console.log("Hello!"))
         <hr />
 
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-4">useStoredState</h2>
             <form
               onSubmit={evt => {

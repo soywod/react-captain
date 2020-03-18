@@ -1,12 +1,31 @@
-export type Callable = (...args: any[]) => void
+export type Function = (...args: any[]) => void
 
-type BaseDebounceOptions = {
-  delay?: number
-  persist?: boolean
-  cancelable?: boolean
+export type Debounce<T extends Function> = {
+  (...params: Parameters<T>): void
+
+  /**
+   * Abort the debounce.
+   */
+  abort: () => void
+
+  /**
+   * Abort the debounce and trigger immediatly the callback.
+   */
+  terminate: () => void
 }
 
-export type Debounce<T extends Callable> = (...params: Parameters<T>) => void
-export type DebounceOpts = DebounceOptsCancelable | DebounceOptsNonCancelable
-export type DebounceOptsCancelable = BaseDebounceOptions & {cancelable: true}
-export type DebounceOptsNonCancelable = number | (BaseDebounceOptions & {cancelable?: false})
+export type DebounceOpts =
+  | number
+  | {
+      /**
+       * Debounce delay before triggering the callback.
+       * @default 300
+       */
+      delay?: number
+
+      /**
+       * Should keep the original event by calling `.persist()`.
+       * @default false
+       */
+      persist?: boolean
+    }

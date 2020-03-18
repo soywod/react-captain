@@ -1,12 +1,5 @@
 import useDebounce from "./debounce"
+import {Debounce, DebounceOpts} from "./debounce.types"
 
-import {
-  Debounce,
-  DebounceOpts,
-  DebounceOptsCancelable,
-  DebounceOptsNonCancelable,
-} from "./debounce.types"
-
-export {useDebounce, Debounce, DebounceOpts, DebounceOptsCancelable, DebounceOptsNonCancelable}
-
+export {useDebounce, Debounce, DebounceOpts}
 export default useDebounce

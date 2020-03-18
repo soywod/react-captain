@@ -4,36 +4,22 @@ import invokeMap from "lodash/fp/invokeMap"
 import isNumber from "lodash/fp/isNumber"
 import noop from "lodash/fp/noop"
 
-import {
-  Callable,
-  Debounce,
-  DebounceOpts,
-  DebounceOptsCancelable,
-  DebounceOptsNonCancelable,
-} from "./debounce.types"
-
-function useDebounce(
-  options: DebounceOptsCancelable,
-): <T extends Callable>(callback: T) => [Debounce<T>, () => void]
-
-function useDebounce(
-  options?: DebounceOptsNonCancelable,
-): <T extends Callable>(callback: T) => Debounce<T>
+import {Function, Debounce, DebounceOpts} from "./debounce.types"
 
 function useDebounce(options?: DebounceOpts) {
-  const delay = isNumber(options) ? options : getOr(250, "delay", options)
+  const delay = isNumber(options) ? options : getOr(300, "delay", options)
   const persist: boolean = getOr(false, "persist", options)
-  const cancelable: boolean = getOr(false, "cancelable", options)
 
-  return function useDebounceInternal<T extends Callable>(callback: T) {
+  return function useDebounceInternal<T extends Function>(callback: T): Debounce<T> {
     const [ready, setReady] = useState(false)
-    const cancel = useRef<() => void>(noop)
-    const wrapper = useRef<Debounce<T>>(noop)
     const timeout = useRef<NodeJS.Timeout | null>(null)
+    const wrapper = useRef<(...params: Parameters<T>) => void>(noop)
+    const abort = useRef<() => void>(noop)
+    const terminate = useRef<() => void>(noop)
 
     useEffect(() => {
       wrapper.current = (...params: Parameters<T>) => {
-        const nextCallback = () => {
+        const wrapper = () => {
           callback(...params)
           timeout.current = null
         }
@@ -42,23 +28,32 @@ function useDebounce(options?: DebounceOpts) {
           invokeMap("persist", params)
         }
 
-        cancel.current = () => {
+        abort.current = () => {
+          timeout.current && clearTimeout(timeout.current)
+          abort.current = noop
+          terminate.current = noop
+        }
+
+        terminate.current = () => {
           if (timeout.current) {
             clearTimeout(timeout.current)
-            nextCallback()
+            terminate.current = noop
+            abort.current = noop
+            wrapper()
           }
-
-          cancel.current = noop
         }
 
         timeout.current && clearTimeout(timeout.current)
-        timeout.current = setTimeout(nextCallback, delay)
+        timeout.current = setTimeout(wrapper, delay)
       }
 
       setReady(true)
     }, [callback, ready])
 
-    return cancelable ? [wrapper.current, () => cancel.current()] : wrapper.current
+    return Object.assign(wrapper.current, {
+      abort: () => abort.current(),
+      terminate: () => terminate.current(),
+    })
   }
 }
 

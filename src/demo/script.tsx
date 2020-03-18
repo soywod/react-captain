@@ -7,7 +7,8 @@ import useDebounce from "../debounce"
 import useStoredState from "../stored-state"
 
 const Demo: FC = () => {
-  const debounce = useDebounce(500)
+  const debounce = useDebounce(1000)
+  const sayHelloWithDelay = debounce(() => alert("Hello!"))
 
   const clickOutsideRootRef = useRef<HTMLDivElement | null>(null)
   const clickOutsideRejectedRef = useRef<HTMLDivElement | null>(null)
@@ -174,24 +175,27 @@ const [isOn, toggle] = useToggle()
         <div className="row">
           <div className="col-sm-6">
             <h2 className="display-5 mb-4">useDebounce</h2>
-            <button onClick={debounce(() => alert("Done!"))}>Alert with debounce</button>
+            <button onClick={sayHelloWithDelay}>Say hello after 1000ms</button>
+            <button onClick={sayHelloWithDelay.abort}>Abort</button>
+            <button onClick={sayHelloWithDelay.terminate}>Terminate</button>
           </div>
           <div className="col-sm-6">
             <h4>Definition</h4>
             <pre>
               <code>
                 {`
-type Callback<T> = (...params: Parameters<T>) => void
-type Cancel = () => void
-type Options =
-  | number                // Delay in ms, default: 250
-  | {
-    delay?: number        // Delay in ms, default: 250
-    persist?: boolean     // Should trigger .persist(), default: false
-    cancelable?: boolean  // Provide a method to cancel the debounce, default: false
-  }
+type Debounce<T extends Function> = {
+  (...params: Parameters<T>): void
+  abort: () => void
+  terminate: () => void
+}
 
-function useDebounce(options?: Options): Callback | [Callback, Cancel]
+type DebounceOpts =
+  | number
+  | {
+      delay?: number
+      persist?: boolean
+    }
                 `}
               </code>
             </pre>
@@ -200,10 +204,16 @@ function useDebounce(options?: Options): Callback | [Callback, Cancel]
               <code>
                 {`
 const debounce = useDebounce()
-const handler = () => console.log("Debounced!")
+const handler = debounce(() => console.log("Hello!"))
 
-<button onClick={debounce(handler)}>
-  Click me
+<button onClick={handler}>
+  Say hello with delay
+</button>
+<button onClick={handler.abort}>
+  Abort
+</button>
+<button onClick={handler.terminate}>
+  Terminate
 </button>
                 `}
               </code>

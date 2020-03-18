@@ -233,12 +233,13 @@ const handler = () => console.log("Debounced!")
               <code>
                 {`
 type StoredState<T> = (name: string, opts?: StoredStateOpts<T>) => StoredStateState<T>
-type StoredStateState<T> = [T, (setter: T) => void]
+type StoredStateState<T> = [T, (val: T) => Promise<void>, boolean]
+type StoredStateDriver = "LOCALSTORAGE" | "WEBSQL" | "INDEXEDDB"
 type StoredStateOpts<T> =
   | T
   | {
-      defaultValue?: T
-      driver?: "LOCALSTORAGE" | "WEBSQL" | "INDEXEDDB"
+      defaultVal: T
+      driver?: StoredStateDriver
     }
                 `}
               </code>
@@ -247,7 +248,8 @@ type StoredStateOpts<T> =
             <pre>
               <code>
                 {`
-const [storedValue, setStoredValue] = useStoredState("key", "defaultValue")
+const [val, setVal, isReady] = useStoredState("key", "defaultValue")
+return isReady ? val : null
                 `}
               </code>
             </pre>

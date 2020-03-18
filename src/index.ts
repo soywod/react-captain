@@ -1,5 +1,10 @@
-import useClickOutside, {ClickOutside, ClickOutsideListenerOpts} from "./click-outside"
-export {useClickOutside, ClickOutside, ClickOutsideListenerOpts}
+import useClickOutside, {
+  ClickOutside,
+  ClickOutsideListener,
+  ClickOutsideOpts,
+} from "./click-outside"
+
+export {useClickOutside, ClickOutside, ClickOutsideListener, ClickOutsideOpts}
 
 import useToggle, {Toggle} from "./toggle"
 export {useToggle, Toggle}

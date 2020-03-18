@@ -1,32 +1,38 @@
-import {useEffect, useRef, useState} from "react"
+import {useEffect, useCallback, useRef, useState} from "react"
 import localForage from "localforage"
 import getOr from "lodash/fp/getOr"
+import isNil from "lodash/fp/isNil"
 
 import {StoredStateState, StoredStateDriver, StoredStateOpts} from "./stored-state.types"
 
-function useStoredState<T>(name: string, opts: StoredStateOpts<T> = {}): StoredStateState<T> {
-  const defaultValue: T = getOr(opts, "defaultValue", opts)
+function useStoredState<T>(name: string, opts: StoredStateOpts<T>): StoredStateState<T> {
+  const driver: StoredStateDriver = getOr("LOCALSTORAGE", "driver", opts)
+  const defaultVal: T = getOr(opts, "defaultVal", opts)
   const storage = useRef<LocalForage | null>(null)
-  const [value, setValue] = useState<T>(defaultValue)
-  const [ready, setReady] = useState(false)
+  const [isReady, setReady] = useState(false)
+  const [val, setVal] = useState(defaultVal)
 
-  function changeValue(value: T) {
-    if (storage.current) {
-      setValue(value)
-      storage.current.setItem(name, value)
-    }
-  }
+  const updateVal = useCallback(
+    async (val: T) => {
+      if (storage.current) {
+        setVal(val)
+        await storage.current.setItem(name, val)
+      }
+    },
+    [name],
+  )
 
   useEffect(() => {
-    if (!ready) {
-      const driver: StoredStateDriver = getOr("LOCALSTORAGE", "driver", opts)
+    if (!isReady) {
       storage.current = localForage.createInstance({name, driver: localForage[driver]})
-      storage.current.getItem<T>(name).then(setValue)
-      setReady(true)
+      storage.current
+        .getItem<T>(name)
+        .then(storedVal => (isNil(storedVal) ? updateVal(defaultVal) : setVal(storedVal)))
+        .then(() => setReady(true))
     }
-  }, [defaultValue, name, opts, ready, setValue])
+  }, [defaultVal, driver, isReady, name, updateVal])
 
-  return [value, changeValue]
+  return [val, updateVal, isReady]
 }
 
 export default useStoredState

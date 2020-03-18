@@ -16,7 +16,7 @@ import {useToggle} from 'react-captain'
 // or
 import useToggle from 'react-captain/lib/toggle'
 
-const Demo: FC = () => {
+const Component: FC = () => {
   const [isOn, toggle] = useToggle(false)
 
   return (

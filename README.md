@@ -1,115 +1,134 @@
-# React PIN Field [![Build Status](https://travis-ci.org/soywod/react-pin-field.svg?branch=master)](https://travis-ci.org/soywod/react-pin-field) [![codecov](https://codecov.io/gh/soywod/react-pin-field/branch/master/graph/badge.svg)](https://codecov.io/gh/soywod/react-pin-field)
+# React Captain [![Build Status](https://travis-ci.org/soywod/react-captain.svg?branch=master)](https://travis-ci.org/soywod/react-captain) [![codecov](https://codecov.io/gh/soywod/react-captain/branch/master/graph/badge.svg)](https://codecov.io/gh/soywod/react-captain)
 
-A React component for entering PIN codes.
+A collection of strongly typed React hooks and contexts.
 
-![gif](https://user-images.githubusercontent.com/10437171/70847884-f9d35f00-1e69-11ea-8152-1c70eda12137.gif)
+*Live demo at https://react-captain.soywod.me.*
 
-*Live demo at https://react-pin-field.soywod.me.*
+## Table of contents
+
+  - [Installation](#installation)
+  - [Examples](#examples)
+    - [Click outside](#click-outside)
+    - [Toggle](#toggle)
+    - [Debounce](#debounce)
+    - [Stored state](#stored-state)
+  - [Development](#development)
+  - [Tests](#tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end tests](#end-to-end-tests)
+  - [Changelog](#changelog)
+  - [License](#license)
 
 ## Installation
 
 ```bash
-yarn add react-pin-field
+yarn add react-captain
 # or
-npm install react-pin-field
+npm install react-captain
 ```
-
-## Usage
-
-```typescript
-import PinField from "react-pin-field"
-```
-
-## Props
-
-```typescript
-type PinFieldProps = {
-  ref?: React.Ref<HTMLInputElement[]>
-  className?: string
-  length?: number
-  validate?: string | string[] | RegExp | ((key: string) => boolean)
-  format?: (char: string) => string
-  onResolveKey?: (key: string, ref?: HTMLInputElement) => any
-  onRejectKey?: (key: string, ref?: HTMLInputElement) => any
-  onChange?: (code: string) => void
-  onComplete?: (code: string) => void
-  style?: React.CSSProperties
-} & React.InputHTMLAttributes<HTMLInputElement>
-
-const defaultProps = {
-  ref: {current: []},
-  className: "",
-  length: 5,
-  validate: /^[a-zA-Z0-9]$/,
-  format: key => key,
-  onResolveKey: () => {},
-  onRejectKey: () => {},
-  onChange: () => {},
-  onComplete: () => {},
-  style: {},
-}
-```
-
-### Ref
-
-You can control each inputs with the PIN field ref:
-
-```typescript
-<PinField ref={ref} />
-
-// To reset the PIN field
-ref.current.forEach(input => (input.value = ""))
-
-// To focus one particular input
-ref.current[2].focus()
-```
-
-### Style
-
-React PIN field follows the [ABEM
-convention](https://css-tricks.com/abem-useful-adaptation-bem/). Each input has a class named `a-reactPinField__input`, plus:
-
-  - `-{index}` where index is the position of the input. Eg: `-0` for the first input, `-2` for the third etc.
-  - `-focus` when the current input is focused.
-  - `-success` when a key is resolved.
-  - `-error` when a key is rejected.
-
-You can also pass a custom `className` or a custom `style`.
-
-### Length
-
-Length of the code (number of characters to type). Default: `5`.
-
-### Validate
-
-Hook called to validate a char. It can be:
-
-- A string of allowed characters: `abcABC123`
-- A list of allowed chars: `["a", "b", "c", "1", "2", "3"]`
-- A RegExp: `/^[a-zA-Z0-9]$/`
-- A function: `(char: string) => boolean`
-
-### Format
-
-Hook called before adding a new char to the code. For example, to set the code
-to upper case: `(char: string) => char.toUpperCase()`
-
-### Events
-
-- onResolveKey: called when a char passes successfully the `validate` function
-- onRejectKey: the opposite of `onResolveKey`
-- onChange: called when the code changes
-- onComplete: called when the code has been filled
 
 ## Examples
 
-See the [live demo](https://react-pin-field.soywod.me).
+*Live demo at https://react-captain.soywod.me.*
+
+### [Click outside](https://github.com/soywod/react-captain/tree/master/src/click-outside)
+
+Capture click event outside of the given HTMLElement.
+
+```typescript
+import {useClickOutside} from 'react-captain'
+
+const Component: FC = () => {
+  const ref = useRef<HTMLDivElement | null>(null)
+  useClickOutside(ref, () => console.log("Clicked outside!"))
+
+  return (
+    <div ref={ref}>
+      Click outside
+    </div>
+  )
+}
+```
+
+### [Toggle](https://github.com/soywod/react-captain/tree/master/src/toggle)
+
+A `useState` for booleans.
+
+```typescript
+import {useToggle} from 'react-captain'
+
+const Component: FC = () => {
+  const [isOn, toggle] = useToggle(false)
+
+  return (
+    <div>
+      <button onClick={toggle}>
+        Switch status: {isOn ? "ON" : "OFF"}
+      </button>
+      <button onClick={() => toggle(false)}>
+        Reset toggle
+      </button>
+    </div>
+  )
+}
+```
+
+### [Debounce](https://github.com/soywod/react-captain/tree/master/src/debounce)
+
+Add debounce to a handler.
+
+```typescript
+import {useDebounce} from "react-captain"
+
+function Component() {
+  const debounce = useDebounce()
+  const handler = debounce(() => console.log("Hello!"))
+
+  return (
+    <>
+      <button onClick={handler}>
+        Say hello with delay
+      </button>
+      <button onClick={handler.abort}>
+        Abort
+      </button>
+      <button onClick={handler.terminate}>
+        Terminate
+      </button>
+    </>
+  )
+}
+```
+
+### [Stored state](https://github.com/soywod/react-captain/tree/master/src/stored-state)
+
+A persistant useState, based on React's `useState` and
+[localForage](https://github.com/localForage/localForage). Drivers supported:
+localStorage, WebSQL and IndexedDB.
+
+```typescript
+import {useStoredState} from 'react-captain'
+
+function Component() {
+  const [value, setValue] = useStoredState("storage-key", "Default value")
+
+  return (
+    <button onClick={() => setValue("Value changed!")}>
+      {String(value)}
+    </button>
+  )
+}
+```
+
+## Examples
+
+See the [live demo](https://react-captain.soywod.me).
 
 ## Development
 
 ```bash
-git clone https://github.com/soywod/react-pin-field.git
-cd react-pin-field
+git clone https://github.com/soywod/react-captain.git
+cd react-captain
 yarn install
 ```
 
@@ -132,11 +151,11 @@ yarn build:demo
 ```
 
 ## Tests
-
 ### Unit tests
 
-Unit tests are handled by [Jest](https://jestjs.io/) (`.test` files) and
-[Enzyme](https://airbnb.io/enzyme/) (`.spec` files).
+Unit tests are handled by [Jest](https://jestjs.io) (`.test` files) and [React
+Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+(`.spec` files).
 
 ```bash
 yarn test:unit
@@ -154,9 +173,9 @@ yarn test:e2e
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/soywod/react-pin-field/blob/master/CHANGELOG.md)
+See [CHANGELOG.md](https://github.com/soywod/react-captain/blob/master/CHANGELOG.md).
 
 ## License
 
-[MIT](https://github.com/soywod/react-pin-field/blob/master/LICENSE) -
-Copyright (c) 2019 Clément DOUIN
+[MIT](https://github.com/soywod/react-captain/blob/master/LICENSE) -
+Copyright © 2020 Clément DOUIN.

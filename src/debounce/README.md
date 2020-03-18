@@ -26,7 +26,7 @@ import {useDebounce} from "react-captain"
 // or
 import useDebounce from "react-captain/lib/debounce"
 
-function Demo() {
+function Component() {
   const debounce = useDebounce()
   const handler = debounce(() => console.log("Hello!"))
 

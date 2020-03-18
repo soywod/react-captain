@@ -5,17 +5,18 @@ Add debounce to a handler.
 ## Definition
 
 ```typescript
-type Callback<T> = (...params: Parameters<T>) => void
-type Cancel = () => void
-type Options =
-  | number                // Delay in ms, default: 250
-  | {
-    delay?: number        // Delay in ms, default: 250
-    persist?: boolean     // Should trigger .persist(), default: false
-    cancelable?: boolean  // Provide a method to cancel the debounce, default: false
-  }
+type Debounce<T extends Function> = {
+  (...params: Parameters<T>): void
+  abort: () => void
+  terminate: () => void
+}
 
-function useDebounce(options?: Options): Callback | [Callback, Cancel]
+type DebounceOpts =
+  | number
+  | {
+      delay?: number
+      persist?: boolean
+    }
 ```
 
 ## Usage
@@ -26,16 +27,21 @@ import {useDebounce} from "react-captain"
 import useDebounce from "react-captain/lib/debounce"
 
 function Demo() {
-  const debounce = useDebounce(options)
-
-  function handleClick() {
-    console.log("Debounced!")
-  }
+  const debounce = useDebounce()
+  const handler = debounce(() => console.log("Hello!"))
 
   return (
-    <button onClick={debounce(handleClick)}>
-      Handle with debounce
-    </button>
+    <>
+      <button onClick={handler}>
+        Say hello with delay
+      </button>
+      <button onClick={handler.abort}>
+        Abort
+      </button>
+      <button onClick={handler.terminate}>
+        Terminate
+      </button>
+    </>
   )
 }
 ```

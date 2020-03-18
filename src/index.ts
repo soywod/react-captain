@@ -3,7 +3,6 @@ import useClickOutside, {
   ClickOutsideListener,
   ClickOutsideOpts,
 } from "./click-outside"
-
 export {useClickOutside, ClickOutside, ClickOutsideListener, ClickOutsideOpts}
 
 import useToggle, {Toggle} from "./toggle"

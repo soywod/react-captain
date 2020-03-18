@@ -91,6 +91,6 @@
     "lint": "eslint src/**/*.ts{,x}",
     "test:unit": "jest",
     "test:e2e": "cypress run",
-    "test": "run-p test:unit test:e2e"
+    "test": "run-p test:unit"
   }
 }

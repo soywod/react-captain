@@ -1,9 +1,9 @@
 import {useState} from "react"
 import isBoolean from "lodash/fp/isBoolean"
 
-import {Toggle} from "./toggle.types"
+import {UseToggle} from "./toggle.types"
 
-export const useToggle: Toggle = (defaultVal?: any) => {
+export const useToggle: UseToggle = defaultVal => {
   const [val, setVal] = useState(defaultVal === true)
 
   function toggler(override?: any) {

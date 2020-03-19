@@ -5,18 +5,20 @@ Add debounce to a handler.
 ## Definition
 
 ```typescript
+type UseDebounce = (
+  opts?: number | Partial<DebounceOpts>,
+) => <T extends Function>(fn: T) => Debounce<T>
+
+type DebounceOpts = {
+  delay: number
+  persist: boolean
+}
+
 type Debounce<T extends Function> = {
   (...params: Parameters<T>): void
   abort: () => void
   terminate: () => void
 }
-
-type DebounceOpts =
-  | number
-  | {
-      delay?: number
-      persist?: boolean
-    }
 ```
 
 ## Usage

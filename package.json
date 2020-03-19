@@ -3,7 +3,7 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "Clément DOUIN <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "private": false,
   "keywords": [
     "react",
@@ -14,6 +14,8 @@
     "typescript",
     "click outside",
     "debounce",
+    "timeout",
+    "interval",
     "stored state",
     "toggle"
   ],
@@ -31,9 +33,11 @@
     "lib/index.{js|js.map|d.ts}",
     "lib/**/index.{js|js.map|d.ts}",
     "lib/click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
     "lib/debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}"
+    "lib/timeout/timeout.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/interval/interval.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}"
   ],
   "husky": {
     "hooks": {

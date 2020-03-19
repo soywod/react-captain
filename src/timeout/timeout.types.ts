@@ -1,6 +1,30 @@
 export type Function = (...args: any[]) => void
 
-export type TimeoutsMap = Map<string, [NodeJS.Timeout, () => void]>
+/**
+ * Wrapper around `setTimeout`.
+ *
+ * @param   opts  Timeout options
+ * @returns       The handler wrapped
+ */
+export type UseTimeout = (
+  opts?: number | Partial<TimeoutOpts>,
+) => <T extends Function>(fn: T) => Timeout<T>
+
+export type TimeoutOpts = {
+  /**
+   * Timeout delay before triggering the callback.
+   *
+   * @default 300
+   */
+  delay: number
+
+  /**
+   * Should keep the original event by calling `.persist()`.
+   *
+   * @default false
+   */
+  persist: boolean
+}
 
 export type Timeout<T extends Function> = {
   (...params: Parameters<T>): void
@@ -16,18 +40,9 @@ export type Timeout<T extends Function> = {
   terminate: () => void
 }
 
-export type TimeoutOpts =
-  | number
-  | {
-      /**
-       * Timeout delay before triggering the callback.
-       * @default 300
-       */
-      delay?: number
+export type TimeoutsMap = Map<string, [NodeJS.Timeout, () => void]>
 
-      /**
-       * Should keep the original event by calling `.persist()`.
-       * @default false
-       */
-      persist?: boolean
-    }
+export const defaultOpts: TimeoutOpts = {
+  delay: 300,
+  persist: false,
+}

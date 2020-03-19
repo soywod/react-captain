@@ -1,14 +1,5 @@
 import useStoredState from "./stored-state"
+import {UseStoredState, StoredStateDriver, StoredStateOpts} from "./stored-state.types"
 
-export {useStoredState}
-
-import {
-  StoredState,
-  StoredStateState,
-  StoredStateDriver,
-  StoredStateOpts,
-} from "./stored-state.types"
-
-export {StoredState, StoredStateState, StoredStateDriver, StoredStateOpts}
-
+export {useStoredState, UseStoredState, StoredStateDriver, StoredStateOpts}
 export default useStoredState

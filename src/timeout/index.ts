@@ -1,5 +1,5 @@
 import useTimeout from "./timeout"
-import {Timeout, TimeoutOpts} from "./timeout.types"
+import {UseTimeout, TimeoutOpts, Timeout} from "./timeout.types"
 
-export {useTimeout, Timeout, TimeoutOpts}
+export {useTimeout, UseTimeout, TimeoutOpts, Timeout}
 export default useTimeout

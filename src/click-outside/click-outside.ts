@@ -1,11 +1,6 @@
 import {useEffect} from "react"
 
-import {
-  ClickOutside,
-  ClickOutsideListener,
-  ClickOutsideOpts,
-  defaultOpts,
-} from "./click-outside.types"
+import {UseClickOutside, ClickOutsideFn, defaultOpts} from "./click-outside.types"
 
 const isOutside = (target: EventTarget | null, source: EventTarget | null) => {
   if (!(target instanceof Node)) return false
@@ -15,12 +10,12 @@ const isOutside = (target: EventTarget | null, source: EventTarget | null) => {
   return true
 }
 
-const useClickOutside: ClickOutside = (ref, callback, overrideOpts = {}) => {
-  const opts: ClickOutsideOpts = {...defaultOpts, ...overrideOpts}
+export const useClickOutside: UseClickOutside = (ref, fn, overrideOpts = {}) => {
+  const opts = Object.assign(defaultOpts, overrideOpts)
 
   useEffect(() => {
     const currRoot = opts.root.current || document
-    const listener: ClickOutsideListener = evt => {
+    const listener: ClickOutsideFn = evt => {
       const isBetweenRootAndTarget = [ref, ...opts.except].every(el => {
         const isInsideRoot = !isOutside(evt.target, currRoot)
         const isOutsideOfTarget = isOutside(evt.target, el.current)
@@ -28,13 +23,13 @@ const useClickOutside: ClickOutside = (ref, callback, overrideOpts = {}) => {
       })
 
       if (isBetweenRootAndTarget) {
-        callback(evt)
+        fn(evt)
       }
     }
 
     currRoot.addEventListener(opts.listenerType, listener, opts.listenerOpts)
     return () => currRoot.removeEventListener(opts.listenerType, listener, opts.listenerOpts)
-  }, [callback, opts, ref])
+  }, [fn, opts, ref])
 }
 
 export default useClickOutside

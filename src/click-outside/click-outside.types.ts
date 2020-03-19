@@ -1,39 +1,44 @@
 import React from "react"
 
 /**
- * @param ref       Reference to the element
- * @param listener  Callback called on ref click outside
- * @param opts      Options
+ * Capture click event outside of the given HTMLElement.
+ *
+ * @param ref   Reference to the element
+ * @param fn    Callback called on ref outside click
+ * @param opts  Options
  */
-export type ClickOutside = (
+export type UseClickOutside = (
   ref: React.RefObject<Node>,
-  listener: ClickOutsideListener,
+  fn: ClickOutsideFn,
   opts?: Partial<ClickOutsideOpts>,
 ) => void
 
-export type ClickOutsideListener = (evt: Event) => void
-
+export type ClickOutsideFn = (evt: Event) => void
 export type ClickOutsideOpts = {
   /**
    * Highest parent where the listener will be attached to.
+   *
    * @default document
    */
   root: React.RefObject<Node>
 
   /**
    * Blacklisted elements that will not trigger any event.
+   *
    * @default []
    */
   except: React.RefObject<Node>[]
 
   /**
    * Listener event type.
+   *
    * @default "click"
    */
   listenerType: keyof DocumentEventMap
 
   /**
    * Listener options.
+   *
    * @default {passive: true}
    */
   listenerOpts: boolean | AddEventListenerOptions

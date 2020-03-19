@@ -125,13 +125,13 @@ const Demo: FC = () => {
             <pre>
               <code>
                 {`
-type ClickOutside = (
+type UseClickOutside = (
   ref: React.RefObject<Node>,
-  listener: ClickOutsideListener,
+  fn: ClickOutsideFn,
   opts?: Partial<ClickOutsideOpts>,
 ) => void
 
-type ClickOutsideListener = (evt: Event) => void
+type ClickOutsideFn = (evt: Event) => void
 type ClickOutsideOpts = {
   root: React.RefObject<Node>
   except: React.RefObject<Node>[]
@@ -167,18 +167,20 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
             <pre>
               <code>
                 {`
+type UseDebounce = (
+  opts?: number | Partial<DebounceOpts>,
+) => <T extends Function>(fn: T) => Debounce<T>
+
+type DebounceOpts = {
+  delay: number
+  persist: boolean
+}
+
 type Debounce<T extends Function> = {
   (...params: Parameters<T>): void
   abort: () => void
   terminate: () => void
 }
-
-type DebounceOpts =
-  | number
-  | {
-      delay?: number
-      persist?: boolean
-    }
                 `}
               </code>
             </pre>
@@ -218,18 +220,20 @@ const handler = debounce(() => console.log("Hello!"))
             <pre>
               <code>
                 {`
+type UseTimeout = (
+  opts?: number | Partial<TimeoutOpts>,
+) => <T extends Function>(fn: T) => Timeout<T>
+
+type TimeoutOpts = {
+  delay: number
+  persist: boolean
+}
+
 type Timeout<T extends Function> = {
   (...params: Parameters<T>): void
   abort: () => void
   terminate: () => void
 }
-
-type TimeoutOpts =
-  | number
-  | {
-      delay?: number
-      persist?: boolean
-    }
                 `}
               </code>
             </pre>
@@ -276,15 +280,17 @@ const handler = timeout(() => console.log("Hello!"))
             <pre>
               <code>
                 {`
-type StoredState<T> = (name: string, opts?: StoredStateOpts<T>) => StoredStateState<T>
-type StoredStateState<T> = [T, (val: T) => Promise<void>, boolean]
+type UseStoredState = <T>(
+  name: string,
+  opts?: T | Partial<StoredStateOpts<T>>,
+) => [T, (val: T) => Promise<void>, boolean]
+
 type StoredStateDriver = "LOCALSTORAGE" | "WEBSQL" | "INDEXEDDB"
-type StoredStateOpts<T> =
-  | T
-  | {
-      defaultVal: T
-      driver?: StoredStateDriver
-    }
+
+type StoredStateOpts<T> = {
+  defaultVal: T
+  driver: StoredStateDriver
+}
                 `}
               </code>
             </pre>
@@ -318,7 +324,7 @@ return isReady ? val : null
             <pre>
               <code>
                 {`
-type Toggle = (defaultVal?: any) => ToggleState
+type UseToggle = (defaultVal?: any) => ToggleState
 type ToggleState = [boolean, (val?: any) => void]
                 `}
               </code>

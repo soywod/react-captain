@@ -1,17 +1,18 @@
 import {useEffect, useRef, useState} from "react"
 import {v4 as uuid} from "uuid"
-import getOr from "lodash/fp/getOr"
 import invokeMap from "lodash/fp/invokeMap"
 import isNumber from "lodash/fp/isNumber"
 import noop from "lodash/fp/noop"
 
-import {Function, Timeout, TimeoutOpts, TimeoutsMap} from "./timeout.types"
+import {Function, UseTimeout, TimeoutsMap, defaultOpts} from "./timeout.types"
 
-function useTimeout(options?: TimeoutOpts) {
-  const delay = isNumber(options) ? options : getOr(300, "delay", options)
-  const persist: boolean = getOr(false, "persist", options)
+const useTimeout: UseTimeout = overrideOpts => {
+  const opts = Object.assign(
+    defaultOpts,
+    isNumber(overrideOpts) ? {delay: overrideOpts} : overrideOpts,
+  )
 
-  return function useTimeoutInternal<T extends Function>(callback: T): Timeout<T> {
+  return function useTimeoutInternal<T extends Function>(fn: T) {
     const [ready, setReady] = useState(false)
     const timeouts = useRef<TimeoutsMap>(new Map())
     const wrapper = useRef<(...params: Parameters<T>) => void>(noop)
@@ -20,14 +21,14 @@ function useTimeout(options?: TimeoutOpts) {
 
     useEffect(() => {
       wrapper.current = (...params: Parameters<T>) => {
-        if (persist) {
+        if (opts.persist) {
           invokeMap("persist", params)
         }
 
         const id = uuid()
 
         const wrapper = () => {
-          callback(...params)
+          fn(...params)
           timeouts.current.delete(id)
         }
 
@@ -53,11 +54,11 @@ function useTimeout(options?: TimeoutOpts) {
           terminate.current = noop
         }
 
-        timeouts.current.set(id, [setTimeout(wrapper, delay), wrapper])
+        timeouts.current.set(id, [setTimeout(wrapper, opts.delay), wrapper])
       }
 
       setReady(true)
-    }, [callback, ready])
+    }, [fn, ready])
 
     return Object.assign(wrapper.current, {
       abort: () => abort.current(),

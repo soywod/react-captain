@@ -5,13 +5,13 @@ Capture click event outside of the given HTMLElement.
 ## Definition
 
 ```typescript
-type ClickOutside = (
+type UseClickOutside = (
   ref: React.RefObject<Node>,
-  listener: ClickOutsideListener,
+  fn: ClickOutsideFn,
   opts?: Partial<ClickOutsideOpts>,
 ) => void
 
-type ClickOutsideListener = (evt: Event) => void
+type ClickOutsideFn = (evt: Event) => void
 type ClickOutsideOpts = {
   root: React.RefObject<Node>
   except: React.RefObject<Node>[]

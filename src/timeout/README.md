@@ -5,18 +5,20 @@ Wrapper around setTimeout.
 ## Definition
 
 ```typescript
+type UseTimeout = (
+  opts?: number | Partial<TimeoutOpts>,
+) => <T extends Function>(fn: T) => Timeout<T>
+
+type TimeoutOpts = {
+  delay: number
+  persist: boolean
+}
+
 type Timeout<T extends Function> = {
   (...params: Parameters<T>): void
   abort: () => void
   terminate: () => void
 }
-
-type TimeoutOpts =
-  | number
-  | {
-      delay?: number
-      persist?: boolean
-    }
 ```
 
 ## Usage

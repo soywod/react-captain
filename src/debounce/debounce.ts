@@ -1,16 +1,17 @@
 import {useEffect, useRef, useState} from "react"
-import getOr from "lodash/fp/getOr"
 import invokeMap from "lodash/fp/invokeMap"
 import isNumber from "lodash/fp/isNumber"
 import noop from "lodash/fp/noop"
 
-import {Function, Debounce, DebounceOpts} from "./debounce.types"
+import {Function, UseDebounce, defaultOpts} from "./debounce.types"
 
-function useDebounce(options?: DebounceOpts) {
-  const delay = isNumber(options) ? options : getOr(300, "delay", options)
-  const persist: boolean = getOr(false, "persist", options)
+export const useDebounce: UseDebounce = overrideOpts => {
+  const opts = Object.assign(
+    defaultOpts,
+    isNumber(overrideOpts) ? {delay: overrideOpts} : overrideOpts,
+  )
 
-  return function useDebounceInternal<T extends Function>(callback: T): Debounce<T> {
+  return function useDebounceInternal<T extends Function>(fn: T) {
     const [ready, setReady] = useState(false)
     const timeout = useRef<NodeJS.Timeout | null>(null)
     const wrapper = useRef<(...params: Parameters<T>) => void>(noop)
@@ -19,13 +20,13 @@ function useDebounce(options?: DebounceOpts) {
 
     useEffect(() => {
       wrapper.current = (...params: Parameters<T>) => {
-        const wrapper = () => {
-          callback(...params)
-          timeout.current = null
+        if (opts.persist) {
+          invokeMap("persist", params)
         }
 
-        if (persist) {
-          invokeMap("persist", params)
+        const wrapper = () => {
+          fn(...params)
+          timeout.current = null
         }
 
         abort.current = () => {
@@ -44,11 +45,11 @@ function useDebounce(options?: DebounceOpts) {
         }
 
         timeout.current && clearTimeout(timeout.current)
-        timeout.current = setTimeout(wrapper, delay)
+        timeout.current = setTimeout(wrapper, opts.delay)
       }
 
       setReady(true)
-    }, [callback, ready])
+    }, [fn, ready])
 
     return Object.assign(wrapper.current, {
       abort: () => abort.current(),

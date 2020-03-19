@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.3] - 2020-03-19
+
 ### Added
 
 - useTimeout
+- useInterval
+
+### Updated
+
+- Types name + comments
 
 ## 3.0.2 - 2020-03-18
 
@@ -23,12 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Missing files in npm lib archive
 
-## [3.0.0] - 2020-03-18
+## 3.0.0 - 2020-03-18
 
 ### Added
 
 - This changelog
 
 [unreleased]: https://github.com/soywod/react-captain/compare/v3.0.3...HEAD
-[3.0.3]: https://github.com/soywod/react-captain/compare/v3.0.0...v3.0.3
-[3.0.0]: https://github.com/soywod/react-captain/releases/tag/v3.0.0
+[3.0.3]: https://github.com/soywod/react-captain/releases/tag/v3.0.3

@@ -11,6 +11,7 @@ A collection of strongly typed React hooks and contexts.
     - [Click outside](#click-outside)
     - [Debounce](#debounce)
     - [Timeout](#timeout)
+    - [Interval](#interval)
     - [Stored state](#stored-state)
     - [Toggle](#toggle)
   - [Development](#development)
@@ -80,7 +81,7 @@ function Component() {
 
 ### [Timeout](https://github.com/soywod/react-captain/tree/master/src/timeout)
 
-Wrapper around setTimeout.
+Wrapper around `setTimeout`.
 
 ```typescript
 import {useTimeout} from "react-captain"
@@ -101,6 +102,24 @@ function Component() {
         Terminate
       </button>
     </>
+  )
+}
+```
+
+### [Interval](https://github.com/soywod/react-captain/tree/master/src/interval)
+
+Wrapper around `setInterval`.
+
+```typescript
+import {useInterval} from "react-captain"
+
+function Component() {
+  const [isOn, toggle] = useInterval(() => console.log("Hello!"))
+
+  return (
+    <button onClick={handler}>
+      {isOn ? "Stop" : "Say hello"}
+    </button>
   )
 }
 ```

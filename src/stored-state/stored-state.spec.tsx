@@ -6,7 +6,6 @@ import {act} from "react-dom/test-utils"
 import noop from "lodash/fp/noop"
 
 import useStoredState from "./stored-state"
-import {StoredStateState} from "./stored-state.types"
 
 let storage: {[key: string]: unknown} = {}
 
@@ -80,7 +79,7 @@ it("should set val", async () => {
   let setVal: (val: string) => Promise<void>
   storage.key = "stored-val"
 
-  const TestComponent: FC<{set: (set: StoredStateState<string>[1]) => void}> = props => {
+  const TestComponent: FC<{set: (set: any) => void}> = props => {
     const [val, setVal, isReady] = useStoredState("key", "default-val")
 
     useEffect(() => {

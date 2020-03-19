@@ -3,11 +3,14 @@ import localForage from "localforage"
 import getOr from "lodash/fp/getOr"
 import isNil from "lodash/fp/isNil"
 
-import {StoredStateState, StoredStateDriver, StoredStateOpts} from "./stored-state.types"
+import {UseStoredState, StoredStateOpts, defaultDriver} from "./stored-state.types"
 
-function useStoredState<T>(name: string, opts: StoredStateOpts<T>): StoredStateState<T> {
-  const driver: StoredStateDriver = getOr("LOCALSTORAGE", "driver", opts)
-  const defaultVal: T = getOr(opts, "defaultVal", opts)
+const useStoredState: UseStoredState = <T>(
+  name: string,
+  overrideOpts?: T | Partial<StoredStateOpts<T>>,
+) => {
+  const defaultVal: T = getOr(overrideOpts, "defaultVal", overrideOpts)
+  const opts = Object.assign({defaultVal, driver: defaultDriver}, overrideOpts)
   const storage = useRef<LocalForage | null>(null)
   const [isReady, setReady] = useState(false)
   const [val, setVal] = useState(defaultVal)
@@ -24,13 +27,13 @@ function useStoredState<T>(name: string, opts: StoredStateOpts<T>): StoredStateS
 
   useEffect(() => {
     if (!isReady) {
-      storage.current = localForage.createInstance({name, driver: localForage[driver]})
+      storage.current = localForage.createInstance({name, driver: localForage[opts.driver]})
       storage.current
         .getItem<T>(name)
         .then(storedVal => (isNil(storedVal) ? updateVal(defaultVal) : setVal(storedVal)))
         .then(() => setReady(true))
     }
-  }, [defaultVal, driver, isReady, name, updateVal])
+  }, [defaultVal, isReady, name, opts.driver, updateVal])
 
   return [val, updateVal, isReady]
 }

@@ -50,6 +50,7 @@
     "@types/node": "^13.9.1",
     "@types/react": "16.9.14",
     "@types/react-dom": "16.9.4",
+    "@types/uuid": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "^10.0.3",
@@ -78,7 +79,8 @@
     "react-dom": "^16.12.0"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "start": "parcel serve -d lib -p 3000 src/_demo/index.html",

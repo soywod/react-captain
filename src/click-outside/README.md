@@ -23,9 +23,9 @@ type ClickOutsideOpts = {
 ## Usage
 
 ```typescript
-import {useClickOutside} from 'react-captain'
+import {useClickOutside} from "react-captain"
 // or
-import useClickOutside from 'react-captain/lib/click-outside'
+import useClickOutside from "react-captain/lib/click-outside"
 
 const Component: FC = () => {
   const ref = useRef<HTMLDivElement | null>(null)

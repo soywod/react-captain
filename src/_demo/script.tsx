@@ -2,13 +2,16 @@ import React, {FC, useRef, useState} from "react"
 import ReactDOM from "react-dom"
 
 import useClickOutside from "../click-outside"
-import useToggle from "../toggle"
 import useDebounce from "../debounce"
+import useTimeout from "../timeout"
 import useStoredState from "../stored-state"
+import useToggle from "../toggle"
 
 const Demo: FC = () => {
   const debounce = useDebounce(1000)
-  const sayHelloWithDelay = debounce(() => alert("Hello!"))
+  const timeout = useTimeout(1000)
+  const sayHelloWithDebounce = debounce(() => alert("Hello!"))
+  const sayHelloWithTimeout = timeout(() => alert("Hello!"))
 
   const clickOutsideRootRef = useRef<HTMLDivElement | null>(null)
   const clickOutsideRejectedRef = useRef<HTMLDivElement | null>(null)
@@ -154,44 +157,10 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">
-              useToggle
-              <span className={`badge badge-${isOn ? "success" : "danger"} ml-4`}>
-                {isOn ? "ON" : "OFF"}
-              </span>
-            </h2>
-            <button onClick={toggle}>Toggle</button>
-            <button onClick={() => toggle(false)}>Reset</button>
-          </div>
-          <div className="col-sm-6">
-            <h4>Definition</h4>
-            <pre>
-              <code>
-                {`
-type Toggle = (defaultVal?: any) => ToggleState
-type ToggleState = [boolean, (val?: any) => void]
-                `}
-              </code>
-            </pre>
-            <h4>Usage</h4>
-            <pre>
-              <code>
-                {`
-const [isOn, toggle] = useToggle()
-                `}
-              </code>
-            </pre>
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="row">
-          <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-4">useDebounce</h2>
-            <button onClick={sayHelloWithDelay}>Say hello after 1000ms</button>
-            <button onClick={sayHelloWithDelay.abort}>Abort</button>
-            <button onClick={sayHelloWithDelay.terminate}>Terminate</button>
+            <button onClick={sayHelloWithDebounce}>Say hello after 1000ms</button>
+            <button onClick={sayHelloWithDebounce.abort}>Abort</button>
+            <button onClick={sayHelloWithDebounce.terminate}>Terminate</button>
           </div>
           <div className="col-sm-6">
             <h4>Definition</h4>
@@ -219,6 +188,57 @@ type DebounceOpts =
                 {`
 const debounce = useDebounce()
 const handler = debounce(() => console.log("Hello!"))
+
+<button onClick={handler}>
+  Say hello with delay
+</button>
+<button onClick={handler.abort}>
+  Abort
+</button>
+<button onClick={handler.terminate}>
+  Terminate
+</button>
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6 mb-4">
+            <h2 className="display-5 mb-4">useTimeout</h2>
+            <button onClick={sayHelloWithTimeout}>Say hello after 1000ms</button>
+            <button onClick={sayHelloWithTimeout.abort}>Abort</button>
+            <button onClick={sayHelloWithTimeout.terminate}>Terminate</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type Timeout<T extends Function> = {
+  (...params: Parameters<T>): void
+  abort: () => void
+  terminate: () => void
+}
+
+type TimeoutOpts =
+  | number
+  | {
+      delay?: number
+      persist?: boolean
+    }
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+const timeout = useTimeout()
+const handler = timeout(() => console.log("Hello!"))
 
 <button onClick={handler}>
   Say hello with delay
@@ -274,6 +294,40 @@ type StoredStateOpts<T> =
                 {`
 const [val, setVal, isReady] = useStoredState("key", "defaultValue")
 return isReady ? val : null
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6 mb-4">
+            <h2 className="display-5 mb-4">
+              useToggle
+              <span className={`badge badge-${isOn ? "success" : "danger"} ml-4`}>
+                {isOn ? "ON" : "OFF"}
+              </span>
+            </h2>
+            <button onClick={toggle}>Toggle</button>
+            <button onClick={() => toggle(false)}>Reset</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type Toggle = (defaultVal?: any) => ToggleState
+type ToggleState = [boolean, (val?: any) => void]
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+const [isOn, toggle] = useToggle()
                 `}
               </code>
             </pre>

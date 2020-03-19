@@ -12,9 +12,9 @@ type ToggleState = [boolean, (val?: any) => void]
 ## Usage
 
 ```typescript
-import {useToggle} from 'react-captain'
+import {useToggle} from "react-captain"
 // or
-import useToggle from 'react-captain/lib/toggle'
+import useToggle from "react-captain/lib/toggle"
 
 const Component: FC = () => {
   const [isOn, toggle] = useToggle(false)
@@ -22,7 +22,7 @@ const Component: FC = () => {
   return (
     <div>
       <button onClick={toggle}>
-        Switch status: {isOn ? 'ON' : 'OFF'}
+        Switch status: {isOn ? "ON" : "OFF"}
       </button>
       <button onClick={() => toggle(false)}>
         Reset toggle

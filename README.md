@@ -9,9 +9,10 @@ A collection of strongly typed React hooks and contexts.
   - [Installation](#installation)
   - [Examples](#examples)
     - [Click outside](#click-outside)
-    - [Toggle](#toggle)
     - [Debounce](#debounce)
+    - [Timeout](#timeout)
     - [Stored state](#stored-state)
+    - [Toggle](#toggle)
   - [Development](#development)
   - [Tests](#tests)
     - [Unit tests](#unit-tests)
@@ -36,7 +37,7 @@ npm install react-captain
 Capture click event outside of the given HTMLElement.
 
 ```typescript
-import {useClickOutside} from 'react-captain'
+import {useClickOutside} from "react-captain"
 
 const Component: FC = () => {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -45,29 +46,6 @@ const Component: FC = () => {
   return (
     <div ref={ref}>
       Click outside
-    </div>
-  )
-}
-```
-
-### [Toggle](https://github.com/soywod/react-captain/tree/master/src/toggle)
-
-A `useState` for booleans.
-
-```typescript
-import {useToggle} from 'react-captain'
-
-const Component: FC = () => {
-  const [isOn, toggle] = useToggle(false)
-
-  return (
-    <div>
-      <button onClick={toggle}>
-        Switch status: {isOn ? "ON" : "OFF"}
-      </button>
-      <button onClick={() => toggle(false)}>
-        Reset toggle
-      </button>
     </div>
   )
 }
@@ -100,6 +78,33 @@ function Component() {
 }
 ```
 
+### [Timeout](https://github.com/soywod/react-captain/tree/master/src/timeout)
+
+Wrapper around setTimeout.
+
+```typescript
+import {useTimeout} from "react-captain"
+
+function Component() {
+  const timeout = useTimeout()
+  const handler = timeout(() => console.log("Hello!"))
+
+  return (
+    <>
+      <button onClick={handler}>
+        Say hello with delay
+      </button>
+      <button onClick={handler.abort}>
+        Abort
+      </button>
+      <button onClick={handler.terminate}>
+        Terminate
+      </button>
+    </>
+  )
+}
+```
+
 ### [Stored state](https://github.com/soywod/react-captain/tree/master/src/stored-state)
 
 A persistant useState, based on React's `useState` and
@@ -107,7 +112,7 @@ A persistant useState, based on React's `useState` and
 localStorage, WebSQL and IndexedDB.
 
 ```typescript
-import {useStoredState} from 'react-captain'
+import {useStoredState} from "react-captain"
 
 function Component() {
   const [value, setValue] = useStoredState("storage-key", "Default value")
@@ -116,6 +121,29 @@ function Component() {
     <button onClick={() => setValue("Value changed!")}>
       {String(value)}
     </button>
+  )
+}
+```
+
+### [Toggle](https://github.com/soywod/react-captain/tree/master/src/toggle)
+
+A `useState` for booleans.
+
+```typescript
+import {useToggle} from "react-captain"
+
+const Component: FC = () => {
+  const [isOn, toggle] = useToggle(false)
+
+  return (
+    <div>
+      <button onClick={toggle}>
+        Switch status: {isOn ? "ON" : "OFF"}
+      </button>
+      <button onClick={() => toggle(false)}>
+        Reset toggle
+      </button>
+    </div>
   )
 }
 ```

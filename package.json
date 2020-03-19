@@ -3,7 +3,7 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "Clément DOUIN <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": false,
   "keywords": [
     "react",
@@ -17,7 +17,9 @@
     "timeout",
     "interval",
     "stored state",
-    "toggle"
+    "toggle",
+    "subject",
+    "behavior subject"
   ],
   "homepage": "https://github.com/soywod/react-captain",
   "repository": {
@@ -30,14 +32,16 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib/index.{js|js.map|d.ts}",
-    "lib/**/index.{js|js.map|d.ts}",
     "lib/click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
     "lib/debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
     "lib/timeout/timeout.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
     "lib/interval/interval.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
     "lib/stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}"
+    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/subject/subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/behavior-subject/behavior-subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "lib/**/index.{js|js.map|d.ts}",
+    "lib/index.{js|js.map|d.ts}"
   ],
   "husky": {
     "hooks": {
@@ -70,6 +74,7 @@
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "rxjs": "^6.5.4",
     "sass": "^1.23.7",
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
@@ -80,7 +85,8 @@
   "peerDependencies": {
     "localforage": "^1.7.3",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "rxjs": "^6.5.4"
   },
   "dependencies": {
     "lodash": "^4.17.15",

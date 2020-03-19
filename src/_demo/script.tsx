@@ -1,11 +1,15 @@
 import React, {FC, useRef, useState} from "react"
 import ReactDOM from "react-dom"
+import {Subject} from "rxjs"
 
 import useClickOutside from "../click-outside"
 import useDebounce from "../debounce"
 import useTimeout from "../timeout"
 import useStoredState from "../stored-state"
 import useToggle from "../toggle"
+import useSubject from "../subject"
+
+const counter$ = new Subject<number>()
 
 const Demo: FC = () => {
   const debounce = useDebounce(1000)
@@ -31,6 +35,9 @@ const Demo: FC = () => {
 
   const storedStateRef = useRef<HTMLInputElement>(null)
   const [storedValue, setStoredValue] = useStoredState("key", "value")
+
+  const [counter, setCounter] = useState(0)
+  useSubject(counter$, setCounter)
 
   return (
     <>
@@ -334,6 +341,77 @@ type ToggleState = [boolean, (val?: any) => void]
               <code>
                 {`
 const [isOn, toggle] = useToggle()
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6 mb-4">
+            <h2 className="display-5 mb-4">
+              useSubject
+              <span className="badge badge-secondary ml-4">{counter}</span>
+            </h2>
+            <button onClick={() => counter$.next(counter - 1)}>-</button>
+            <button onClick={() => counter$.next(counter + 1)}>+</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type UseSubject = <T>(
+  subject$: Subject<T>,
+  fn: SubjectFn<T>,
+) => void
+
+type SubjectFn<T> = (val: T) => void
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+useSubject(subject$, val => console.log("New val!", val))
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6 mb-4">
+            <h2 className="display-5 mb-4">
+              useBehaviorSubject
+              <span className="badge badge-secondary ml-4">{counter}</span>
+            </h2>
+            <button onClick={() => counter$.next(counter - 1)}>-</button>
+            <button onClick={() => counter$.next(counter + 1)}>+</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type UseBehaviorSubject = <T>(
+  subject$: BehaviorSubject<T>
+) => BehaviorSubjectState<T>
+
+type BehaviorSubjectState<T> = [T, (val: T) => void]
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+const [val, setVal] = useBehaviorSubject(subject$)
                 `}
               </code>
             </pre>

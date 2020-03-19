@@ -23,7 +23,7 @@ it("should debounce", async () => {
 it("should abort", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const debounce = useDebounce()
+    const debounce = useDebounce(1000)
     const handleClick = debounce(handler)
     return (
       <>

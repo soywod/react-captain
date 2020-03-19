@@ -14,6 +14,8 @@ A collection of strongly typed React hooks and contexts.
     - [Interval](#interval)
     - [Stored state](#stored-state)
     - [Toggle](#toggle)
+    - [Subject](#subject)
+    - [Behavior subject](#behavior-subject)
   - [Development](#development)
   - [Tests](#tests)
     - [Unit tests](#unit-tests)
@@ -167,10 +169,38 @@ const Component: FC = () => {
 }
 ```
 
-## Examples
+### [Subject](https://github.com/soywod/react-captain/tree/master/src/subject)
 
-See the [live demo](https://react-captain.soywod.me).
+Wrapper around `rxjs.Subject`.
 
+```typescript
+import {useSubject} from "react-captain"
+import {Subject} from "rxjs"
+
+const subject$ = new Subject<number>()
+
+const Component: FC = () => {
+  const [counter, setCounter] = useState(0)
+  useSubject(subject$, setCounter)
+  return <button onClick={() => subject$(counter + 1)}>{counter}</button>
+}
+```
+
+### [Behavior subject](https://github.com/soywod/react-captain/tree/master/src/behavior-subject)
+
+Wrapper around `rxjs.BehaviorSubject`.
+
+```typescript
+import {useBehaviorSubject} from "react-captain"
+import {BehaviorSubject} from "rxjs"
+
+const subject$ = new BehaviorSubject(0)
+
+const Component: FC = () => {
+  const [counter, setCounter] = useBehaviorSubject(subject$)
+  return <button onClick={() => setCounter(counter + 1)}>{counter}</button>
+}
+```
 ## Development
 
 ```bash

@@ -25,7 +25,7 @@ it("should timeout", async () => {
 it("should abort", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const timeout = useTimeout()
+    const timeout = useTimeout(1000)
     const handleClick = timeout(handler)
     return (
       <>

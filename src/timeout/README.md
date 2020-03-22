@@ -24,9 +24,7 @@ type Timeout<T extends Function> = {
 ## Usage
 
 ```typescript
-import {useTimeout} from "react-captain"
-// or
-import useTimeout from "react-captain/lib/timeout"
+import useTimeout from "react-captain/timeout"
 
 function Component() {
   const timeout = useTimeout()

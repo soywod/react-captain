@@ -3,7 +3,7 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "Clément DOUIN <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.0.5",
+  "version": "3.0.7",
   "private": false,
   "keywords": [
     "react",
@@ -29,19 +29,18 @@
   "bugs": {
     "url": "https://github.com/soywod/react-captain/issues"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "index.d.ts",
   "files": [
-    "lib/click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/timeout/timeout.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/interval/interval.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/subject/subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/behavior-subject/behavior-subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "lib/**/index.{js|js.map|d.ts}",
-    "lib/index.{js|js.map|d.ts}"
+    "click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "timeout/timeout.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "interval/interval.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "subject/subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "behavior-subject/behavior-subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
+    "**/index.{js|js.map|d.ts}",
+    "index.{js|js.map|d.ts}"
   ],
   "husky": {
     "hooks": {
@@ -96,6 +95,8 @@
     "start": "parcel serve -d lib -p 3000 src/_demo/index.html",
     "build": "tsc",
     "build:demo": "parcel build -d lib src/_demo/index.html",
+    "pretarball": "yarn build",
+    "tarball": "cp package.json README.md CHANGELOG.md LICENSE lib && cd lib && yarn pack",
     "lint": "eslint src/**/*.ts{,x}",
     "test:unit": "jest",
     "test:e2e": "cypress run",

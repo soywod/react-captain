@@ -21,9 +21,7 @@ type IntervalOpts = {
 ## Usage
 
 ```typescript
-import {useInterval} from "react-captain"
-// or
-import useInterval from "react-captain/lib/interval"
+import useInterval from "react-captain/interval"
 
 function Component() {
   const [isOn, toggle] = useInterval(() => console.log("Hello!"))

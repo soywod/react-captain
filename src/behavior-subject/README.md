@@ -19,9 +19,7 @@ type BehaviorSubjectState<T> = [T, (val: T) => void]
 
 ```typescript
 import {BehaviorSubject} from "rxjs"
-import {useBehaviorSubject} from "react-captain"
-// or
-import useBehaviorSubject from "react-captain/lib/behavior-subject"
+import useBehaviorSubject from "react-captain/behavior-subject"
 
 const subject$ = new BehaviorSubject(0)
 

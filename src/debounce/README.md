@@ -24,9 +24,7 @@ type Debounce<T extends Function> = {
 ## Usage
 
 ```typescript
-import {useDebounce} from "react-captain"
-// or
-import useDebounce from "react-captain/lib/debounce"
+import useDebounce from "react-captain/debounce"
 
 function Component() {
   const debounce = useDebounce()

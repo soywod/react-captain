@@ -19,9 +19,7 @@ type SubjectFn<T> = (val: T) => void
 
 ```typescript
 import {Subject} from "rxjs"
-import {useSubject} from "react-captain"
-// or
-import useSubject from "react-captain/lib/subject"
+import useSubject from "react-captain/subject"
 
 const subject$ = new Subject<number>()
 

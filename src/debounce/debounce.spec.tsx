@@ -8,8 +8,7 @@ import useDebounce from "./debounce"
 it("should debounce", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const debounce = useDebounce({persist: true})
-    const handleClick = debounce(handler)
+    const handleClick = useDebounce(handler, {persist: true})
     return <button data-testid="debounce" onClick={handleClick} />
   }
 
@@ -23,8 +22,7 @@ it("should debounce", async () => {
 it("should abort", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const debounce = useDebounce(1000)
-    const handleClick = debounce(handler)
+    const handleClick = useDebounce(handler, 100)
     return (
       <>
         <button data-testid="debounce" onClick={() => handleClick()} />
@@ -44,8 +42,7 @@ it("should abort", async () => {
 it("should terminate", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const debounce = useDebounce()
-    const handleClick = debounce(handler)
+    const handleClick = useDebounce(handler)
     return (
       <>
         <button data-testid="debounce" onClick={() => handleClick()} />

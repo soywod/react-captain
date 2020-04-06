@@ -3,12 +3,14 @@ export type Function = (...args: any[]) => void
 /**
  * Wrapper around `setTimeout`.
  *
+ * @param   fn    Timed out function
  * @param   opts  Timeout options
- * @returns       The handler wrapped
+ * @returns       Timed out function wrapper
  */
-export type UseTimeout = (
+export type UseTimeout = <T extends Function>(
+  fn: T,
   opts?: number | Partial<TimeoutOpts>,
-) => <T extends Function>(fn: T) => Timeout<T>
+) => Timeout<T>
 
 export type TimeoutOpts = {
   /**

@@ -13,16 +13,22 @@ import useSubject from "../subject"
 const counter$ = new Subject<number>()
 
 const Demo: FC = () => {
-  const debounce = useDebounce(1000)
-  const timeout = useTimeout(1000)
-  const sayHelloWithDebounce = debounce(() => alert("Hello!"))
-  const sayHelloWithTimeout = timeout(() => alert("Hello!"))
-
+  const [isOn, toggle] = useToggle()
+  const [counter, setCounter] = useState(0)
+  const sayHelloWithDebounce = useDebounce(() => alert("Hello!"), 1000)
+  const sayHelloWithTimeout = useTimeout(() => alert("Hello!"), 1000)
   const clickOutsideRootRef = useRef<HTMLDivElement | null>(null)
   const clickOutsideRejectedRef = useRef<HTMLDivElement | null>(null)
   const clickOutsideRef = useRef<HTMLDivElement | null>(null)
   const [clickedOutside, clickOutside] = useState(false)
-  const debounceClickOutside = debounce(clickOutside)
+  const debounceClickOutside = useDebounce(clickOutside, 1000)
+  const storedStateRef = useRef<HTMLInputElement>(null)
+  const [storedValue, setStoredValue] = useStoredState("key", "value")
+  const [isIntervalOn, toggleInterval] = useInterval(() => {
+    setCounter(prevCounter => prevCounter + 1)
+  }, 1000)
+
+  useSubject(counter$, setCounter)
   useClickOutside(
     clickOutsideRef,
     () => {
@@ -31,18 +37,6 @@ const Demo: FC = () => {
     },
     {root: clickOutsideRootRef, except: [clickOutsideRejectedRef]},
   )
-
-  const [isOn, toggle] = useToggle()
-
-  const storedStateRef = useRef<HTMLInputElement>(null)
-  const [storedValue, setStoredValue] = useStoredState("key", "value")
-
-  const [counter, setCounter] = useState(0)
-  useSubject(counter$, setCounter)
-
-  const [isIntervalOn, toggleInterval] = useInterval(() => {
-    setCounter(prevCounter => prevCounter + 1)
-  }, 1000)
 
   return (
     <>
@@ -183,9 +177,10 @@ useClickOutside(ref, fn)
             <pre>
               <code>
                 {`
-type UseDebounce = (
+type UseDebounce = <T extends Function>(
+  fn: T,
   opts?: number | Partial<DebounceOpts>,
-) => <T extends Function>(fn: T) => Debounce<T>
+) => Debounce<T>
 
 type DebounceOpts = {
   delay: number
@@ -204,8 +199,7 @@ type Debounce<T extends Function> = {
             <pre>
               <code>
                 {`
-const debounce = useDebounce()
-const handler = debounce(() => console.log("Hello!"))
+const handler = useDebounce(() => console.log("Hello!"), 1000)
 
 <button onClick={handler}>
   Say hello with delay
@@ -237,9 +231,10 @@ const handler = debounce(() => console.log("Hello!"))
             <pre>
               <code>
                 {`
-type UseTimeout = (
+type UseTimeout = <T extends Function>(
+  fn: T,
   opts?: number | Partial<TimeoutOpts>,
-) => <T extends Function>(fn: T) => Timeout<T>
+) => Timeout<T>
 
 type TimeoutOpts = {
   delay: number
@@ -258,8 +253,7 @@ type Timeout<T extends Function> = {
             <pre>
               <code>
                 {`
-const timeout = useTimeout()
-const handler = timeout(() => console.log("Hello!"))
+const handler = useTimeout(() => console.log("Hello!"))
 
 <button onClick={handler}>
   Say hello with delay

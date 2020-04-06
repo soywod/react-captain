@@ -5,9 +5,10 @@ A wrapper around `setTimeout`.
 ## Definition
 
 ```typescript
-type UseTimeout = (
+type UseTimeout = <T extends Function>(
+  fn: T,
   opts?: number | Partial<TimeoutOpts>,
-) => <T extends Function>(fn: T) => Timeout<T>
+) => Timeout<T>
 
 type TimeoutOpts = {
   delay: number
@@ -27,8 +28,7 @@ type Timeout<T extends Function> = {
 import {useTimeout} from "react-captain"
 
 function Component() {
-  const timeout = useTimeout()
-  const handler = timeout(() => console.log("Hello!"))
+  const handler = useTimeout(() => console.log("Hello!"), 1000)
 
   return (
     <>

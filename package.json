@@ -1,9 +1,9 @@
 {
   "name": "react-captain",
   "description": "A collection of strongly typed React hooks and contexts.",
-  "author": "Clément DOUIN <clement.douin@posteo.net>",
+  "author": "soywod <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.0.8",
+  "version": "3.1.0",
   "private": false,
   "keywords": [
     "react",

@@ -3,12 +3,14 @@ export type Function = (...args: any[]) => void
 /**
  * Add debounce to a handler.
  *
+ * @param   fn    Debounced function
  * @param   opts  Debounce options
  * @returns       The handler wrapped
  */
-export type UseDebounce = (
+export type UseDebounce = <T extends Function>(
+  fn: T,
   opts?: number | Partial<DebounceOpts>,
-) => <T extends Function>(fn: T) => Debounce<T>
+) => Debounce<T>
 
 export type DebounceOpts = {
   /**

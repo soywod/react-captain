@@ -1,15 +1,18 @@
-import {useEffect, useRef} from "react"
-import getOr from "lodash/fp/getOr"
+import {useCallback, useEffect, useRef} from "react"
 import isNumber from "lodash/fp/isNumber"
 
 import useToggle from "../toggle"
-import {UseInterval} from "./interval.types"
+import {UseInterval, defaultOpts} from "./interval.types"
 
-export const useInterval: UseInterval = (fn, opts) => {
-  const delay = isNumber(opts) ? opts : getOr(1000, "delay", opts)
-  const autoStart = getOr(false, "autoStart", opts)
+export const useInterval: UseInterval = (fn, overrideOpts) => {
+  const callback = useCallback(fn, [])
+  const opts = Object.assign(
+    defaultOpts,
+    isNumber(overrideOpts) ? {delay: overrideOpts} : overrideOpts,
+  )
+
   const timeout = useRef<NodeJS.Timeout | null>(null)
-  const [isIntervalOn, toggleInterval] = useToggle(autoStart)
+  const [isIntervalOn, toggleInterval] = useToggle(opts.autoStart)
 
   useEffect(() => {
     function clearTimeoutSafe() {
@@ -18,7 +21,7 @@ export const useInterval: UseInterval = (fn, opts) => {
     }
 
     if (isIntervalOn) {
-      timeout.current = setInterval(fn, delay)
+      timeout.current = setInterval(callback, opts.delay)
     } else {
       clearTimeoutSafe()
     }
@@ -26,7 +29,7 @@ export const useInterval: UseInterval = (fn, opts) => {
     return () => {
       clearTimeoutSafe()
     }
-  }, [delay, fn, isIntervalOn])
+  }, [callback, isIntervalOn, opts.delay])
 
   return [isIntervalOn, toggleInterval]
 }

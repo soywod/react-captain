@@ -62,8 +62,7 @@ Add debounce to a handler.
 import {useDebounce} from "react-captain"
 
 function Component() {
-  const debounce = useDebounce()
-  const handler = debounce(() => console.log("Hello!"))
+  const handler = useDebounce(() => console.log("Hello!"), 1000)
 
   return (
     <>
@@ -89,8 +88,7 @@ A wrapper around `setTimeout`.
 import {useTimeout} from "react-captain"
 
 function Component() {
-  const timeout = useTimeout()
-  const handler = timeout(() => console.log("Hello!"))
+  const handler = useTimeout(() => console.log("Hello!"), 1000)
 
   return (
     <>

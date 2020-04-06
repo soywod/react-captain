@@ -25,3 +25,8 @@ export type IntervalOpts = {
    */
   autoStart: boolean
 }
+
+export const defaultOpts: IntervalOpts = {
+  delay: 1000,
+  autoStart: false,
+}

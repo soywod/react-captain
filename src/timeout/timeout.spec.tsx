@@ -8,8 +8,7 @@ import useTimeout from "./timeout"
 it("should timeout", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const timeout = useTimeout({persist: true})
-    const handleClick = timeout(handler)
+    const handleClick = useTimeout(handler, {persist: true})
     return <button data-testid="timeout" onClick={handleClick} />
   }
 
@@ -25,8 +24,7 @@ it("should timeout", async () => {
 it("should abort", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const timeout = useTimeout(1000)
-    const handleClick = timeout(handler)
+    const handleClick = useTimeout(handler, 1000)
     return (
       <>
         <button data-testid="timeout" onClick={() => handleClick()} />
@@ -48,8 +46,7 @@ it("should abort", async () => {
 it("should terminate", async () => {
   const handler = jest.fn()
   const TestComponent: FC = () => {
-    const timeout = useTimeout()
-    const handleClick = timeout(handler)
+    const handleClick = useTimeout(handler)
     return (
       <>
         <button data-testid="timeout" onClick={() => handleClick()} />

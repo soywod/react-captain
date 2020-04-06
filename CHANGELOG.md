@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2020-04-06
+
 ### Added
 
 - Main barrel
@@ -16,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove `rxjs` and `localforage` from peer deps
 - Make `useSubjects` use `React.useCallback` to prevent unecessary calls
 - Add opt fn parameter to `useBehaviorSubject`
+- Simplify `debounce` and `timeout`, and make them use `React.useCallback` [BREAKING]
 
 ### Removed
 
@@ -56,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - This changelog
 
-[unreleased]: https://github.com/soywod/react-captain/compare/v3.0.4...HEAD
+[unreleased]: https://github.com/soywod/react-captain/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/soywod/react-captain/compare/v3.1.0...v3.0.4
 [3.0.4]: https://github.com/soywod/react-captain/compare/v3.0.3...v3.0.4
 [3.0.3]: https://github.com/soywod/react-captain/releases/tag/v3.0.3

@@ -15,11 +15,13 @@ it("should subscribe to subject", () => {
   }
 
   render(<TestComponent />)
-  expect(handler).not.toHaveBeenCalled()
+  expect(handler).toHaveBeenCalledTimes(0)
 
   subject$.next(0)
+  expect(handler).toHaveBeenCalledTimes(1)
   expect(handler).toHaveBeenCalledWith(0)
 
   subject$.next(1)
+  expect(handler).toHaveBeenCalledTimes(2)
   expect(handler).toHaveBeenCalledWith(1)
 })

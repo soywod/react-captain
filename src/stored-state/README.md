@@ -29,7 +29,7 @@ type StoredStateOpts<T> = {
 ## Usage
 
 ```typescript
-import useStoredState from "react-captain/stored-state"
+import {useStoredState} from "react-captain"
 
 function Demo() {
   const [value, setValue] = useStoredState("storage-key", "Default value")

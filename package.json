@@ -3,7 +3,7 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "Clément DOUIN <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "private": false,
   "keywords": [
     "react",
@@ -30,17 +30,18 @@
     "url": "https://github.com/soywod/react-captain/issues"
   },
   "types": "index.d.ts",
+  "main": "index.js",
   "files": [
-    "click-outside/click-outside.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "debounce/debounce.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "timeout/timeout.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "interval/interval.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "stored-state/stored-state.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "toggle/toggle.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "subject/subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "behavior-subject/behavior-subject.{types.js|types.js.map|types.d.ts|js|js.map|d.ts}",
-    "**/index.{js|js.map|d.ts}",
-    "index.{js|js.map|d.ts}"
+    "index.{js|d.ts}",
+    "**/index.{js|d.ts}",
+    "click-outside/click-outside.{types.js|types.d.ts|js|d.ts}",
+    "debounce/debounce.{types.js|types.d.ts|js|d.ts}",
+    "timeout/timeout.{types.js|types.d.ts|js|d.ts}",
+    "interval/interval.{types.js|types.d.ts|js|d.ts}",
+    "stored-state/stored-state.{types.js|types.d.ts|js|d.ts}",
+    "toggle/toggle.{types.js|types.d.ts|js|d.ts}",
+    "subject/subject.{types.js|types.d.ts|js|d.ts}",
+    "behavior-subject/behavior-subject.{types.js|types.d.ts|js|d.ts}"
   ],
   "husky": {
     "hooks": {
@@ -68,12 +69,10 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
-    "localforage": "^1.7.3",
     "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "rxjs": "^6.5.4",
     "sass": "^1.23.7",
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
@@ -82,13 +81,13 @@
     "yarn-run-all": "^3.1.1"
   },
   "peerDependencies": {
-    "localforage": "^1.7.3",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "rxjs": "^6.5.4"
+    "react-dom": "^16.12.0"
   },
   "dependencies": {
+    "localforage": "^1.7.3",
     "lodash": "^4.17.15",
+    "rxjs": "^6.5.4",
     "uuid": "^7.0.2"
   },
   "scripts": {

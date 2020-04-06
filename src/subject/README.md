@@ -1,6 +1,7 @@
 # useSubject
 
-Wrapper around `rxjs.Subject`.
+A wrapper around
+[`rxjs.Subject`](https://www.learnrxjs.io/learn-rxjs/subjects/subject).
 
 ## Installation
 
@@ -19,13 +20,17 @@ type SubjectFn<T> = (val: T) => void
 
 ```typescript
 import {Subject} from "rxjs"
-import useSubject from "react-captain/subject"
+import {useSubject} from "react-captain"
 
 const subject$ = new Subject<number>()
 
 const Component: FC = () => {
   const [counter, setCounter] = useState(0)
-  useSubject(subject$, setCounter)
+  useSubject(subject$, counter => {
+    console.log("New counter received:", counter)
+    setCounter(counter)
+  })
+
   return <button onClick={() => subject$(counter + 1)}>{counter}</button>
 }
 ```

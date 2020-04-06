@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Main barrel
+
+### Changed
+
+- Remove `rxjs` and `localforage` from peer deps
+- Make `useSubjects` use `React.useCallback` to prevent unecessary calls
+- Add opt fn parameter to `useBehaviorSubject`
+
+### Removed
+
+- Source maps from tarball
+
 ## [3.0.4] - 2020-03-19
 
 ### Added

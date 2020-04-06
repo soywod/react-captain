@@ -85,7 +85,10 @@ const Demo: FC = () => {
       <div className="container mb-5">
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">useClickOutside</h2>
+            <h2 className="display-5 mb-0">useClickOutside</h2>
+            <div className="text-muted mb-4">
+              Capture click event outside of the given HTMLElement.
+            </div>
             <div
               ref={clickOutsideRootRef}
               style={{width: 300, height: 300, background: "blue", cursor: "pointer"}}
@@ -153,7 +156,7 @@ type ClickOutsideOpts = {
               <code>
                 {`
 const ref = useRef<HTMLDivElement | null>(null)
-useClickOutside(ref, () => console.log("Clicked outside!"))
+useClickOutside(ref, fn)
                 `}
               </code>
             </pre>
@@ -164,7 +167,8 @@ useClickOutside(ref, () => console.log("Clicked outside!"))
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">useDebounce</h2>
+            <h2 className="display-5 mb-0">useDebounce</h2>
+            <div className="text-muted mb-4">Add debounce to a handler.</div>
             <button onClick={sayHelloWithDebounce}>Say hello after 1000ms</button>
             <button onClick={sayHelloWithDebounce.abort}>Abort</button>
             <button onClick={sayHelloWithDebounce.terminate}>Terminate</button>
@@ -217,7 +221,8 @@ const handler = debounce(() => console.log("Hello!"))
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">useTimeout</h2>
+            <h2 className="display-5 mb-0">useTimeout</h2>
+            <div className="text-muted mb-4">Wrapper around setTimeout.</div>
             <button onClick={sayHelloWithTimeout}>Say hello after 1000ms</button>
             <button onClick={sayHelloWithTimeout.abort}>Abort</button>
             <button onClick={sayHelloWithTimeout.terminate}>Terminate</button>
@@ -270,7 +275,10 @@ const handler = timeout(() => console.log("Hello!"))
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">useStoredState</h2>
+            <h2 className="display-5 mb-0">useStoredState</h2>
+            <div className="text-muted mb-4">
+              A persistant useState, based on React.useState and localForage.
+            </div>
             <form
               onSubmit={evt => {
                 evt.preventDefault()
@@ -317,12 +325,13 @@ return isReady ? val : null
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">
+            <h2 className="display-5 mb-0">
               useToggle
               <span className={`badge badge-${isOn ? "success" : "danger"} ml-4`}>
                 {isOn ? "ON" : "OFF"}
               </span>
             </h2>
+            <div className="text-muted mb-4">A React.useState for booleans.</div>
             <button onClick={toggle}>Toggle</button>
             <button onClick={() => toggle(false)}>Reset</button>
           </div>
@@ -351,10 +360,11 @@ const [isOn, toggle] = useToggle()
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">
+            <h2 className="display-5 mb-0">
               useSubject
               <span className="badge badge-secondary ml-4">{counter}</span>
             </h2>
+            <div className="text-muted mb-4">A wrapper around rxjs.Subject.</div>
             <button onClick={() => counter$.next(counter - 1)}>-</button>
             <button onClick={() => counter$.next(counter + 1)}>+</button>
           </div>
@@ -376,7 +386,7 @@ type SubjectFn<T> = (val: T) => void
             <pre>
               <code>
                 {`
-useSubject(subject$, val => console.log("New val!", val))
+useSubject(subject$, fn)
                 `}
               </code>
             </pre>
@@ -387,10 +397,11 @@ useSubject(subject$, val => console.log("New val!", val))
 
         <div className="row">
           <div className="col-sm-6 mb-4">
-            <h2 className="display-5 mb-4">
+            <h2 className="display-5 mb-0">
               useBehaviorSubject
               <span className="badge badge-secondary ml-4">{counter}</span>
             </h2>
+            <div className="text-muted mb-4">A wrapper around rxjs.BehaviorSubject.</div>
             <button onClick={() => counter$.next(counter - 1)}>-</button>
             <button onClick={() => counter$.next(counter + 1)}>+</button>
           </div>
@@ -400,10 +411,12 @@ useSubject(subject$, val => console.log("New val!", val))
               <code>
                 {`
 type UseBehaviorSubject = <T>(
-  subject$: BehaviorSubject<T>
+  subject$: BehaviorSubject<T>,
+  fn?: BehaviorSubjectFn<T>,
 ) => BehaviorSubjectState<T>
 
-type BehaviorSubjectState<T> = [T, (val: T) => void]
+type BehaviorSubjectState<T> = [T, BehaviorSubjectFn<T>]
+type BehaviorSubjectFn<T> = (val: T) => void
                 `}
               </code>
             </pre>
@@ -411,7 +424,7 @@ type BehaviorSubjectState<T> = [T, (val: T) => void]
             <pre>
               <code>
                 {`
-const [val, setVal] = useBehaviorSubject(subject$)
+const [val, setVal] = useBehaviorSubject(subject$, fn)
                 `}
               </code>
             </pre>

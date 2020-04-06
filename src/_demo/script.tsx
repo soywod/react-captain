@@ -5,6 +5,7 @@ import {Subject} from "rxjs"
 import useClickOutside from "../click-outside"
 import useDebounce from "../debounce"
 import useTimeout from "../timeout"
+import useInterval from "../interval"
 import useStoredState from "../stored-state"
 import useToggle from "../toggle"
 import useSubject from "../subject"
@@ -38,6 +39,10 @@ const Demo: FC = () => {
 
   const [counter, setCounter] = useState(0)
   useSubject(counter$, setCounter)
+
+  const [isIntervalOn, toggleInterval] = useInterval(() => {
+    setCounter(prevCounter => prevCounter + 1)
+  }, 1000)
 
   return (
     <>
@@ -222,7 +227,7 @@ const handler = debounce(() => console.log("Hello!"))
         <div className="row">
           <div className="col-sm-6 mb-4">
             <h2 className="display-5 mb-0">useTimeout</h2>
-            <div className="text-muted mb-4">Wrapper around setTimeout.</div>
+            <div className="text-muted mb-4">A wrapper around setTimeout.</div>
             <button onClick={sayHelloWithTimeout}>Say hello after 1000ms</button>
             <button onClick={sayHelloWithTimeout.abort}>Abort</button>
             <button onClick={sayHelloWithTimeout.terminate}>Terminate</button>
@@ -265,6 +270,48 @@ const handler = timeout(() => console.log("Hello!"))
 <button onClick={handler.terminate}>
   Terminate
 </button>
+                `}
+              </code>
+            </pre>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row">
+          <div className="col-sm-6 mb-4">
+            <h2 className="display-5 mb-0">
+              useInterval
+              <span className="badge badge-secondary ml-4">{counter}</span>
+            </h2>
+            <div className="text-muted mb-4">A wrapper around setInterval.</div>
+            <button onClick={toggleInterval}>{isIntervalOn ? "Stop" : "Start"} interval</button>
+          </div>
+          <div className="col-sm-6">
+            <h4>Definition</h4>
+            <pre>
+              <code>
+                {`
+type UseInterval = (
+  fn: IntervalFn,
+  opts?: number | Partial<IntervalOpts>,
+) => ToggleState
+
+type IntervalFn = () => void
+type IntervalOpts = {
+  delay: number
+  autoStart: boolean
+}
+                `}
+              </code>
+            </pre>
+            <h4>Usage</h4>
+            <pre>
+              <code>
+                {`
+const [isOn, toggle] = useInterval(() => {
+  console.log("Hello with interval!")
+})
                 `}
               </code>
             </pre>

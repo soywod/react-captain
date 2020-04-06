@@ -1,6 +1,6 @@
 # useInterval
 
-Wrapper around `setInterval` using
+A wrapper around `setInterval` using
 [toggle](https://github.com/soywod/react-captain/tree/master/src/toggle) hook.
 
 ## Definition

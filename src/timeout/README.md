@@ -1,6 +1,6 @@
 # useTimeout
 
-Wrapper around setTimeout.
+A wrapper around `setTimeout`.
 
 ## Definition
 

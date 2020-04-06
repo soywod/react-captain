@@ -83,7 +83,7 @@ function Component() {
 
 ### [Timeout](https://github.com/soywod/react-captain/tree/master/src/timeout)
 
-Wrapper around `setTimeout`.
+A wrapper around `setTimeout`.
 
 ```typescript
 import {useTimeout} from "react-captain"
@@ -110,7 +110,7 @@ function Component() {
 
 ### [Interval](https://github.com/soywod/react-captain/tree/master/src/interval)
 
-Wrapper around `setInterval`.
+A wrapper around `setInterval`, using [toggle](#toggle).
 
 ```typescript
 import {useInterval} from "react-captain"
@@ -171,7 +171,8 @@ const Component: FC = () => {
 
 ### [Subject](https://github.com/soywod/react-captain/tree/master/src/subject)
 
-Wrapper around `rxjs.Subject`.
+A wrapper around
+[`rxjs.Subject`](https://www.learnrxjs.io/learn-rxjs/subjects/subject).
 
 ```typescript
 import {useSubject} from "react-captain"
@@ -188,7 +189,8 @@ const Component: FC = () => {
 
 ### [Behavior subject](https://github.com/soywod/react-captain/tree/master/src/behavior-subject)
 
-Wrapper around `rxjs.BehaviorSubject`.
+A wrapper around
+[`rxjs.BehaviorSubject`](https://www.learnrxjs.io/learn-rxjs/subjects/behaviorsubject).
 
 ```typescript
 import {useBehaviorSubject} from "react-captain"
@@ -197,7 +199,10 @@ import {BehaviorSubject} from "rxjs"
 const subject$ = new BehaviorSubject(0)
 
 const Component: FC = () => {
-  const [counter, setCounter] = useBehaviorSubject(subject$)
+  const [counter, setCounter] = useBehaviorSubject(subject$, counter => {
+    console.log("New counter received:", counter)
+  })
+
   return <button onClick={() => setCounter(counter + 1)}>{counter}</button>
 }
 ```
@@ -255,4 +260,4 @@ See [CHANGELOG.md](https://github.com/soywod/react-captain/blob/master/CHANGELOG
 ## License
 
 [MIT](https://github.com/soywod/react-captain/blob/master/LICENSE) -
-Copyright © 2020 Clément DOUIN.
+Copyright © 2019-2020 soywod.

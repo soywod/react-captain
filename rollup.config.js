@@ -6,13 +6,13 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: "lib/" + pkg.main,
+      file: pkg.main,
       format: "cjs",
       exports: "named",
       sourcemap: true,
     },
     {
-      file: "lib/" + pkg.module,
+      file: pkg.module,
       format: "es",
       exports: "named",
       sourcemap: true,

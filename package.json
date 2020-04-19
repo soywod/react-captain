@@ -3,7 +3,7 @@
   "description": "A collection of strongly typed React hooks and contexts.",
   "author": "soywod <clement.douin@posteo.net>",
   "license": "MIT",
-  "version": "3.1.1",
+  "version": "3.1.3",
   "private": false,
   "keywords": [
     "react",
@@ -29,9 +29,12 @@
   "bugs": {
     "url": "https://github.com/soywod/react-captain/issues"
   },
-  "types": "index.cjs.d.ts",
-  "main": "index.cjs.js",
-  "module": "index.esm.js",
+  "types": "lib/index.cjs.d.ts",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
+  "files": [
+    "lib"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint",
@@ -84,10 +87,8 @@
     "start": "parcel serve -d lib -p 3000 src/_demo/index.html",
     "prebuild": "rm -rf lib",
     "build": "rollup -c",
-    "install": "yarn build",
     "build:demo": "parcel build -d lib src/_demo/index.html",
-    "pretarball": "yarn build",
-    "tarball": "cp package.json README.md CHANGELOG.md LICENSE lib && cd lib && yarn pack",
+    "prepublish": "yarn build",
     "lint": "eslint src/**/*.ts{,x}",
     "test:unit": "jest",
     "test:e2e": "cypress run",

@@ -11,17 +11,17 @@ export const useInterval: UseInterval = (fn, overrideOpts) => {
     isNumber(overrideOpts) ? {delay: overrideOpts} : overrideOpts,
   )
 
-  const timeout = useRef<NodeJS.Timeout | null>(null)
+  const timeout = useRef(0)
   const [isIntervalOn, toggleInterval] = useToggle(opts.autoStart)
 
   useEffect(() => {
     function clearTimeoutSafe() {
-      timeout.current && clearTimeout(timeout.current)
-      timeout.current = null
+      clearTimeout(timeout.current)
+      timeout.current = 0
     }
 
     if (isIntervalOn) {
-      timeout.current = setInterval(callback, opts.delay)
+      timeout.current = window.setInterval(callback, opts.delay)
     } else {
       clearTimeoutSafe()
     }

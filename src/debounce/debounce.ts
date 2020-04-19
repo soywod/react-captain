@@ -48,7 +48,7 @@ export const useDebounce: UseDebounce = <T extends Function>(
       }
 
       timeout.current && clearTimeout(timeout.current)
-      timeout.current = setTimeout(wrapper, opts.delay)
+      timeout.current = global.setTimeout(wrapper, opts.delay)
     }
 
     setReady(true)

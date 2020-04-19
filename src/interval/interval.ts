@@ -21,7 +21,7 @@ export const useInterval: UseInterval = (fn, overrideOpts) => {
     }
 
     if (isIntervalOn) {
-      timeout.current = setInterval(callback, opts.delay)
+      timeout.current = global.setInterval(callback, opts.delay)
     } else {
       clearTimeoutSafe()
     }

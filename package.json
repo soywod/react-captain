@@ -30,7 +30,8 @@
     "url": "https://github.com/soywod/react-captain/issues"
   },
   "types": "index.d.ts",
-  "main": "index.js",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
   "files": [
     "index.{js|d.ts}",
     "**/index.{js|d.ts}",
@@ -61,6 +62,7 @@
     "@types/uuid": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
+    "@wessberg/rollup-plugin-ts": "^1.2.24",
     "babel-eslint": "^10.0.3",
     "cypress": "^3.8.0",
     "eslint": "^6.7.2",
@@ -73,6 +75,7 @@
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "rollup": "^2.6.1",
     "sass": "^1.23.7",
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
@@ -92,7 +95,9 @@
   },
   "scripts": {
     "start": "parcel serve -d lib -p 3000 src/_demo/index.html",
-    "build": "tsc",
+    "prebuild": "rm -rf lib",
+    "build": "rollup -c",
+    "install": "yarn build",
     "build:demo": "parcel build -d lib src/_demo/index.html",
     "pretarball": "yarn build",
     "tarball": "cp package.json README.md CHANGELOG.md LICENSE lib && cd lib && yarn pack",

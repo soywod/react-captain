@@ -54,7 +54,7 @@
     "@typescript-eslint/parser": "^2.10.0",
     "@wessberg/rollup-plugin-ts": "^1.2.24",
     "babel-eslint": "^10.0.3",
-    "cypress": "^3.8.0",
+    "cypress": "^4.4.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-react": "^7.17.0",

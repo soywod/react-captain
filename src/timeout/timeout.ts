@@ -57,7 +57,7 @@ const useTimeout: UseTimeout = <T extends Function>(
         terminate.current = noop
       }
 
-      timeouts.current.set(id, [global.setTimeout(wrapper, opts.delay), wrapper])
+      timeouts.current.set(id, [window.setTimeout(wrapper, opts.delay), wrapper])
     }
 
     setReady(true)

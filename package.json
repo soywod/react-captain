@@ -29,21 +29,9 @@
   "bugs": {
     "url": "https://github.com/soywod/react-captain/issues"
   },
-  "types": "index.d.ts",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.esm.js",
-  "files": [
-    "index.{js|d.ts}",
-    "**/index.{js|d.ts}",
-    "click-outside/click-outside.{types.js|types.d.ts|js|d.ts}",
-    "debounce/debounce.{types.js|types.d.ts|js|d.ts}",
-    "timeout/timeout.{types.js|types.d.ts|js|d.ts}",
-    "interval/interval.{types.js|types.d.ts|js|d.ts}",
-    "stored-state/stored-state.{types.js|types.d.ts|js|d.ts}",
-    "toggle/toggle.{types.js|types.d.ts|js|d.ts}",
-    "subject/subject.{types.js|types.d.ts|js|d.ts}",
-    "behavior-subject/behavior-subject.{types.js|types.d.ts|js|d.ts}"
-  ],
+  "types": "index.cjs.d.ts",
+  "main": "index.cjs.js",
+  "module": "index.esm.js",
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint",
@@ -80,7 +68,7 @@
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
     "typescript": "3.7.2",
-    "webpack": "^4.42.0",
+    "webpack": "^4.42.1",
     "yarn-run-all": "^3.1.1"
   },
   "peerDependencies": {

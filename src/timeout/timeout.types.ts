@@ -42,7 +42,7 @@ export type Timeout<T extends Function> = {
   terminate: () => void
 }
 
-export type TimeoutsMap = Map<string, [NodeJS.Timeout, () => void]>
+export type TimeoutsMap = Map<string, [number, () => void]>
 
 export const defaultOpts: TimeoutOpts = {
   delay: 300,

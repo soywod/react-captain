@@ -16,7 +16,7 @@ export const useDebounce: UseDebounce = <T extends Function>(
   )
 
   const [ready, setReady] = useState(false)
-  const timeout = useRef<NodeJS.Timeout | null>(null)
+  const timeout = useRef(0)
   const wrapper = useRef<(...params: Parameters<T>) => void>(noop)
   const abort = useRef<() => void>(noop)
   const terminate = useRef<() => void>(noop)
@@ -29,11 +29,11 @@ export const useDebounce: UseDebounce = <T extends Function>(
 
       const wrapper = () => {
         callback(...params)
-        timeout.current = null
+        timeout.current = 0
       }
 
       abort.current = () => {
-        timeout.current && clearTimeout(timeout.current)
+        clearTimeout(timeout.current)
         abort.current = noop
         terminate.current = noop
       }
@@ -48,7 +48,7 @@ export const useDebounce: UseDebounce = <T extends Function>(
       }
 
       timeout.current && clearTimeout(timeout.current)
-      timeout.current = global.setTimeout(wrapper, opts.delay)
+      timeout.current = window.setTimeout(wrapper, opts.delay)
     }
 
     setReady(true)

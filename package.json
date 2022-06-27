@@ -81,7 +81,7 @@
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "rxjs": "^6.5.4",
-    "uuid": "^7.0.2"
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "parcel serve -d lib -p 3000 src/_demo/index.html",
